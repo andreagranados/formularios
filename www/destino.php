@@ -1,0 +1,51 @@
+<?php 
+echo '<html>';
+echo '<head>';
+echo '<style> h1 {
+
+      background-color: gray;
+
+      margin: 0;
+
+    }</style>';
+echo '</head>';
+echo '<body>';
+
+echo "<table class='egt'>
+
+  <caption>Consumo de combustible de los autos a lo largo de las pruebas de manejo</caption>
+
+  <tr>
+
+    <th scope='col'>Car</th>
+
+    <th>Enero</th>
+
+    
+
+  </tr>
+
+  <tr>
+
+    <th>Chevrolet Camaro</th>
+
+    <td><h1>1254 lts</h1></td>
+
+    
+
+  </tr>
+
+  <tr>
+
+    <th>Lamborghini Aventator</th>
+
+    <td>1854 lts</td>
+
+    
+  </tr>
+
+</table>";
+echo "<button style='background-color: #FF9900;font-size:20px' type='submit' name='id_encuesta' value=".'1'."><b>Confirmar</b></button>";//paso el id de la encuesta como valor del boton";
+  echo '</body>';
+  echo '</html>';
+?>
