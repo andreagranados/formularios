@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[3812]--  Autentificación de Usuarios 
+--[3814]--  Formularios 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -10,30 +10,30 @@
 INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre, carpeta, nivel_acceso, solicitud_tipo, pagina_tipo_proyecto, pagina_tipo, actividad_buffer_proyecto, actividad_buffer, actividad_patron_proyecto, actividad_patron, nombre, descripcion, punto_montaje, actividad_accion, menu, orden, solicitud_registrar, solicitud_obs_tipo_proyecto, solicitud_obs_tipo, solicitud_observacion, solicitud_registrar_cron, prueba_directorios, zona_proyecto, zona, zona_orden, zona_listar, imagen_recurso_origen, imagen, parametro_a, parametro_b, parametro_c, publico, redirecciona, usuario, exportable, creacion, retrasar_headers) VALUES (
 	NULL, --item_id
 	'formularios', --proyecto
-	'3812', --item
+	'3814', --item
 	NULL, --padre_id
 	'formularios', --padre_proyecto
-	'1', --padre
+	'3813', --padre
 	'0', --carpeta
 	'0', --nivel_acceso
 	'web', --solicitud_tipo
-	'formularios', --pagina_tipo_proyecto
-	'tp_formularios', --pagina_tipo
-	'toba', --actividad_buffer_proyecto
-	'0', --actividad_buffer
-	'toba', --actividad_patron_proyecto
-	'abms_cd_c', --actividad_patron
-	'Autentificación de Usuarios', --nombre
+	'toba', --pagina_tipo_proyecto
+	'normal', --pagina_tipo
+	NULL, --actividad_buffer_proyecto
+	NULL, --actividad_buffer
+	NULL, --actividad_patron_proyecto
+	NULL, --actividad_patron
+	'Formularios', --nombre
 	NULL, --descripcion
 	'26', --punto_montaje
-	'', --actividad_accion
-	'0', --menu
-	NULL, --orden
+	NULL, --actividad_accion
+	'1', --menu
+	'1', --orden
 	'0', --solicitud_registrar
 	NULL, --solicitud_obs_tipo_proyecto
 	NULL, --solicitud_obs_tipo
 	NULL, --solicitud_observacion
-	'0', --solicitud_registrar_cron
+	NULL, --solicitud_registrar_cron
 	NULL, --prueba_directorios
 	NULL, --zona_proyecto
 	NULL, --zona
@@ -44,12 +44,12 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --parametro_a
 	NULL, --parametro_b
 	NULL, --parametro_c
-	'1', --publico
-	'0', --redirecciona
+	'0', --publico
+	NULL, --redirecciona
 	NULL, --usuario
 	'0', --exportable
-	'2019-04-11 18:36:21', --creacion
-	'1'  --retrasar_headers
+	'2019-04-11 19:06:48', --creacion
+	'0'  --retrasar_headers
 );
 --- FIN Grupo de desarrollo 0
 
@@ -59,8 +59,8 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 INSERT INTO apex_item_objeto (item_id, proyecto, item, objeto, orden, inicializar) VALUES (
 	NULL, --item_id
 	'formularios', --proyecto
-	'3812', --item
-	'4256', --objeto
+	'3814', --item
+	'4257', --objeto
 	'0', --orden
 	NULL  --inicializar
 );
