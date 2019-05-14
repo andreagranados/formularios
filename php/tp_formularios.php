@@ -101,7 +101,7 @@
                 echo "</div>";		
 		echo "<div class='login-pie'>";
                 
-                echo "<div>Desarrollado por <strong> <a href='http://sti.uncoma.edu.ar'>" . toba_recurso::imagen_proyecto("isosubti.png",true,null,'20px')."</a>Secretar&iacute;da de Hacienda <a href='http://www.uncoma.edu.ar' style='text-decoration: none' target='_blank'> - Uncoma</a></strong></div>
+                echo "<div>Desarrollado por <strong> <a href='http://sti.uncoma.edu.ar'>" . toba_recurso::imagen_proyecto("isosubti.png",true,null,'20px')."</a>Secretar&iacute;a de Hacienda <a href='http://www.uncoma.edu.ar' style='text-decoration: none' target='_blank'> - Uncoma</a></strong></div>
 			<div>2019 - ".date('Y')."</div>";
 
 	}
