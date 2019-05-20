@@ -116,8 +116,9 @@ class ci_detalle_formulario extends toba_ci
 
     function evt__form_inicial__cancelar($datos)
     {
-        $this->controlador()->dep('datos')->tabla('formulario')->resetear();
         $this->controlador()->set_pantalla('pant_seleccion');
+        $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+        
     }
 
 	//-----------------------------------------------------------------------------------
@@ -258,6 +259,7 @@ class ci_detalle_formulario extends toba_ci
 
 	function evt__form_detalle__cancelar()
 	{
+            print_r('hola');
             $this->controlador()->dep('datos')->tabla('item')->resetear();
             $this->s__mostrar_i=0;
 	}
@@ -324,7 +326,7 @@ class ci_detalle_formulario extends toba_ci
                    case 4://f21
                        $columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['nro_factura']="TOTAL:";
+                       $elem['nro_factura']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);
@@ -333,7 +335,7 @@ class ci_detalle_formulario extends toba_ci
                    case 5: //f22
                        $columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['nro_factura']="TOTAL:";
+                       $elem['nro_factura']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);break;

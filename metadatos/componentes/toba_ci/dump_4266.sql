@@ -51,7 +51,7 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'3475', --evento_id
 	'4266', --objeto
 	'alta', --identificador
-	'Agregar', --etiqueta
+	'Agregar Item', --etiqueta
 	'0', --maneja_datos
 	NULL, --sobre_fila
 	NULL, --confirmacion
@@ -84,7 +84,7 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'3483', --evento_id
 	'4266', --objeto
 	'enviar', --identificador
-	'Enviar', --etiqueta
+	'Enviar Formulario', --etiqueta
 	'0', --maneja_datos
 	NULL, --sobre_fila
 	'¿Esta seguro que desea enviar?', --confirmacion

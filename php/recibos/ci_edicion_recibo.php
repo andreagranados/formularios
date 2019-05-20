@@ -12,8 +12,12 @@ class ci_edicion_recibo extends toba_ci
         $datos['estado']='I';
         $datos['fecha']=date("d-m-Y");
         $this->controlador()->dep('datos')->tabla('recibo')->set($datos);
+        //recien sincroniza cuando pasa a la pantalla de edicion y ejecuta el confirmar
         if($this->s__pantalla=='pant_edicion'){////la variable es true cuando esta en la pantalla pant_edicion
             $this->controlador()->dep('datos')->tabla('recibo')->sincronizar();
+            $rec=$this->controlador()->dep('datos')->tabla('recibo')->get();
+            $dato_rec['id_recibo']=$rec['id_recibo'];
+            $this->controlador()->dep('datos')->tabla('recibo')->cargar($dato_rec);//lo carga por si necesita imprimir
             toba::notificacion()->agregar(utf8_decode('El recibo se ha generado exitosamente'),'info');
             $this->s__generado=true;
            // print_r('guarda');
@@ -37,21 +41,19 @@ class ci_edicion_recibo extends toba_ci
         
     }
      
-        
     function conf__pant_edicion(toba_ei_pantalla $pantalla)
     {
         $this->s__pantalla='pant_edicion';
         $this->s__confirmar=true;//la variable es true cuando esta en la pantalla pant_edicion
-        if($this->s__generado){
+        if($this->s__generado){//cuando confirma aparece el boton imprimir
             $this->pantalla()->eliminar_evento('confirmar');
             $this->pantalla()->eliminar_evento('cambiar_tab__anterior');
-            $this->pantalla()->evento('imprimir')->mostrar();
+//            $this->pantalla()->evento('imprimir')->mostrar();
            // print_r('elimina');
         }else{
-            $this->pantalla()->evento('imprimir')->ocultar();
+//            $this->pantalla()->evento('imprimir')->ocultar();
             $this->pantalla()->evento('finalizar')->ocultar();
         }
-       // $this->pantalla()->eliminar_evento('confirmar');
     }
     function conf__pant_inicial(toba_ei_pantalla $pantalla)
     {
@@ -60,7 +62,9 @@ class ci_edicion_recibo extends toba_ci
         
     }
     function evt__finalizar(){
+        $this->controlador()->dep('datos')->tabla('recibo')->resetear();
         $this->controlador()->set_pantalla('pant_inicial');
     }
+       
 }
 ?>                   

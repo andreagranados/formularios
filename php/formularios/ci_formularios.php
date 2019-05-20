@@ -46,15 +46,7 @@ class ci_formularios extends toba_ci
             $this->dep('datos')->tabla('formulario')->cargar($datos);
             $this->set_pantalla('pant_edicion');
 	}
-        function evt__cuadro__seleccion2($datos)
-	{//pendiente
-            $this->dep('datos')->tabla('formulario')->cargar($datos);
-          //  toba::vinculador()->navegar_a('formulario',4266,$parametros);
-            //$this->dep('ci_detalle_formulario')->set_pantalla('pant_detalle');
-             
-            $this->dep('ci_detalle_formulario')->pantalla()->tab('pant_inicial')->ocultar();
-             $this->set_pantalla('pant_edicion');
-	}
+        
 	function evt__agregar()
 	{
              $this->set_pantalla('pant_edicion');
@@ -80,7 +72,7 @@ class ci_formularios extends toba_ci
             $salida->set_papel_orientacion('landscape');
             $salida->inicializar();
             $pdf = $salida->get_pdf();//top,bottom,left,righ
-            $pdf->ezSetMargins(80, 50, 30, 30);
+            $pdf->ezSetMargins(80, 50, 20, 20);
             //Configuramos el pie de página. El mismo, tendra el número de página centrado en la página y la fecha ubicada a la derecha. 
             //Primero definimos la plantilla para el número de página.
             $formato = utf8_decode('Página {PAGENUM} de {TOTALPAGENUM}   ');
@@ -169,7 +161,7 @@ class ci_formularios extends toba_ci
                         break;
                     case 5://f22
                         $cols=array('col2' => '<b>NRO FACTURA</b>','col3' => '<b>DETALLE</b>','col4' => '<b>CONDICION DE VENTA</b>','col5' => '<b>DETALLE DE CONDICION DE VENTA</b>','col6' => '<b>MONTO</b>');
-                        $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('cols'=>array('col2'=>array('width'=>160),'col3'=>array('width'=>195),'col4'=>array('width'=>80),'col5'=>array('width'=>190),'col6'=>array('width'=>85))));
+                        $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('cols'=>array('col2'=>array('width'=>160),'col3'=>array('width'=>195),'col4'=>array('width'=>80),'col5'=>array('width'=>190),'col6'=>array('justification'=>'right','width'=>85))));
                         break;
                     default:
                         break;

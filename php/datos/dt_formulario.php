@@ -51,7 +51,7 @@ class dt_formulario extends toba_datos_tabla
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
                 
-            $sql=" select t_f.id_form,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,"
+            $sql=" select t_f.id_form,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,"
                     . " t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso, t_f.id_punto_venta,t_f.estado,t_c.titulo as origen"
                     . " from formulario t_f "
                     . " LEFT OUTER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)"
