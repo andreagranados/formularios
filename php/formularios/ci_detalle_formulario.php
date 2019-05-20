@@ -164,14 +164,19 @@ class ci_detalle_formulario extends toba_ci
                $this->dep('form_detalle')->descolapsar();
                if($this->controlador()->dep('datos')->tabla('item')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('item')->get();
-               
+              // print_r($datos);
                    if(!isset($datos['id_comprobante'])){//sino tiene valor
                        $datos['corresponde_factura']='NO';
                        $datos['id_comprobante']=0;   
+                       $datos2['monto']=$datos['monto'];
                    }else{
                        $datos['corresponde_factura']='SI';
+                       $datos2['monto']=$datos['monto'];
                    }
+                   $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
+                   //print_r($datos);
                    $form->set_datos($datos);
+                   $form->set_datos($datos2);
                }           
             }else{
                 $this->dep('form_detalle')->colapsar();
@@ -196,6 +201,9 @@ class ci_detalle_formulario extends toba_ci
                 }
                 
                 if(!$repetido){
+                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                     $this->controlador()->dep('datos')->tabla('item')->set($datos);
                     $this->controlador()->dep('datos')->tabla('item')->sincronizar();
                     $this->controlador()->dep('datos')->tabla('item')->resetear();
@@ -245,6 +253,9 @@ class ci_detalle_formulario extends toba_ci
                    $repetido=false; 
                 }
                 if(!$repetido){
+                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                     $this->controlador()->dep('datos')->tabla('item')->set($datos);
                     $this->controlador()->dep('datos')->tabla('item')->sincronizar();
                     toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
@@ -259,7 +270,6 @@ class ci_detalle_formulario extends toba_ci
 
 	function evt__form_detalle__cancelar()
 	{
-            print_r('hola');
             $this->controlador()->dep('datos')->tabla('item')->resetear();
             $this->s__mostrar_i=0;
 	}

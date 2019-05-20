@@ -1434,24 +1434,24 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'9483', --objeto_ei_formulario_fila
 	'4272', --objeto_ei_formulario
 	'formularios', --objeto_ei_formulario_proyecto
-	'cuil', --identificador
+	'nro_cuil', --identificador
 	'ef_cuit', --elemento_formulario
-	'cuil', --columnas
+	'nro_cuil', --columnas
 	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
 	'15', --orden
 	'CUIL/T', --etiqueta
 	NULL, --etiqueta_estilo
 	NULL, --descripcion
-	NULL, --colapsado
-	NULL, --desactivado
+	'0', --colapsado
+	'0', --desactivado
 	NULL, --estilo
 	NULL, --total
 	NULL, --inicializacion
-	NULL, --permitir_html
-	NULL, --deshabilitar_rest_func
+	'0', --permitir_html
+	'0', --deshabilitar_rest_func
 	NULL, --estado_defecto
-	NULL, --solo_lectura
+	'0', --solo_lectura
 	'0', --solo_lectura_modificacion
 	NULL, --carga_metodo
 	NULL, --carga_clase

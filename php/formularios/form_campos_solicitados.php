@@ -116,25 +116,25 @@ class form_campos_solicitados extends toba_ei_formulario
 					case '1':
                                           this.ef('cuenta_a_acreditar').ocultar();
                                           this.ef('nro_transferencia').ocultar();
-                                           this.ef('cuil').ocultar();
+                                           this.ef('nro_cuil').ocultar();
                                             this.ef('nro_cheque').ocultar();
                                             this.ef('id_banco').ocultar();
                                             this.ef('fecha_emision_cheque').ocultar();
-                                            this.ef('cuil1').ocultar();
+                                            /*this.ef('cuil1').ocultar();
                                             this.ef('cuil').ocultar();
-                                            this.ef('cuil2').ocultar();
+                                            this.ef('cuil2').ocultar();*/
                                             this.ef('alias').ocultar();
                                             break;
                                         case '2': 
                                             this.ef('cuenta_a_acreditar').ocultar();
                                             this.ef('nro_transferencia').ocultar();
-                                            this.ef('cuil').ocultar();
+                                            this.ef('nro_cuil').ocultar();
                                             this.ef('nro_cheque').mostrar();
                                             this.ef('id_banco').mostrar();
                                             this.ef('fecha_emision_cheque').mostrar();
-                                            this.ef('cuil1').ocultar();
+                                            /*this.ef('cuil1').ocultar();
                                             this.ef('cuil').ocultar();
-                                            this.ef('cuil2').ocultar();
+                                            this.ef('cuil2').ocultar();*/
                                             this.ef('alias').ocultar();
                                             break;
                                         case '3': 
@@ -143,12 +143,12 @@ class form_campos_solicitados extends toba_ei_formulario
                                             this.ef('fecha_emision_cheque').ocultar();
                                             this.ef('cuenta_a_acreditar').mostrar();
                                             this.ef('nro_transferencia').mostrar();
-                                             this.ef('cuil').mostrar();
+                                             this.ef('nro_cuil').mostrar();
                                             break;
                                         default:/* por defecto no aparece nada*/
                                             this.ef('cuenta_a_acreditar').ocultar();
                                             this.ef('nro_transferencia').ocultar();
-                                            this.ef('cuil').ocultar();
+                                            this.ef('nro_cuil').ocultar();
                                             this.ef('nro_cheque').ocultar();
                                             this.ef('id_banco').ocultar();
                                             this.ef('fecha_emision_cheque').ocultar();
