@@ -4,6 +4,7 @@ class ci_detalle_formulario extends toba_ci
 {
     protected $s__mostrar_i;
     protected $datos;
+    protected $s__monto;
    
     function get_monto($id_comprobante){
         return $this->controlador()->dep('datos')->tabla('comprobante')->get_monto($id_comprobante);
@@ -164,19 +165,19 @@ class ci_detalle_formulario extends toba_ci
                $this->dep('form_detalle')->descolapsar();
                if($this->controlador()->dep('datos')->tabla('item')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('item')->get();
+                   $this->s__monto=$datos['monto'];
+                  
               // print_r($datos);
                    if(!isset($datos['id_comprobante'])){//sino tiene valor
                        $datos['corresponde_factura']='NO';
-                       $datos['id_comprobante']=0;   
-                      // $datos2['monto']=$datos['monto'];
+                       //$datos['id_comprobante']=0;   //no corresponde!!
+                       print_r($this->s__monto);//esto lo coloco para que no se autocomplete el monto en 0 con javascript
                    }else{
                        $datos['corresponde_factura']='SI';
-                       //$datos2['monto']=$datos['monto'];
                    }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
                    //print_r($datos);
                    $form->set_datos($datos);
-                  // $form->set_datos($datos2);
                }           
             }else{
                 $this->dep('form_detalle')->colapsar();
@@ -211,10 +212,12 @@ class ci_detalle_formulario extends toba_ci
                     $this->controlador()->dep('datos')->tabla('item')->resetear();
                     $this->s__mostrar_i=0;
                 }else{
-                    toba::notificacion()->agregar('El numero de comprobante se encuentra en otro formulario', 'error');   
+                    throw new toba_error('El numero de comprobante se encuentra en otro formulario');
+                    //toba::notificacion()->agregar('El numero de comprobante se encuentra en otro formulario', 'error');   
                 } 
             }else{
-                toba::notificacion()->agregar('No puede mezclar categorias', 'error');   
+                throw new toba_error('No puede mezclar categorias');
+                //toba::notificacion()->agregar('No puede mezclar categorias', 'error');   
             }
 	}
        	
@@ -265,7 +268,8 @@ class ci_detalle_formulario extends toba_ci
                     toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
                     $this->s__mostrar_i=0;   
                 }else{
-                    toba::notificacion()->agregar('No es posible modificar porque el comprobante esta en otro formulario', 'error');   
+                    throw new toba_error('No es posible modificar porque el comprobante esta en otro formulario');
+                    //toba::notificacion()->agregar('No es posible modificar porque el comprobante esta en otro formulario', 'error');   
                 }
                 
             }

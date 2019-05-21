@@ -27,16 +27,34 @@ class dt_comprobante extends toba_datos_tabla
         }
         
         
+//        function get_monto($id_comprobante){
+//            $sql = "SELECT total "
+//                    . " FROM comprobante "
+//                    . " WHERE id_comprob=$id_comprobante ";
+//            $resul= toba::db('formularios')->consultar($sql);
+//            if(count($resul)>0){
+//                return $resul[0]['total'];
+//            }else{
+//                return 0;
+//            }
+//        }
         function get_monto($id_comprobante){
-            $sql = "SELECT total "
+           
+            if(isset($id_comprobante)){
+                $sql = "SELECT total "
                     . " FROM comprobante "
                     . " WHERE id_comprob=$id_comprobante ";
-            $resul= toba::db('formularios')->consultar($sql);
-            if(count($resul)>0){
-                return $resul[0]['total'];
+                $resul= toba::db('formularios')->consultar($sql);
+                if(count($resul)>0){
+                    return $resul[0]['total'];
+                }else{
+                    return 0;
+                }
             }else{
                 return 0;
             }
+            
+           
         }
 
 }

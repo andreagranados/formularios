@@ -55,7 +55,7 @@ class form_campos_solicitados extends toba_ei_formulario
                         }
                         {$this->objeto_js}.evt__id_origen_recurso__procesar = function(es_inicial) 
 			{
-                      
+                                this.ef('id_origen_recurso').ocultar();
 				switch (this.ef('id_origen_recurso').get_estado()) {
                               
 					case '1':
