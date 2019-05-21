@@ -3,7 +3,7 @@ class dt_item extends toba_datos_tabla
 {
     function get_listado($id_form){
         //si es F12 y la categoria tiene retencion entonces calculo porcentaje
-        $sql="select sub.*,t_t.total,case when id_origen_recurso=1 and tiene_retencion then case when porc_retencion>0 then trunc(t_t.total*porc_retencion/100,2) else t_t.total end else 0 end  as retencion from "
+        $sql="select sub.*,t_t.total,case when id_origen_recurso=1 and tiene_retencion then trunc(t_t.total*porc_retencion/100,2)  else 0 end  as retencion from "
                 . "(select lpad(cast(t_f.id_punto_venta as text),6,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') as nro_factura,t_pd.descripcion as proviene_descrip,t_i.id_form,t_i.nro_resol,t_i.organismo,t_c.tiene_retencion,t_p.porc_retencion,t_i.id_item,t_f.id_origen_recurso,t_i.id_condicion_venta,t_i.detalle,t_c.descripcion as categ,t_o.descripcion as condicion_venta, case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transferencia: '||cast(nro_transferencia as text)||' Cuenta: '||t_cu.nro_cuenta||' '||t_ba.nombre  else '' end end as condicion_venta2, t_v.descripcion as vinc, t_i.monto"
                 . " from item t_i "
                 . " left outer join comprobante t_co on (t_co.id_comprob=t_i.id_comprobante)"
