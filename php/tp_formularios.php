@@ -8,7 +8,7 @@
 	function barra_superior()
 	{ 
 		echo "<div align=center>";
-		echo toba_recurso::imagen_proyecto('logo_designa.png', true);
+		echo toba_recurso::imagen_proyecto('logof.png', true,null,'100px');
                 echo "<br>";
 		echo "<div style='font-size:15px;font-family:Verdana,Helvetica;color:#660033;font-weight:bold;'>";
 		echo "Formularios";

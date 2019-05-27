@@ -111,8 +111,24 @@ class ci_detalle_formulario extends toba_ci
     }
     function evt__form_inicial__modif($datos)//boton para finanzas
     {
-         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
-         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+        $datos2=array();
+        $mensaje='Recuerde que solo ';
+        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        if($form['estado']<>$datos['estado']){//si modifica estado
+            if($datos['estado']=='A' or $datos['estado']=='N' or $datos['estado']=='R'){
+                $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
+                $datos2['estado']=$datos['estado'];
+                $mensaje.=' Datos guardados correctamente';
+            }else{
+                
+                $mensaje.=' No es posible modificar el estado';
+            }
+        }
+        $datos2['nro_expediente']=$datos['nro_expediente'];//que el expediente lo pueda cambiar siempre
+        $this->controlador()->dep('datos')->tabla('formulario')->set($datos2);
+        $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+        toba::notificacion()->agregar($mensaje, 'info');  
+        
     }
 
     function evt__form_inicial__cancelar($datos)
@@ -202,15 +218,29 @@ class ci_detalle_formulario extends toba_ci
                 }
                 
                 if(!$repetido){
-                    if(isset($datos['cuil1'])){
-                        $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                        $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                        $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
+                    if(isset($datos['fecha_emision_cheque'])){//si tiene valor
+                        $fecha_actual=date('Y-m-j');
+                        $fec=$datos['fecha_emision_cheque'];
+                        $nuevafec=strtotime ( '+30 day' , strtotime ( $fec ) );
+                        $nuevafec = date ( 'Y-m-j' , $nuevafec );
+                       
+                        if($nuevafec<$fecha_actual){
+                            $bandera=false;
+                        }
                     }
-                    $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                    $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                    $this->controlador()->dep('datos')->tabla('item')->resetear();
-                    $this->s__mostrar_i=0;
+                    if($bandera){
+                        if(isset($datos['cuil1'])){
+                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
+                        }
+                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                        $this->controlador()->dep('datos')->tabla('item')->resetear();
+                        $this->s__mostrar_i=0;
+                    }else{
+                        throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
+                    }
                 }else{
                     throw new toba_error('El numero de comprobante se encuentra en otro formulario');
                     //toba::notificacion()->agregar('El numero de comprobante se encuentra en otro formulario', 'error');   
@@ -258,15 +288,30 @@ class ci_detalle_formulario extends toba_ci
                    $repetido=false; 
                 }
                 if(!$repetido){
-                    if(isset($datos['cuil1'])){
-                        $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                        $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                        $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
+                    if(isset($datos['fecha_emision_cheque'])){//si tiene valor
+                        $fecha_actual=date('Y-m-j');
+                        $fec=$datos['fecha_emision_cheque'];
+                        $nuevafec=strtotime ( '+30 day' , strtotime ( $fec ) );
+                        $nuevafec = date ( 'Y-m-j' , $nuevafec );
+                       
+                        if($nuevafec<$fecha_actual){
+                            $bandera=false;
+                        }
                     }
-                    $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                    $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                    toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
-                    $this->s__mostrar_i=0;   
+                    if($bandera){
+                        if(isset($datos['cuil1'])){
+                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
+                        }
+                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                        toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
+                        $this->s__mostrar_i=0;  
+                    }else{
+                        throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
+                    }
+                   
                 }else{
                     throw new toba_error('No es posible modificar porque el comprobante esta en otro formulario');
                     //toba::notificacion()->agregar('No es posible modificar porque el comprobante esta en otro formulario', 'error');   
