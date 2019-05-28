@@ -67,17 +67,19 @@ class dt_comprobante extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-            $sql="select * from (select t_c.fecha_emision,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),6,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'R' else 'N' end as rendido
+            $sql=" select * from (select t_c.fecha_emision,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),6,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'R' else 'N' end as rendido,sub.nro_formulario,nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
                     from comprobante t_c
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)
-                    left outer join (select c.id_comprob 
+                    left outer join (select c.id_comprob ,nro_ingreso||'/'||anio_ingreso as nro_formulario, nro_expediente
                                      from item t_i 
+                                     inner join formulario f on (f.id_form=t_i.id_form)
                                      inner join comprobante c on (c.id_comprob=t_i.id_comprobante)
                                        ) sub on (sub.id_comprob=t_c.id_comprob)
-                                       )sub
+                                       
+                                       )sub2
                                        $condicion"
-                    . " order by rendido,dependencia,anio,mes,dia ";
+                    . " order by rendido,dependencia,id_punto,anio,mes,dia ";
             
             return toba::db('formularios')->consultar($sql);
         }

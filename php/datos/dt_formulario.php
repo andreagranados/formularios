@@ -80,6 +80,7 @@ class dt_formulario extends toba_datos_tabla
                     .  $condicion.")sub"
                     .  " left outer join item t_i on (t_i.id_form=sub.id_form)"
                     . " group by sub.id_form,nro_expediente,fecha_creacion,id_dependencia,id_recibo,observacionfinanzas,numero_ingreso,id_punto_venta,estado,origen,pasado_pilaga"
+                    
                     . " order by numero_ingreso" ;
            // $sql = toba::perfil_de_datos()->filtrar($sql);
             return toba::db('formularios')->consultar($sql);

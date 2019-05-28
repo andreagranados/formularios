@@ -6,6 +6,21 @@ class ci_detalle_formulario extends toba_ci
     protected $datos;
     protected $s__monto;
    
+    
+    function get_categorias(){
+       $bandera=true;
+       $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+       if($form['id_origen_recurso']==1){//si es F12
+           if($form['id_punto_venta']==0){//punto de venta ficticio
+               $bandera=false;
+           }
+        }
+        if($bandera){
+            return $this->controlador()->dep('datos')->tabla('categoria')->get_descripciones();
+        }else{
+            return $this->controlador()->dep('datos')->tabla('categoria')->get_categoria_otra();
+        }
+    }
     function get_monto($id_comprobante){
         return $this->controlador()->dep('datos')->tabla('comprobante')->get_monto($id_comprobante);
     }

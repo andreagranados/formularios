@@ -9,6 +9,7 @@ class dt_punto_venta extends toba_datos_tabla
              }
             $sql = "SELECT id_punto, '('||id_punto||')'||descripcion as descripcion "
                     . " FROM punto_venta $where"
+                    
                     . " ORDER BY descripcion";
            
             return toba::db('formularios')->consultar($sql);
