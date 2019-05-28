@@ -46,7 +46,11 @@ class ci_formularios extends toba_ci
             $this->dep('datos')->tabla('formulario')->cargar($datos);
             $this->set_pantalla('pant_edicion');
 	}
-        
+        function evt__cuadro__check($datos)
+	{
+            $mensaje=$this->dep('datos')->tabla('formulario')->pasado_pilaga($datos['id_form']);
+            toba::notificacion()->agregar($mensaje, 'info');  
+	}
 	function evt__agregar()
 	{
              $this->set_pantalla('pant_edicion');

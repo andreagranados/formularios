@@ -46,6 +46,7 @@ class ci_detalle_formulario extends toba_ci
     {
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
+        $datos['pasado_pilaga']=true;
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -86,42 +87,29 @@ class ci_detalle_formulario extends toba_ci
                     $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                     $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
                 }else{
-                    toba::notificacion()->agregar('No puede cambiar datos principales del formulario si el mismo tiene items. Borre los items y luego modifique.', 'info');  
+                    toba::notificacion()->agregar('No puede cambiar Origen del Recurso o Punto de Venta porque el formulario tiene items. Borre los items y luego modifique.', 'info');  
                 }
             }else{
                 $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                 $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+                toba::notificacion()->agregar('Los datos se han guardado correctamente', 'info');  
             }
         }else{
           toba::notificacion()->agregar('El formulario no puede ser modificado', 'info');   
         }
-        //$bandera=false;
         
-//        if(!$bandera){
-//           
-//           if($form['estado']=='I' or $form['estado']=='R'){
-//                $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
-//                $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
-//            }else{
-//            toba::notificacion()->agregar('El formulario no puede ser modificado', 'error');  
-//            } 
-//        }else{
-//           toba::notificacion()->agregar('No puede cambiar datos principales del formulario si el mismo tiene items. Borre los items y luego modifique.', 'error');  
-//        }
     }
     function evt__form_inicial__modif($datos)//boton para finanzas
     {
         $datos2=array();
-        $mensaje='Recuerde que solo ';
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         if($form['estado']<>$datos['estado']){//si modifica estado
             if($datos['estado']=='A' or $datos['estado']=='N' or $datos['estado']=='R'){
                 $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
                 $datos2['estado']=$datos['estado'];
-                $mensaje.=' Datos guardados correctamente';
+                $mensaje='Recuerde que solo puede modificar el nro de expediente. Datos guardados correctamente';
             }else{
-                
-                $mensaje.=' No es posible modificar el estado';
+                $mensaje=' No es posible modificar el estado';
             }
         }
         $datos2['nro_expediente']=$datos['nro_expediente'];//que el expediente lo pueda cambiar siempre

@@ -1,6 +1,27 @@
 <?php
 class dt_formulario extends toba_datos_tabla
 {
+        function pasado_pilaga($id_form){
+            $mensaje='';
+            $sql="select pasado_pilaga from formulario where id_form= ".$id_form;
+            $resul=toba::db('formularios')->consultar($sql);
+            if(isset($resul[0]['pasado_pilaga'])){
+                $concatenar=" not (pasado_pilaga)";
+                if($resul[0]['pasado_pilaga']){
+                    $mensaje=" Destildado";
+                }else{
+                    $mensaje="Tildado";
+                }
+                
+            }else{
+                $concatenar="'true'";
+                $mensaje="Tildado";
+            }
+            
+            $sql=" update formulario set pasado_pilaga=".$concatenar." where id_form= ".$id_form;  
+            toba::db('formularios')->consultar($sql);
+            return $mensaje;
+        }
         function get_recibo($id_form){
             $sql="select * "
                     . " from formulario f"
@@ -51,14 +72,19 @@ class dt_formulario extends toba_datos_tabla
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
                 
-            $sql=" select t_f.id_form,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,"
+            $sql=" select sub.id_form,nro_expediente,fecha_creacion,id_dependencia,id_recibo,observacionfinanzas,numero_ingreso,id_punto_venta,estado,origen,pasado_pilaga,sum(monto) as monto "
+                    . "from (select t_f.id_form,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,case when pasado_pilaga then 'SI' else 'NO' end as pasado_pilaga,"
                     . " t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso, t_f.id_punto_venta,t_f.estado,t_c.titulo as origen"
                     . " from formulario t_f "
                     . " LEFT OUTER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)"
-                    . " $condicion";
-            $sql = toba::perfil_de_datos()->filtrar($sql);
+                    .  $condicion.")sub"
+                    .  " left outer join item t_i on (t_i.id_form=sub.id_form)"
+                    . " group by sub.id_form,nro_expediente,fecha_creacion,id_dependencia,id_recibo,observacionfinanzas,numero_ingreso,id_punto_venta,estado,origen,pasado_pilaga"
+                    . " order by numero_ingreso" ;
+           // $sql = toba::perfil_de_datos()->filtrar($sql);
             return toba::db('formularios')->consultar($sql);
         }
+        
         function get_origen_recurso($id_form){
             $sql="select id_origen_recurso from formulario where id_form=$id_form";
             $resul= toba::db('formularios')->consultar($sql);

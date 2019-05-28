@@ -23,4 +23,27 @@ class dt_item extends toba_datos_tabla
                 . "                  group by id_form) t_t on (t_t.id_form=sub.id_form)";
         return toba::db('formularios')->consultar($sql);
     }
+    function get_totales($filtro=array()){
+        $where ="";
+        if (isset($filtro['anio'])) {
+                $where = "  where extract(year from fecha_creacion)= ".$filtro['anio']['valor'];
+        }
+        //print_r($where);
+        $sql="select dependencia,total as total_bruto,retencion, total-retencion as total_neto from 
+            (select dependencia,sum(total) as total,sum(retencion)as retencion from
+            (select dependencia,id_form,total, case when id_origen_recurso=1 and tiene_retencion then trunc(total*porc_retencion/100,2)  else 0 end  as retencion from 
+            (select distinct t_d.descripcion as dependencia,t_f.id_form,t_p.porc_retencion,t_f.id_origen_recurso,CASE WHEN t_i.id_categ is null THEN false ELSE t_c.tiene_retencion END as tiene_retencion,total
+            from item t_i
+            inner join formulario t_f on (t_i.id_form=t_f.id_form)
+            inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
+            inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
+            left outer join categoria t_c on (t_i.id_categ =t_c.id_categoria)
+            left outer join (select t_it.id_form,sum(monto) as total from item t_it
+                                        group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form)
+           $where
+            )sub    
+                           )sub2 
+                           group by dependencia )sub3";
+        return toba::db('formularios')->consultar($sql);
+    }
 }?>

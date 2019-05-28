@@ -275,7 +275,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'1', --orden
 	'Expediente', --etiqueta
 	NULL, --etiqueta_estilo
-	NULL, --descripcion
+	'Formato correcto: XXXXX/EE/YYYY', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo
@@ -313,7 +313,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	NULL, --edit_resaltar
 	NULL, --edit_ajustable
 	NULL, --edit_confirmar_clave
-	'/^[0-9]{5}\-[0-9]{2}\-[0-9]{4}$/', --edit_expreg
+	'/^[0-9]{5}\/[0-9]{2}\/[0-9]{4}$/', --edit_expreg
 	NULL, --popup_item
 	NULL, --popup_proyecto
 	NULL, --popup_editable
