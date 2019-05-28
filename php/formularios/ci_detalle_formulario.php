@@ -7,11 +7,11 @@ class ci_detalle_formulario extends toba_ci
     protected $s__monto;
    
     
-    function get_categorias(){
+    function get_categorias(){//si el punto de venta es ficticio entonces solo puede seleccionar categoria otro
        $bandera=true;
        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
        if($form['id_origen_recurso']==1){//si es F12
-           if($form['id_punto_venta']==0){//punto de venta ficticio
+           if($form['id_punto_venta']<=0){//punto de venta ficticio
                $bandera=false;
            }
         }
@@ -21,6 +21,23 @@ class ci_detalle_formulario extends toba_ci
             return $this->controlador()->dep('datos')->tabla('categoria')->get_categoria_otra();
         }
     }
+    function get_opciones(){//si el punto de venta es ficticio entonces la unica opcion es no facturar
+       $bandera=true;
+       $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        
+       if($form['id_punto_venta']<=0){//punto de venta ficticio
+           $bandera=false;
+       }
+       if($bandera){//si o si tiene que ingresar numero de comprobante
+            $ar=array();
+            $ar[0]=array('descripcion'=>'SI');
+       } else{
+           $ar=array();
+           $ar[0]=array('descripcion'=>'NO');
+       }
+        return $ar;
+    }
+    
     function get_monto($id_comprobante){
         return $this->controlador()->dep('datos')->tabla('comprobante')->get_monto($id_comprobante);
     }
