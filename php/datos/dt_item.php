@@ -46,4 +46,23 @@ class dt_item extends toba_datos_tabla
                            group by dependencia )sub3";
         return toba::db('formularios')->consultar($sql);
     }
+    function no_repite_cheque($nro_cheque){//retorna true sino se repite
+        $sql="select * from item where nro_cheque=".$nro_cheque;
+        $resul = toba::db('formularios')->consultar($sql);
+        if(count($resul)>0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    function no_repite_transferencia($nro_transf){//retorna true sino se repite
+        $sql="select * from item where nro_transferencia=".$nro_transf;
+        $resul = toba::db('formularios')->consultar($sql);
+        if(count($resul)>0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }?>

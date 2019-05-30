@@ -229,6 +229,7 @@ class ci_detalle_formulario extends toba_ci
 	}
 	function evt__form_detalle__alta($datos)
 	{
+            
             $bandera=true;
             //si es f12 debe controlar que no mezcle categoria con deduccion de las sin deduccion
             $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -246,6 +247,7 @@ class ci_detalle_formulario extends toba_ci
                 }
                 
                 if(!$repetido){
+                   
                     if(isset($datos['fecha_emision_cheque'])){//si tiene valor
                         $fecha_actual=date('Y-m-j');
                         $fec=$datos['fecha_emision_cheque'];
@@ -257,15 +259,31 @@ class ci_detalle_formulario extends toba_ci
                         }
                     }
                     if($bandera){
-                        if(isset($datos['cuil1'])){
-                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
+                        if(isset($datos['nro_cheque'])){//cheque
+                            $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_cheque($datos['nro_cheque']);
                         }
-                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                        $this->controlador()->dep('datos')->tabla('item')->resetear();
-                        $this->s__mostrar_i=0;
+                        if($bandera){
+                            if(isset($datos['nro_transferencia'])){//nro_transferencia
+                                $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_transferencia($datos['nro_transferencia']);
+                            }
+                            if($bandera){
+                                 if(isset($datos['cuil1'])){
+                                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
+                                }
+                                $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                                $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                                $this->controlador()->dep('datos')->tabla('item')->resetear();
+                                $this->s__mostrar_i=0;
+                            }else{
+                                throw new toba_error('No es posible guarda el item. El numero de transferncia se repite');
+                            }
+                           
+                        }else{
+                            throw new toba_error('No es posible guarda el item. El numero de cheque se repite');
+                        }
+                      
                     }else{
                         throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
                     }
@@ -327,15 +345,35 @@ class ci_detalle_formulario extends toba_ci
                         }
                     }
                     if($bandera){
-                        if(isset($datos['cuil1'])){
-                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
-                        }
-                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                        toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
-                        $this->s__mostrar_i=0;  
+                        if($item['nro_cheque']<>$datos['nro_cheque']){//modifica nro_cheque
+                             if(isset($datos['nro_cheque'])){//cheque
+                                $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_cheque($datos['nro_cheque']);
+                            }
+                         }
+                         if($bandera){
+                            if($item['nro_transferencia']<>$datos['nro_transferencia']){//modifica nro_transf
+                                 if(isset($datos['nro_transferencia'])){//trans
+                                      $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_transferencia($datos['nro_transferencia']);
+                                }
+                            }
+                            if($bandera){
+                                if(isset($datos['cuil1'])){
+                                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
+                                }
+                                $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                                $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                                toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
+                                $this->s__mostrar_i=0;  
+                            }else{
+                                throw new toba_error('No es posible guarda el item. El numero de transferencia se repite'); 
+                            }
+                             
+                         }else{
+                            throw new toba_error('No es posible guarda el item. El numero de cheque'.$datos['nro_cheque'].' se repite'); 
+                         }
+                        
                     }else{
                         throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
                     }
