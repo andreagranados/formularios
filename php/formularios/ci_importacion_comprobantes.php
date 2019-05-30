@@ -15,7 +15,7 @@ class ci_importacion_comprobantes extends toba_ci
 
 	function evt__form__validar($datos)
 	{
-            print_r($datos);
+            
             if (isset($datos['archivo'])) {
 		$this->s__nombre_archivo = $datos['archivo']['name'];
 		$img = toba::proyecto()->get_www_temp($this->s__nombre_archivo);
@@ -34,8 +34,8 @@ class ci_importacion_comprobantes extends toba_ci
             $fp = fopen ( $path['path'] , "r" ); 
             $f=1;
             //Similar a fgets() excepto que fgetcsv() analiza la línea que lee para buscar campos en formato CSV, devolviendo un array que contiene los campos leídos
-            while (($data = fgetcsv($fp, 2048, ",")) !== FALSE) {//mientras hay lineas que leer
-         print_r($data);exit;
+            while (($data = fgetcsv($fp, 2048, ";")) !== FALSE) {//mientras hay lineas que leer
+         //print_r($data);exit;
                 $i = 0; 
 //                foreach($data as $row) {
 //                    echo "Campo $i: $row<br>\n"; // Muestra todos los campos de la fila actual 
@@ -50,7 +50,7 @@ class ci_importacion_comprobantes extends toba_ci
                 $f++;
                
             }//fin recorrido
-            //$sql="select * from auxi";$resul=toba::db('formularios')->consultar($sql);print_r($resul);exit;
+            $sql="select * from auxi";$resul=toba::db('formularios')->consultar($sql);print_r($resul);exit;
                   
             //verifico que no haya repetidos. Cuento la cantidad de registro que se repiten
             $sql="select * from (select id_punto_venta,nro_comprobante,count(*) as cant from auxi"
