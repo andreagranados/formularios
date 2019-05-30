@@ -211,8 +211,7 @@ class ci_detalle_formulario extends toba_ci
                if($this->controlador()->dep('datos')->tabla('item')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('item')->get();
                    $this->s__monto=$datos['monto'];
-                  
-              // print_r($datos);
+                
                    if(!isset($datos['id_comprobante'])){//sino tiene valor
                        $datos['corresponde_factura']='NO';
                        //$datos['id_comprobante']=0;   //no corresponde!!

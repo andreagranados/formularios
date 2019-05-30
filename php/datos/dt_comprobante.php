@@ -81,7 +81,14 @@ class dt_comprobante extends toba_datos_tabla
             }
         }
         function get_comprobantes_rendidos($where=null){
+            $pd = toba::manejador_sesiones()->get_perfil_datos(); 
+            $con="select sigla from dependencia ";
+            $con = toba::perfil_de_datos()->filtrar($con);
+            $resul=toba::db('formularios')->consultar($con);
             $condicion=' WHERE 1=1 ';
+            if(isset($pd)){//pd solo tiene valor cuando el usuario esta asociado a un perfil de datos
+                    $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
+                }//sino es usuario de la central no filtro a menos que haya elegido
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
