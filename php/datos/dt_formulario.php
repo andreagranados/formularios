@@ -71,17 +71,15 @@ class dt_formulario extends toba_datos_tabla
             if(isset($pd)){//pd solo tiene valor cuando el usuario esta asociado a un perfil de datos
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
-                
-            $sql=" select sub.id_form,nro_expediente,fecha_creacion,id_dependencia,id_recibo,observacionfinanzas,numero_ingreso,id_punto_venta,estado,origen,pasado_pilaga,sum(monto) as monto "
-                    . "from (select t_f.id_form,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,case when pasado_pilaga then 'SI' else 'NO' end as pasado_pilaga,"
-                    . " t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso, t_f.id_punto_venta,t_f.estado,t_c.titulo as origen"
-                    . " from formulario t_f "
-                    . " LEFT OUTER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)"
-                    .  $condicion.")sub"
-                    .  " left outer join item t_i on (t_i.id_form=sub.id_form)"
-                    . " group by sub.id_form,nro_expediente,fecha_creacion,id_dependencia,id_recibo,observacionfinanzas,numero_ingreso,id_punto_venta,estado,origen,pasado_pilaga"
-                    
-                    . " order by numero_ingreso" ;
+          
+            $sql="select * from 
+                (select t_f.id_form,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,pasado_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as id_punto_venta,t_f.estado,t_c.titulo as origen ,sum(t_i.monto) as monto
+                         from formulario t_f 
+                         INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
+                         LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) 
+                         GROUP BY t_f.id_form,anio_ingreso,nro_ingreso,nro_expediente,fecha_creacion, id_dependencia,id_recibo,observacionfinanzas,pasado_pilaga,id_punto_venta,estado,titulo
+                         )sub $condicion";
+           
            // $sql = toba::perfil_de_datos()->filtrar($sql);
             return toba::db('formularios')->consultar($sql);
         }
@@ -114,6 +112,11 @@ class dt_formulario extends toba_datos_tabla
                     . " where id_form=$id_form";
             $resul= toba::db('formularios')->consultar($sql);
             return $resul[0]['punto_venta'];    
+        }
+        function get_anios(){
+            $sql="select distinct extract(year from fecha_creacion) as anio"
+                    . " from formulario";
+            return toba::db('formularios')->consultar($sql);
         }
         
 }

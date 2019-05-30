@@ -14,11 +14,29 @@ class dt_comprobante extends toba_datos_tabla
             $sql = "SELECT id_comprob, nro_comprobante FROM comprobante ORDER BY estado";
             return toba::db('formularios')->consultar($sql);
 	}
-        function get_comprobantes($id_punto){
+        function get_comprobantes($id_punto,$fecha_creac,$id_comprob){
+            //toma el año de la fecha de creacion del formulario
+            $d=strtotime($fecha_creac);
+            $a=date("Y", $d);
+            $fec=date("d/m/Y",strtotime($fecha_creac));
+            if($id_comprob<>0){
+                $concatenar=' UNION select id_comprob, nro_comprobante from comprobante where id_comprob='.$id_comprob;
+            }else{
+                $concatenar='';
+            }
+        
             $sql = "SELECT id_comprob, nro_comprobante "
-                    . " FROM comprobante "
-                    . " WHERE id_punto_venta=$id_punto "
-                    
+                    . " FROM comprobante c"
+                    . " WHERE c.id_punto_venta=$id_punto
+                     and extract(year from c.fecha_emision)=$a"
+                    . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos)
+                    . "                  inner join item t_i on (t_c.id_comprob=t_i.id_comprobante)"
+                    . "                  inner join formulario t_f on (t_f.id_form =t_i.id_form)"
+                    . "                 where "
+                    . "                      t_f.id_punto_venta=$id_punto
+                                           and t_c.id_comprob=c.id_comprob
+                                           )"
+                    .$concatenar
                     . " order by id_comprob";
             return toba::db('formularios')->consultar($sql);
         }

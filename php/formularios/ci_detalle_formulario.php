@@ -44,7 +44,16 @@ class ci_detalle_formulario extends toba_ci
     
     function get_comprobantes($corresponde){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-        return $this->controlador()->dep('datos')->tabla('comprobante')->get_comprobantes($form['id_punto_venta']);
+        if ($this->controlador()->dep('datos')->tabla('item')->esta_cargada()) {//si el item esta cargado y tiene comprobante entonces lo agrego al desplegable
+            $item=$this->controlador()->dep('datos')->tabla('item')->get();
+            if(isset($item['id_comprobante'])){
+                $id_comprob=$item['id_comprobante'];
+            }else{
+                $id_comprob=0;
+            }
+            
+        }else{$id_comprob=0;}
+        return $this->controlador()->dep('datos')->tabla('comprobante')->get_comprobantes($form['id_punto_venta'],$form['fecha_creacion'],$id_comprob);
     }
     
     function transforma($iNumero){
