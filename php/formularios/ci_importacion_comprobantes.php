@@ -50,7 +50,7 @@ class ci_importacion_comprobantes extends toba_ci
                 $f++;
                
             }//fin recorrido
-            $sql="select * from auxi";$resul=toba::db('formularios')->consultar($sql);print_r($resul);exit;
+            //$sql="select * from auxi";$resul=toba::db('formularios')->consultar($sql);print_r($resul);exit;
                   
             //verifico que no haya repetidos. Cuento la cantidad de registro que se repiten
             $sql="select * from (select id_punto_venta,nro_comprobante,count(*) as cant from auxi"
