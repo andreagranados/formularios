@@ -88,7 +88,7 @@ class ci_detalle_formulario extends toba_ci
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
         $datos['pasado_pilaga']=true;
-        $datos['fecha_envio']=true;
+        
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
