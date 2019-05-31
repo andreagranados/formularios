@@ -88,6 +88,7 @@ class ci_detalle_formulario extends toba_ci
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
         $datos['pasado_pilaga']=true;
+        $datos['fecha_envio']=true;
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -530,6 +531,7 @@ class ci_detalle_formulario extends toba_ci
                 $band=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
                 if($band){
                     $datos['estado']='E';
+                    $datos['fecha_envio']=date('d/m/Y');
                     $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                     $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
                     $this->controlador()->dep('datos')->tabla('formulario')->resetear();
@@ -645,7 +647,7 @@ class ci_detalle_formulario extends toba_ci
                $datos[2]=array('col1'=>$texto2);
                //number_format($recibo['0']['monto'],2,'.','')
                //para que muestre el monto con 2 decimales
-               $datos[3]=array('col1'=>'SON $ '.number_format($recibo[0]['monto'],2,'.',''));
+               $datos[3]=array('col1'=>'SON $ '.number_format($recibo[0]['monto'],2,',','.'));
                
                $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
 
