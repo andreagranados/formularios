@@ -96,17 +96,7 @@ class ci_importacion_comprobantes extends toba_ci
                 return $this->s__datos;
             }
 	}
-        
        
-
-	
-
-	//-----------------------------------------------------------------------------------
-	//---- JAVASCRIPT -------------------------------------------------------------------
-	//-----------------------------------------------------------------------------------
-
-	
-
 	//-----------------------------------------------------------------------------------
 	//---- Eventos ----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
@@ -115,7 +105,7 @@ class ci_importacion_comprobantes extends toba_ci
 	{//encierro la linea de codigo que puede producir un error en el try
             try{
                 $this->dep('datos')->tabla('comprobante')->importar($this->s__datos);
-                toba::notificacion()->agregar('Importacion exitosa!', 'info');
+                toba::notificacion()->agregar(utf8_decode('Importación exitosa!'), 'info');
                 unset($this->s__datos);
                 $this->set_pantalla('pant_inicial');
             }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Esta clase fue y será generada automáticamente. NO EDITAR A MANO.
+ * Esta clase fue y serï¿½ generada automï¿½ticamente. NO EDITAR A MANO.
  * @ignore
  */
 class formularios_autoload 
@@ -18,6 +18,7 @@ class formularios_autoload
 	}
 
 	static protected $clases = array(
+            'abm_ci' => 'extension_toba/componentes/abm_ci.php',
 		'formularios_ci' => 'extension_toba/componentes/formularios_ci.php',
 		'formularios_cn' => 'extension_toba/componentes/formularios_cn.php',
 		'formularios_datos_relacion' => 'extension_toba/componentes/formularios_datos_relacion.php',

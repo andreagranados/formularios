@@ -14,6 +14,16 @@ class dt_punto_venta extends toba_datos_tabla
            
             return toba::db('formularios')->consultar($sql);
 	}
+          function get_listado($where=null){
+              
+            $condicion='';
+            if(!is_null($where)){
+                $condicion=' WHERE '.$where;
+            }
+            $sql="select * from punto_venta $condicion"
+                    . " order by id_dependencia";
+            return toba::db('formularios')->consultar($sql);
+        }
 
 }
 

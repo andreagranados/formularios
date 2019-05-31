@@ -20,6 +20,16 @@ class dt_cuenta_bancaria extends toba_datos_tabla
                 //print_r($sql);
 		return toba::db('formularios')->consultar($sql);
 	}
+        function get_listado($where=null){
+              
+            $condicion='';
+            if(!is_null($where)){
+                $condicion=' WHERE '.$where;
+            }
+            $sql="select c.*,b.nombre as banco from cuenta_bancaria c"
+                    . " inner join banco b on c.id_banco=b.id_banco $condicion";
+            return toba::db('formularios')->consultar($sql);
+        }
 
 }
 
