@@ -178,7 +178,7 @@ class ci_recibos extends toba_ci
                $datos[2]=array('col1'=>$texto2);
                //number_format($recibo['0']['monto'],2,'.','')
                //para que muestre el monto con 2 decimales
-               $datos[3]=array('col1'=>'SON $ '.number_format($recibo['monto'],2,'.',''));
+               $datos[3]=array('col1'=>'SON $ '.number_format($recibo['monto'],2,',','.'));
                
                $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
               
