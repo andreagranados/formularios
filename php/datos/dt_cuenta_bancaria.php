@@ -17,7 +17,7 @@ class dt_cuenta_bancaria extends toba_datos_tabla
                         . " SELECT id_cuenta, t_cc.nro_cuenta||'('||t_cc.descripcion||')' as descripcion "
                         . " FROM cuenta_bancaria t_cc"
                         . " WHERE t_cc.id_dependencia='RECT'";
-                //print_r($sql);
+                
 		return toba::db('formularios')->consultar($sql);
 	}
         function get_listado($where=null){

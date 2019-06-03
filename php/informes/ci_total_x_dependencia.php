@@ -30,8 +30,8 @@ class ci_total_x_dependencia extends toba_ci
 
 	function conf__cuadro(formularios_ei_cuadro $cuadro)
 	{
-            if (isset($this->s__datos_filtro)) {
-                $cuadro->set_datos($this->dep('datos')->tabla('item')->get_totales($this->s__datos_filtro));
+            if (isset($this->s__where)) {
+                $cuadro->set_datos($this->dep('datos')->tabla('item')->get_totales($this->s__where));
             } 
               //  else{
                // $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro());

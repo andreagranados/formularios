@@ -87,7 +87,7 @@ class ci_detalle_formulario extends toba_ci
     {
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
-        $datos['pasado_pilaga']=true;
+        $datos['pasado_pilaga']=false;
         
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
@@ -165,6 +165,18 @@ class ci_detalle_formulario extends toba_ci
     {
         $this->controlador()->set_pantalla('pant_seleccion');
         $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+        
+    }
+    function evt__form_inicial__anular($datos)
+    {
+        if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
+            $datos2['estado']='N';
+            $this->controlador()->dep('datos')->tabla('formulario')->set($datos2);
+            $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+            $this->controlador()->set_pantalla('pant_seleccion');
+            toba::notificacion()->agregar('El formulario ha sido anulado', 'info');  
+            $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+          }
         
     }
 
@@ -393,6 +405,7 @@ class ci_detalle_formulario extends toba_ci
             $this->controlador()->dep('datos')->tabla('item')->resetear();
             $this->s__mostrar_i=0;
 	}
+        
 
         /**
 	 * Permite configurar el evento por fila.

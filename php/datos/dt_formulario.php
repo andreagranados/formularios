@@ -8,9 +8,9 @@ class dt_formulario extends toba_datos_tabla
             if(isset($resul[0]['pasado_pilaga'])){
                 $concatenar=" not (pasado_pilaga)";
                 if($resul[0]['pasado_pilaga']){
-                    $mensaje=" Destildado";
+                    $mensaje=" Destildado ";
                 }else{
-                    $mensaje="Tildado";
+                    $mensaje=" Tildado ";
                 }
                 
             }else{

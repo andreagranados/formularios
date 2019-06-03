@@ -95,6 +95,13 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 );
 INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
 	'formularios', --proyecto
+	'50', --restriccion_funcional
+	'3814', --item
+	'3546', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
 	'51', --restriccion_funcional
 	'3814', --item
 	'3463', --evento_id
@@ -182,6 +189,13 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 	'51', --restriccion_funcional
 	'3814', --item
 	'3526', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'51', --restriccion_funcional
+	'3814', --item
+	'3546', --evento_id
 	'1'  --no_visible
 );
 INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (

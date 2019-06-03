@@ -29,15 +29,17 @@ class dt_comprobante extends toba_datos_tabla
                     . " FROM comprobante c"
                     . " WHERE c.id_punto_venta=$id_punto
                      and extract(year from c.fecha_emision)=$a"
-                    . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos)
+                    . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos) de formularios no anulados
                     . "                  inner join item t_i on (t_c.id_comprob=t_i.id_comprobante)"
                     . "                  inner join formulario t_f on (t_f.id_form =t_i.id_form)"
                     . "                 where "
                     . "                      t_f.id_punto_venta=$id_punto
                                            and t_c.id_comprob=c.id_comprob
+                                           and t_f.estado<>'N'
                                            )"
                     .$concatenar
-                    . " order by id_comprob";
+                    . " order by nro_comprobante";
+            
             return toba::db('formularios')->consultar($sql);
         }
         function esta_repetido($id_comp){//retorna true cuando esta repetido
@@ -92,16 +94,17 @@ class dt_comprobante extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-            $sql=" select * from (select t_c.fecha_emision,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),6,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else 'R' end as rendido,sub.nro_formulario,nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
+            $sql=" select * from (select t_c.fecha_emision,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else case when sub.estado='N' then 'N' else 'R' end end as rendido,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
                     from comprobante t_c
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)
-                    left outer join (select c.id_comprob ,nro_ingreso||'/'||anio_ingreso as nro_formulario, nro_expediente
+                    
+                    left outer join (select c.id_comprob ,nro_ingreso||'/'||anio_ingreso as nro_formulario, f.estado,nro_expediente
                                      from item t_i 
                                      inner join formulario f on (f.id_form=t_i.id_form)
                                      inner join comprobante c on (c.id_comprob=t_i.id_comprobante)
-                                       ) sub on (sub.id_comprob=t_c.id_comprob)
-                                       
+                                     ) sub on (sub.id_comprob=t_c.id_comprob)
+                                   
                                        )sub2
                                        $condicion"
                     . " order by rendido,dependencia,id_punto,anio,mes,dia ";
