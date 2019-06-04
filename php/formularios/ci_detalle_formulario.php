@@ -149,6 +149,9 @@ class ci_detalle_formulario extends toba_ci
             if($datos['estado']=='A' or $datos['estado']=='N' or $datos['estado']=='R'){
                 $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
                 $datos2['estado']=$datos['estado'];
+                if($datos['estado']=='N'){//si anula tambien anula el recibo si lo tuviese
+                    $this->controlador()->dep('datos')->tabla('formulario')->anular_recibo($form['id_form']);
+                }
                 $mensaje='Recuerde que solo puede modificar el nro de expediente. Datos guardados correctamente';
             }else{
                 $mensaje=' No es posible modificar el estado';
@@ -171,6 +174,8 @@ class ci_detalle_formulario extends toba_ci
     {
         if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
             $datos2['estado']='N';
+            $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+            $this->controlador()->dep('datos')->tabla('formulario')->anular_recibo($form['id_form']);
             $this->controlador()->dep('datos')->tabla('formulario')->set($datos2);
             $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
             $this->controlador()->set_pantalla('pant_seleccion');
@@ -591,7 +596,7 @@ class ci_detalle_formulario extends toba_ci
         function vista_pdf(toba_vista_pdf $salida){  
          
          $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-        // if($form['estado']=='T'){
+         if($form['estado']=='T'){
             //llama a una funcion para generar el recibo. Si ya lo tiene retorna los datos, sino lo tiene lo genere y sino corresponde
             $sql="select genera_recibo(".$form['id_form'].")";
             $resul=toba::db('formularios')->consultar($sql);
@@ -652,7 +657,7 @@ class ci_detalle_formulario extends toba_ci
                $dia=date("d",strtotime($recibo[0]['fecha']));
                $anio=date("Y",strtotime($recibo[0]['fecha']));
                $monto_letras= $this->transforma($recibo[0]['monto']);
-               $texto=utf8_decode('Recibí de ').trim($recibo[0]['recibi_de']).' la suma de pesos '. $monto_letras.' en concepto de pago '.$recibo[0]['concepto'];
+               $texto=utf8_decode('Recibí de ').trim($recibo[0]['recibi_de']).' la suma de pesos '. $monto_letras.' en concepto de '.$recibo[0]['concepto'];
                $texto2=utf8_decode('Neuquén, ').$dia.' de'.$mes.$anio;
                
                $datos[0]=array('col1'=>'');
@@ -675,7 +680,7 @@ class ci_detalle_formulario extends toba_ci
                $pdf->addJpegFromFile($imagen, $this->puntos_cm(2), $this->puntos_cm(11.5), 70, 65);
 
               }
-        //}
+        }
         }
             
 }

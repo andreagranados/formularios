@@ -6,12 +6,17 @@ class dt_recibo extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-           $sql="select r.id_recibo,r.fecha,r.recibi_de,r.concepto,r.monto,r.estado,o.titulo as formul"
-                   . " from (select * from recibo $condicion) r"
+           $sql="select * from (select r.id_recibo,r.fecha,r.recibi_de,r.concepto,r.monto,r.estado, extract(year from r.fecha)as anio,o.titulo||'('||f.nro_ingreso||'/'||f.anio_ingreso||')' as formul, case when o.titulo is null then false else true end as de_formulario"
+                   . " from recibo r"
                    . " left outer join formulario f on (r.id_recibo=f.id_recibo)"
-                    . " left outer join origen_ingreso o on (o.id_origen=f.id_origen_recurso)"
-                    . " order by fecha";
+                    . " left outer join origen_ingreso o on (o.id_origen=f.id_origen_recurso))sub"
+                   . " $condicion"
+                    . " order by id_recibo desc";
             return toba::db('formularios')->consultar($sql);
+         }
+         function get_anios(){
+             $sql="select distinct extract(year from fecha) as anio from recibo ";
+             return toba::db('formularios')->consultar($sql);
          }
                                                                             
 }                                                                           

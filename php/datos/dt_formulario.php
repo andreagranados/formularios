@@ -1,6 +1,12 @@
 <?php
 class dt_formulario extends toba_datos_tabla
-{
+{       
+        function anular_recibo($id_form){
+            $sql="update recibo set estado='A' where id_recibo in(select id_recibo from formulario where id_form=".
+                    $id_form. ")";
+            
+            $resul=toba::db('formularios')->consultar($sql);
+        }
         function pasado_pilaga($id_form){
             $mensaje='';
             $sql="select pasado_pilaga from formulario where id_form= ".$id_form;

@@ -76,9 +76,9 @@ class ci_recibos extends toba_ci
             if (isset($this->s__where)) {
                 $cuadro->set_datos($this->dep('datos')->tabla('recibo')->get_listado_filtro($this->s__where));
             } 
-            else{
-                $cuadro->set_datos($this->dep('datos')->tabla('recibo')->get_listado_filtro());
-            }
+//            else{
+//                $cuadro->set_datos($this->dep('datos')->tabla('recibo')->get_listado_filtro());
+//            }
 	}
         //selecciona un recibo del cuadro
         function evt__cuadro__seleccion($datos)
@@ -170,7 +170,7 @@ class ci_recibos extends toba_ci
                $dia=date("d",strtotime($recibo['fecha']));
                $anio=date("Y",strtotime($recibo['fecha']));
                $monto_letras= $this->transforma($recibo['monto']);
-               $texto=utf8_decode('Recibí de ').trim($recibo['recibi_de']).' la suma de pesos '. $monto_letras.' en concepto de pago '.$recibo['concepto'];
+               $texto=utf8_decode('Recibí de ').trim($recibo['recibi_de']).' la suma de pesos '. $monto_letras.' en concepto de '.$recibo['concepto'];
                $texto2=utf8_decode('Neuquén, ').$dia.' de'.$mes.$anio;
                
                $datos[0]=array('col1'=>'');
