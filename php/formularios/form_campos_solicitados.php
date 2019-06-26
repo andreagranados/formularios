@@ -78,7 +78,7 @@ class form_campos_solicitados extends toba_ei_formulario
                                         case '4': /*f21*/
                                             this.ef('id_categ').ocultar();
                                             this.ef('id_vinc').ocultar();
-                                            this.ef('organismo').ocultar();
+                                           /* this.ef('organismo').ocultar();*/
                                             this.ef('nro_resol').ocultar();
                                             this.ef('proviene_de').ocultar();
                                             break;

@@ -89,6 +89,18 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'formularios', --proyecto
+	'3195', --dep_id
+	'4271', --objeto_consumidor
+	'4273', --objeto_proveedor
+	'condicion_venta', --identificador
+	'1', --parametros_a
+	'1', --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	'6'  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'formularios', --proyecto
 	'3126', --dep_id
 	'4271', --objeto_consumidor
 	'4259', --objeto_proveedor
@@ -110,5 +122,17 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL, --parametros_c
 	NULL, --inicializar
 	'2'  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'formularios', --proyecto
+	'3189', --dep_id
+	'4271', --objeto_consumidor
+	'4339', --objeto_proveedor
+	'modalidad_pago', --identificador
+	'1', --parametros_a
+	'1', --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	'5'  --orden
 );
 --- FIN Grupo de desarrollo 0

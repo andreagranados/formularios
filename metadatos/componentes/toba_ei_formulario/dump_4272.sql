@@ -642,7 +642,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'5', --orden
 	'Organismo', --etiqueta
 	NULL, --etiqueta_estilo
-	'Indicar el Organismo de Origen (para F13)', --descripcion
+	'Indicar el Organismo de Origen', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo
@@ -717,7 +717,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'id_condicion_venta', --identificador
 	'ef_combo', --elemento_formulario
 	'id_condicion_venta', --columnas
-	'1', --obligatorio
+	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
 	'9', --orden
 	'Condición Venta', --etiqueta

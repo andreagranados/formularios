@@ -1,6 +1,39 @@
 <?php
 class dt_formulario extends toba_datos_tabla
 {       
+        function puede_enviar($id_form){
+            $sql=" select ".
+                    "case when ingresa_fondo_central then case when tipo_dep=1 then 
+       case when totalm=totali then true else false 
+       end 
+   else case when id_origen_recurso=1 then 
+           case when retencion>0 then case when retencion=totalm then true else false end
+           else case when totalm=totali then true else false end
+           end
+        else case when totalm=totali then true else false end
+        end 
+   end 
+else true 
+end as puede"
+                    ." from 
+                 (select subcon.*,case when id_origen_recurso=1 and tiene_retencion then trunc(totali*porc_retencion/100,2)  else 0 end  as retencion  from
+                 (select distinct t_f.id_form,t_f.nro_expediente,t_f.id_dependencia,t_f.id_origen_recurso,t_f.ingresa_fondo_central,t_d.tipo_dep,t_c.tiene_retencion,t_p.porc_retencion,subm.totalm,subi.totali
+                     from formulario t_f
+                     inner join dependencia t_d on (t_f.id_dependencia=t_d.sigla)
+                     inner join punto_venta t_p on (t_p.id_punto=t_f.id_punto_venta)
+                     inner join item t_i on (t_i.id_form=t_f.id_form)
+                     left outer join categoria t_c on (t_i.id_categ =t_c.id_categoria)
+                     left outer join 
+                     (select id_form,sum(monto)as totalm from modalidad_pago m
+                     group by id_form) subm on (subm.id_form=t_f.id_form)
+                     left outer join 
+                     (select id_form,sum(monto)as totali from item m
+                     group by id_form) subi on (subi.id_form=t_f.id_form)
+                     )subcon where id_form=$id_form
+                 )sub";
+            $resul=toba::db('formularios')->consultar($sql);
+            return $resul[0]['puede'];
+        }
         function anular_recibo($id_form){
             $sql="update recibo set estado='A' where id_recibo in(select id_recibo from formulario where id_form=".
                     $id_form. ")";

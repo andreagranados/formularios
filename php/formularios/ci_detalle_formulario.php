@@ -1,17 +1,23 @@
 <?php
 require_once 'NumeroALetras.php';
+require_once toba::proyecto()->get_path().'/php/datos/dt_dependencia.php';
+
 class ci_detalle_formulario extends toba_ci
 {
     protected $s__mostrar_i;
     protected $datos;
     protected $s__monto;
-   
+    protected $s__mostrar_m;
     
+    function get_condiciones(){//dependiendo si es una secretaria o no trae las condiciones
+        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        return $this->controlador()->dep('datos')->tabla('condicion_venta')->get_condiciones($form['id_form']);
+    }
     function get_categorias(){//si el punto de venta es ficticio entonces solo puede seleccionar categoria otro
        $bandera=true;
        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
        if($form['id_origen_recurso']==1){//si es F12
-           if($form['id_punto_venta']<=0){//punto de venta ficticio
+           if($form['id_punto_venta']<=0 or !$form['ingresa_fondo_central']){//punto de venta ficticio o no ingresan fondos central
                $bandera=false;
            }
         }
@@ -76,10 +82,18 @@ class ci_detalle_formulario extends toba_ci
     {
         if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
            $datos = $this->controlador()->dep('datos')->tabla('formulario')->get();
+           if($datos['ingresa_fondo_central']){
+               $datos['ingresa_fondo']='SI';
+           }else{
+               $datos['ingresa_fondo']='NO';
+              // $this->pantalla()->tab("pant_modalidad")->desactivar();
+           }
+           
            $form->set_datos($datos);
-        }else{
-            $this->pantalla()->tab("pant_detalle")->desactivar();
-        }     
+        }//else{
+          //  $this->pantalla()->tab("pant_detalle")->desactivar();
+          //  $this->pantalla()->tab("pant_modalidad")->desactivar();
+        //}     
         $this->s__mostrar_i=0;
     }
 
@@ -88,6 +102,16 @@ class ci_detalle_formulario extends toba_ci
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
         $datos['pasado_pilaga']=false;
+        $band=dt_dependencia::es_dependencia($datos['id_dependencia']);
+        if($band){//si es dependencia siempre es true
+            $datos['ingresa_fondo_central']=true;
+        }else{
+            if($datos['ingresa_fondo']=='NO'){
+                $datos['ingresa_fondo_central']=false;
+            }else{
+                $datos['ingresa_fondo_central']=true;
+            }
+        }
         
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
@@ -123,6 +147,16 @@ class ci_detalle_formulario extends toba_ci
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         
         if($form['estado']=='I' or $form['estado']=='R'){ //solo si esta en estado I o en estado R
+            $band=dt_dependencia::es_dependencia($datos['id_dependencia']);
+            if($band){//si es dependencia siempre es true
+                $datos['ingresa_fondo_central']=true;
+            }else{
+                 if($datos['ingresa_fondo']=='NO'){
+                        $datos['ingresa_fondo_central']=false;
+                }else{
+                        $datos['ingresa_fondo_central']=true;
+                    }
+            }
             if($form['id_origen_recurso']<>$datos['id_origen_recurso'] or $form['id_punto_venta']<>$datos['id_punto_venta']){
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
                 if(!$bandera){
@@ -131,7 +165,7 @@ class ci_detalle_formulario extends toba_ci
                 }else{
                     toba::notificacion()->agregar('No puede cambiar Origen del Recurso o Punto de Venta porque el formulario tiene items. Borre los items y luego modifique.', 'info');  
                 }
-            }else{
+            }else{               
                 $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                 $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
                 toba::notificacion()->agregar('Los datos se han guardado correctamente', 'info');  
@@ -247,7 +281,6 @@ class ci_detalle_formulario extends toba_ci
 	}
 	function evt__form_detalle__alta($datos)
 	{
-            
             $bandera=true;
             //si es f12 debe controlar que no mezcle categoria con deduccion de las sin deduccion
             $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -277,31 +310,16 @@ class ci_detalle_formulario extends toba_ci
                         }
                     }
                     if($bandera){
-                        if(isset($datos['nro_cheque'])){//cheque
-                            $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_cheque($datos['nro_cheque']);
+                         if(isset($datos['cuil1'])){
+                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                         }
-                        if($bandera){
-                            if(isset($datos['nro_transferencia'])){//nro_transferencia
-                                $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_transferencia($datos['nro_transferencia']);
-                            }
-                            if($bandera){
-                                 if(isset($datos['cuil1'])){
-                                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
-                                }
-                                $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                                $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                                $this->controlador()->dep('datos')->tabla('item')->resetear();
-                                $this->s__mostrar_i=0;
-                            }else{
-                                throw new toba_error('No es posible guarda el item. El numero de transferncia se repite');
-                            }
-                           
-                        }else{
-                            throw new toba_error('No es posible guarda el item. El numero de cheque se repite');
-                        }
-                      
+                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                        $this->controlador()->dep('datos')->tabla('item')->resetear();
+                        $this->s__mostrar_i=0;
+                          
                     }else{
                         throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
                     }
@@ -362,36 +380,17 @@ class ci_detalle_formulario extends toba_ci
                             $bandera=false;
                         }
                     }
-                    if($bandera){
-                        if($item['nro_cheque']<>$datos['nro_cheque']){//modifica nro_cheque
-                             if(isset($datos['nro_cheque'])){//cheque
-                                $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_cheque($datos['nro_cheque']);
-                            }
-                         }
-                         if($bandera){
-                            if($item['nro_transferencia']<>$datos['nro_transferencia']){//modifica nro_transf
-                                 if(isset($datos['nro_transferencia'])){//trans
-                                      $bandera=$this->controlador()->dep('datos')->tabla('item')->no_repite_transferencia($datos['nro_transferencia']);
-                                }
-                            }
-                            if($bandera){
-                                if(isset($datos['cuil1'])){
-                                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
-                                }
-                                $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                                $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                                toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
-                                $this->s__mostrar_i=0;  
-                            }else{
-                                throw new toba_error('No es posible guarda el item. El numero de transferencia se repite'); 
-                            }
-                             
-                         }else{
-                            throw new toba_error('No es posible guarda el item. El numero de cheque'.$datos['nro_cheque'].' se repite'); 
-                         }
-                        
+                    if($bandera){   
+                        if(isset($datos['cuil1'])){
+                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
+                        }
+                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                        toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
+                        $this->s__mostrar_i=0;  
+                           
                     }else{
                         throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
                     }
@@ -522,8 +521,124 @@ class ci_detalle_formulario extends toba_ci
              }
             
 	}
-       
+      //-----------------------------------------------------------------------------------
+	//---- modalidad ---------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
 
+        function conf__form_modalidad(toba_ei_formulario $form)
+	{
+            if($this->s__mostrar_m==1){
+               $this->dep('form_modalidad')->descolapsar();
+               if($this->controlador()->dep('datos')->tabla('modalidad_pago')->esta_cargada()){
+                   $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
+//                   $this->s__monto=$datos['monto'];
+//                
+//                   if(!isset($datos['id_comprobante'])){//sino tiene valor
+//                       $datos['corresponde_factura']='NO';
+//                       //$datos['id_comprobante']=0;   //no corresponde!!
+//                       print_r($this->s__monto);//esto lo coloco para que no se autocomplete el monto en 0 con javascript
+//                   }else{
+//                       $datos['corresponde_factura']='SI';
+//                   }
+//                   $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
+//                   //print_r($datos);
+                   $form->set_datos($datos);
+               }           
+            }else{
+                $this->dep('form_modalidad')->colapsar();
+            }
+	}
+        function evt__form_modalidad__alta($datos)
+	{
+            $bandera=true;
+            $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+            if(isset($datos['nro_cheque'])){//si tiene cheque
+                $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_cheque($datos['nro_cheque']);
+            }
+            if($bandera){
+                if(isset($datos['nro_transferencia'])){
+                    $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
+                }
+                if($bandera){
+                    $datos['id_form']=$form['id_form'];
+                    if(isset($datos['cuil1'])){
+                        $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                        $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                        $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
+                    }
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->set($datos);
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->sincronizar();
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+                    $this->s__mostrar_m=0;
+                }else{
+                    throw new toba_error('El numero de transferencia se repite');
+                }
+            }else{
+                throw new toba_error('El numero de cheque se repite');
+            }
+            
+	}
+        function evt__form_modalidad__baja()
+	{
+            $this->controlador()->dep('datos')->tabla('modalidad_pago')->eliminar_todo();
+            $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+            toba::notificacion()->agregar('Se ha eliminado correctamente', 'info');   
+            $this->s__mostrar_m=0;
+	}
+
+	function evt__form_modalidad__modificacion($datos)
+        {
+            $bandera=true;
+            $modalidad=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
+            if(isset($datos['nro_cheque']) and $modalidad['nro_cheque']<>$datos['nro_cheque']){
+                $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_cheque($datos['nro_cheque']);
+            }
+            if($bandera){
+                if(isset($datos['nro_transferencia']) and $modalidad['nro_transferencia']<>$datos['nro_transferencia']){
+                    $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
+                }
+                if($bandera){
+                    if(isset($datos['cuil1'])){
+                        $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                        $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                        $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
+                    }
+
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->set($datos);
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->sincronizar();
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+                    toba::notificacion()->agregar('Se ha modificado correctamente', 'info');   
+                    $this->s__mostrar_m=0;
+                }else{
+                    throw new toba_error('El numero de transferencia se repite');   
+                }
+                
+            }else{
+              throw new toba_error('El numero de cheque se repite');   
+            }
+            
+        }
+        //-----------------------------------------------------------------------------------
+	//---- cuadro modalidad ----------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
+        function conf__cuadrom(toba_ei_cuadro $cuadro)
+        {
+           $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+           return $this->controlador()->dep('datos')->tabla('modalidad_pago')->get_listado($form['id_form']);
+        }
+        function evt__cuadrom__seleccion($datos)
+	{
+            if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
+               $form = $this->controlador()->dep('datos')->tabla('formulario')->get();
+               if($form['estado']=='I' or $form['estado']=='R'){
+                    $this->controlador()->dep('datos')->tabla('modalidad_pago')->cargar($datos);
+                    $this->s__mostrar_m=1;  
+               }else{
+                    toba::notificacion()->agregar('Los datos no pueden ser modificados porque el formulario no esta en estado Inicial(I) o Rechazado(R)', 'info');   
+               }
+             }
+            
+	}
 	//-----------------------------------------------------------------------------------
 	//---- Eventos ----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
@@ -538,6 +653,17 @@ class ci_detalle_formulario extends toba_ci
                 toba::notificacion()->agregar('Ya no puede agregar items al formulario. Verifique el estado del formulario', 'info'); 
             }
 	}
+        //alta de un nueva modalidad
+	function evt__altam()
+	{
+            $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+            if($form['estado']=='I' or $form['estado']=='R'){
+                $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+                $this->s__mostrar_m=1;
+            }else{
+                toba::notificacion()->agregar('Ya no puede agregar al formulario. Verifique el estado del formulario', 'info'); 
+            }
+	}
         function evt__enviar()
 	{
 //            $x=13550.40;
@@ -548,13 +674,18 @@ class ci_detalle_formulario extends toba_ci
             if($form['estado']=='I' or $form['estado']=='R' ){
                 $band=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
                 if($band){
-                    $datos['estado']='E';
-                    $datos['fecha_envio']=date('d/m/Y');
-                    $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
-                    $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
-                    $this->controlador()->dep('datos')->tabla('formulario')->resetear();
-                    $this->controlador()->set_pantalla('pant_seleccion');
-                    toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
+                    $band=$this->controlador()->dep('datos')->tabla('formulario')->puede_enviar($form['id_form']);
+                    if($band){
+                        $datos['estado']='E';
+                        $datos['fecha_envio']=date('d/m/Y');
+                        $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
+                        $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+                        $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+                        $this->controlador()->set_pantalla('pant_seleccion');
+                        toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
+                    }else{
+                        toba::notificacion()->agregar('No es posible enviar', 'info');   
+                    }
                 }else{
                     toba::notificacion()->agregar('El formulario no tiene items cargados', 'info'); 
                 }
@@ -683,5 +814,21 @@ class ci_detalle_formulario extends toba_ci
         }
         }
             
+	function conf()
+	{
+            
+             if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
+               $datos = $this->controlador()->dep('datos')->tabla('formulario')->get();
+               if(!$datos['ingresa_fondo_central']){
+                   
+                   $this->pantalla()->tab("pant_modalidad")->desactivar();
+               }
+               
+            }else{
+                $this->pantalla()->tab("pant_detalle")->desactivar();
+                $this->pantalla()->tab("pant_modalidad")->desactivar();
+            }     
+	}
+
 }
 ?>

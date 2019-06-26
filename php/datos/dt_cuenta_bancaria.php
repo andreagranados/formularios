@@ -6,7 +6,15 @@ class dt_cuenta_bancaria extends toba_datos_tabla
 		$sql = "SELECT id_cuenta, descripcion FROM cuenta_bancaria ORDER BY descripcion";
 		return toba::db('formularios')->consultar($sql);
 	}
-        function get_cuentas()
+        function get_cuentas_central(){
+        
+                $sql=" SELECT id_cuenta, 'CBU: '||t_cc.cbu||'('||t_cc.descripcion||')' as descripcion "
+                        . " FROM cuenta_bancaria t_cc"
+                        . " WHERE t_cc.id_dependencia='RECT'";
+                
+		return toba::db('formularios')->consultar($sql);
+        }
+        function get_cuentas()//todas las cuentas de la UA y las de central
 	{
 		$sql = "SELECT id_cuenta, t_c.nro_cuenta||'('||t_c.descripcion||')' as descripcion FROM cuenta_bancaria t_c"
                         . " INNER JOIN dependencia t_d ON t_d.sigla=t_c.id_dependencia "

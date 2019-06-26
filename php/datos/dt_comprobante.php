@@ -18,6 +18,7 @@ class dt_comprobante extends toba_datos_tabla
             //toma el año de la fecha de creacion del formulario
             $d=strtotime($fecha_creac);
             $a=date("Y", $d);
+            $b=$a-1;
             $fec=date("d/m/Y",strtotime($fecha_creac));
             if($id_comprob<>0){
                 $concatenar=' UNION select id_comprob, nro_comprobante from comprobante where id_comprob='.$id_comprob;
@@ -28,7 +29,7 @@ class dt_comprobante extends toba_datos_tabla
             $sql = "SELECT id_comprob, nro_comprobante "
                     . " FROM comprobante c"
                     . " WHERE c.id_punto_venta=$id_punto
-                     and extract(year from c.fecha_emision)=$a"
+                     and (extract(year from c.fecha_emision)=$a or extract(year from c.fecha_emision)=$b)"
                     . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos) de formularios no anulados
                     . "                  inner join item t_i on (t_c.id_comprob=t_i.id_comprobante)"
                     . "                  inner join formulario t_f on (t_f.id_form =t_i.id_form)"
