@@ -315,7 +315,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'4341', --objeto_ei_formulario
 	'formularios', --objeto_ei_formulario_proyecto
 	'nro_cheque', --identificador
-	'ef_editable_numero', --elemento_formulario
+	'ef_editable', --elemento_formulario
 	'nro_cheque', --columnas
 	'1', --obligatorio
 	'1', --oculto_relaja_obligatorio
@@ -635,7 +635,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'4341', --objeto_ei_formulario
 	'formularios', --objeto_ei_formulario_proyecto
 	'nro_transferencia', --identificador
-	'ef_editable_numero', --elemento_formulario
+	'ef_editable', --elemento_formulario
 	'nro_transferencia', --columnas
 	'1', --obligatorio
 	'1', --oculto_relaja_obligatorio
