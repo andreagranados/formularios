@@ -17,7 +17,7 @@ class ci_detalle_formulario extends toba_ci
        $bandera=true;
        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
        if($form['id_origen_recurso']==1){//si es F12
-           if($form['id_punto_venta']<=0 or !$form['ingresa_fondo_central']){//punto de venta ficticio o no ingresan fondos central
+           if($form['id_punto_venta']<=0 ){//punto de venta ficticio 
                $bandera=false;
            }
         }
