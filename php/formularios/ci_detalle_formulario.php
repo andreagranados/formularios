@@ -13,19 +13,23 @@ class ci_detalle_formulario extends toba_ci
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('condicion_venta')->get_condiciones($form['id_form']);
     }
-    function get_categorias(){//si el punto de venta es ficticio entonces solo puede seleccionar categoria otro
-       $bandera=true;
-       $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-       if($form['id_origen_recurso']==1){//si es F12
-           if($form['id_punto_venta']<=0 ){//punto de venta ficticio 
-               $bandera=false;
-           }
-        }
-        if($bandera){
-            return $this->controlador()->dep('datos')->tabla('categoria')->get_descripciones();
-        }else{
-            return $this->controlador()->dep('datos')->tabla('categoria')->get_categoria_otra();
-        }
+//    function get_categorias(){//si el punto de venta es ficticio entonces solo puede seleccionar categoria otro
+//       $bandera=true;
+//       $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+//       if($form['id_origen_recurso']==1){//si es F12
+//           if($form['id_punto_venta']<=0 ){//punto de venta ficticio 
+//               $bandera=false;
+//           }
+//        }
+//        if($bandera){
+//            return $this->controlador()->dep('datos')->tabla('categoria')->get_descripciones();
+//        }else{
+//            return $this->controlador()->dep('datos')->tabla('categoria')->get_categoria_otra();
+//        }
+//    }
+    function get_categorias(){
+        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        return $this->controlador()->dep('datos')->tabla('macheo_categ_programa')->get_categorias($form['id_programa']);
     }
     function get_opciones(){//si el punto de venta es ficticio entonces la unica opcion es no facturar
        $bandera=true;
@@ -47,7 +51,8 @@ class ci_detalle_formulario extends toba_ci
     function get_monto($id_comprobante){
         return $this->controlador()->dep('datos')->tabla('comprobante')->get_monto($id_comprobante);
     }
-    
+    //trae el listado de comprobantes en funcion al punto de venta y al mes y año de cobro
+    //si lo cobro en 2019 es porque lo facturo en 2019 o en 2018
     function get_comprobantes($corresponde){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         if ($this->controlador()->dep('datos')->tabla('item')->esta_cargada()) {//si el item esta cargado y tiene comprobante entonces lo agrego al desplegable
@@ -59,7 +64,7 @@ class ci_detalle_formulario extends toba_ci
             }
             
         }else{$id_comprob=0;}
-        return $this->controlador()->dep('datos')->tabla('comprobante')->get_comprobantes($form['id_punto_venta'],$form['fecha_creacion'],$id_comprob);
+        return $this->controlador()->dep('datos')->tabla('comprobante')->get_comprobantes($form['id_punto_venta'],$form['mes_cobro'],$form['ano_cobro'],$id_comprob);
     }
     
     function transforma($iNumero){
@@ -82,6 +87,7 @@ class ci_detalle_formulario extends toba_ci
     {
         if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
            $datos = $this->controlador()->dep('datos')->tabla('formulario')->get();
+           $datos['anio']=substr($datos['nro_expediente'],9,4);
            if($datos['ingresa_fondo_central']){
                $datos['ingresa_fondo']='SI';
            }else{
@@ -112,7 +118,6 @@ class ci_detalle_formulario extends toba_ci
                 $datos['ingresa_fondo_central']=true;
             }
         }
-        
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -157,13 +162,13 @@ class ci_detalle_formulario extends toba_ci
                         $datos['ingresa_fondo_central']=true;
                     }
             }
-            if($form['id_origen_recurso']<>$datos['id_origen_recurso'] or $form['id_punto_venta']<>$datos['id_punto_venta']){
+            if($form['id_origen_recurso']<>$datos['id_origen_recurso'] or $form['id_punto_venta']<>$datos['id_punto_venta'] or $form['id_programa']<>$datos['id_programa'] or $form['mes_cobro']<>$datos['mes_cobro'] or $form['ano_cobro']<>$datos['ano_cobro']){
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
                 if(!$bandera){
                     $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                     $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
                 }else{
-                    toba::notificacion()->agregar('No puede cambiar Origen del Recurso o Punto de Venta porque el formulario tiene items. Borre los items y luego modifique.', 'info');  
+                    toba::notificacion()->agregar('No puede cambiar Origen del Recurso, Punto de Venta, Programa o mes/año de cobro porque el formulario tiene items. Elimine los items y luego modifique.', 'info');  
                 }
             }else{               
                 $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
@@ -289,44 +294,15 @@ class ci_detalle_formulario extends toba_ci
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->puede_agregar($form['id_form'],$datos['id_categ']);
             }
             if($bandera){
-                //debe controlar que el numero de comprobante no este en otro formulario
-                //$datos['id_comprobate'] solo tiene valor si eleigio que corresponde factura
-                if(isset($datos['id_comprobante'])){//si datos['id_comprobante'] tiene valor entonces 
-                    $repetido=$this->controlador()->dep('datos')->tabla('comprobante')->esta_repetido($datos['id_comprobante']);
-                }else{//no hay id comprobante por tanto corresponde factura=no entonces no esta repetido
-                    $repetido=false;
+                 if(isset($datos['cuil1'])){
+                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                 }
-                
-                if(!$repetido){
-                   
-                    if(isset($datos['fecha_emision_cheque'])){//si tiene valor
-                        $fecha_actual=date('Y-m-j');
-                        $fec=$datos['fecha_emision_cheque'];
-                        $nuevafec=strtotime ( '+30 day' , strtotime ( $fec ) );
-                        $nuevafec = date ( 'Y-m-j' , $nuevafec );
-                       
-                        if($nuevafec<$fecha_actual){
-                            $bandera=false;
-                        }
-                    }
-                    if($bandera){
-                         if(isset($datos['cuil1'])){
-                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
-                        }
-                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                        $this->controlador()->dep('datos')->tabla('item')->resetear();
-                        $this->s__mostrar_i=0;
-                          
-                    }else{
-                        throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
-                    }
-                }else{
-                    throw new toba_error('El numero de comprobante se encuentra en otro formulario');
-                    //toba::notificacion()->agregar('El numero de comprobante se encuentra en otro formulario', 'error');   
-                } 
+                $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                $this->controlador()->dep('datos')->tabla('item')->resetear();
+                $this->s__mostrar_i=0;
             }else{
                 throw new toba_error('No puede mezclar categorias');
                 //toba::notificacion()->agregar('No puede mezclar categorias', 'error');   
@@ -353,7 +329,6 @@ class ci_detalle_formulario extends toba_ci
 	function evt__form_detalle__modificacion($datos)
 	{ 
             $bandera=true;
-            
              //si es f12 debe controlar que no mezcle categoria con deduccion de las sin deduccion
             $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
             $datos['id_form']=$form['id_form'];
@@ -361,45 +336,17 @@ class ci_detalle_formulario extends toba_ci
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->puede_agregar($form['id_form'],$datos['id_categ']);
             }
             if($bandera){
-              //que no se repita el numero de comprobante
-               // print_r($item);
-                $item=$this->controlador()->dep('datos')->tabla('item')->get();
-                if($item['id_comprobante']<>$datos['id_comprobante']){//modifica el comprobante
-                   $repetido=$this->controlador()->dep('datos')->tabla('comprobante')->esta_repetido($datos['id_comprobante']);
-                }else{
-                   $repetido=false; 
+                if(isset($datos['cuil1'])){
+                    $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
+                    $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
+                    $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
                 }
-                if(!$repetido){
-                    if(isset($datos['fecha_emision_cheque'])){//si tiene valor
-                        $fecha_actual=date('Y-m-j');
-                        $fec=$datos['fecha_emision_cheque'];
-                        $nuevafec=strtotime ( '+30 day' , strtotime ( $fec ) );
-                        $nuevafec = date ( 'Y-m-j' , $nuevafec );
-                       
-                        if($nuevafec<$fecha_actual){
-                            $bandera=false;
-                        }
-                    }
-                    if($bandera){   
-                        if(isset($datos['cuil1'])){
-                            $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
-                            $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
-                            $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
-                        }
-                        $this->controlador()->dep('datos')->tabla('item')->set($datos);
-                        $this->controlador()->dep('datos')->tabla('item')->sincronizar();
-                        toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
-                        $this->s__mostrar_i=0;  
-                           
-                    }else{
-                        throw new toba_error('Revise la fecha del cheque. La fecha de vencimiento debe ser menor a la fecha actual');
-                    }
-                   
-                }else{
-                    throw new toba_error('No es posible modificar porque el comprobante esta en otro formulario');
-                    //toba::notificacion()->agregar('No es posible modificar porque el comprobante esta en otro formulario', 'error');   
-                }
-                
+                $this->controlador()->dep('datos')->tabla('item')->set($datos);
+                $this->controlador()->dep('datos')->tabla('item')->sincronizar();
+                toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 
+                $this->s__mostrar_i=0;  
+            }else{
+                 throw new toba_error('No puede mezclar categorias');
             }
             
 	}
@@ -455,34 +402,38 @@ class ci_detalle_formulario extends toba_ci
                       
                        break;
                    case 2://si es F13
-                       $columnas=array('categ','vinc','proviene_descrip');
+                       //$columnas=array('categ','vinc','proviene_descrip');
+                       $columnas=array('proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['nro_resol']="<b>TOTAL:</b>";
+                       $elem['categ']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);
                        break;
                     case 3://si es F14
-                       $columnas=array('categ','vinc','nro_resol','organismo');
+                       //$columnas=array('categ','vinc','nro_resol','organismo');
+                        $columnas=array('nro_resol','organismo');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['proviene_descrip']="<b>TOTAL:</b>";
+                       $elem['categ']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);
                        break;
                    case 4://f21
-                       $columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
+                       //$columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
+                       $columnas=array('nro_resol','organismo','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['nro_factura']="<b>TOTAL:</b>";
+                       $elem['categ']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);
                        break;
                    
                    case 5: //f22
-                       $columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
+                       //$columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
+                       $columnas=array('nro_resol','organismo','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['nro_factura']="<b>TOTAL:</b>";
+                       $elem['categ']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);break;
@@ -684,7 +635,7 @@ class ci_detalle_formulario extends toba_ci
                         $this->controlador()->set_pantalla('pant_seleccion');
                         toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
                     }else{
-                        toba::notificacion()->agregar('No es posible enviar', 'info');   
+                        toba::notificacion()->agregar('No es posible enviar, verifique la Modalidad de Ingreso', 'info');   
                     }
                 }else{
                     toba::notificacion()->agregar('El formulario no tiene items cargados', 'info'); 

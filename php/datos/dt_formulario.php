@@ -112,11 +112,11 @@ end as puede"
                 }//sino es usuario de la central no filtro a menos que haya elegido
           
             $sql="select * from 
-                (select t_f.id_form,t_f.fecha_envio,t_f.id_origen_recurso,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,pasado_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as id_punto_venta,t_f.estado,t_c.titulo as origen ,sum(t_i.monto) as monto
+                (select t_f.id_form,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.mes_cobro||'/'||t_f.ano_cobro as cobrado,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,observacionfinanzas,pasado_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as id_punto_venta,t_f.estado,t_c.titulo as origen ,sum(t_i.monto) as monto
                          from formulario t_f 
                          INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
                          LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) 
-                         GROUP BY t_f.id_form,fecha_envio,t_f.id_origen_recurso,anio_ingreso,nro_ingreso,nro_expediente,fecha_creacion, id_dependencia,id_recibo,observacionfinanzas,pasado_pilaga,id_punto_venta,estado,titulo
+                         GROUP BY t_f.id_form,fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.mes_cobro,t_f.ano_cobro,anio_ingreso,nro_ingreso,nro_expediente,fecha_creacion, id_dependencia,id_recibo,observacionfinanzas,pasado_pilaga,id_punto_venta,estado,titulo
                          )sub $condicion";
            
            // $sql = toba::perfil_de_datos()->filtrar($sql);

@@ -65,26 +65,26 @@ class form_campos_solicitados extends toba_ei_formulario
                                             
 						break;
                                         case '2': 
-                                           /* this.ef('id_categ').ocultar();
-                                            this.ef('id_vinc').ocultar();*/
+                                            this.ef('id_categ').ocultar();
+                                            this.ef('id_vinc').ocultar();
                                             this.ef('proviene_de').ocultar();/*solo para f14*/
                                                 break;
                                         case '3': /*f14*/
-                                             /* this.ef('id_categ').ocultar();
-                                            this.ef('id_vinc').ocultar(); */
+                                            this.ef('id_categ').ocultar();
+                                            this.ef('id_vinc').ocultar();
                                             this.ef('organismo').ocultar();
                                             this.ef('nro_resol').ocultar();
                                             break;
                                         case '4': /*f21*/
-                                                 /*this.ef('id_categ').ocultar();
+                                            this.ef('id_categ').ocultar();
                                             this.ef('id_vinc').ocultar();
-                                           this.ef('organismo').ocultar();*/
+                                           /* this.ef('organismo').ocultar();*/
                                             this.ef('nro_resol').ocultar();
                                             this.ef('proviene_de').ocultar();
                                             break;
                                         case '5': /*f22*/
-                                                /* this.ef('id_categ').ocultar();
-                                            this.ef('id_vinc').ocultar();*/
+                                            this.ef('id_categ').ocultar();
+                                            this.ef('id_vinc').ocultar();
                                             this.ef('organismo').ocultar();
                                             this.ef('nro_resol').ocultar();
                                             this.ef('proviene_de').ocultar();
