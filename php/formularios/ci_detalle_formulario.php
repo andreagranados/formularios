@@ -108,16 +108,29 @@ class ci_detalle_formulario extends toba_ci
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
         $datos['pasado_pilaga']=false;
-        $band=dt_dependencia::es_dependencia($datos['id_dependencia']);
-        if($band){//si es dependencia siempre es true
+        $band=dt_dependencia::es_secretaria($datos['id_dependencia']);
+        if($band){//si es secretaria siempre es true
             $datos['ingresa_fondo_central']=true;
         }else{
-            if($datos['ingresa_fondo']=='NO'){
+            if($datos['id_origen_recurso']==1 and $datos['id_programa']==40 ){//f12 y programa 40
                 $datos['ingresa_fondo_central']=false;
-            }else{
-                $datos['ingresa_fondo_central']=true;
+            }else{//f12 y programa de grado
+                if($datos['id_origen_recurso']==1 and (($datos['id_programa']=16 or $datos['id_programa']=17 or $datos['id_programa']=18 or $datos['id_programa']=19 or $datos['id_programa']=20 or $datos['id_programa']=21 or $datos['id_programa']=22 or $datos['id_programa']=23 or $datos['id_programa']=24 or $datos['id_programa']=25 or $datos['id_programa']=26 or $datos['id_programa']=27 or $datos['id_programa']=28 or $datos['id_programa']=33 or $datos['id_programa']=34 or $datos['id_programa']=39)) ){//f12
+                    $datos['ingresa_fondo_central']=false;
+                  }else{//f12
+                      if($datos['id_origen_recurso']==1 and $datos['id_programa']=35){
+                          $datos['ingresa_fondo_central']=true;
+                      }else{
+                         if($datos['ingresa_fondo']=='NO'){
+                            $datos['ingresa_fondo_central']=false;
+                         }else{
+                            $datos['ingresa_fondo_central']=true;
+                          } 
+                      }
+                  }   
             }
         }
+        
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -135,7 +148,6 @@ class ci_detalle_formulario extends toba_ci
             $mensaje='No puede eliminar este formulario';
             $bandera=true;
         }
-        
         if(!$bandera){
             $this->controlador()->dep('datos')->tabla('formulario')->eliminar_todo();
             $this->controlador()->dep('datos')->tabla('formulario')->resetear();
@@ -150,17 +162,28 @@ class ci_detalle_formulario extends toba_ci
     {
        //si modifica el origen del recurso si ya tiene items. Porque los items son distintos dependiendo del tipo de recurso
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-        
         if($form['estado']=='I' or $form['estado']=='R'){ //solo si esta en estado I o en estado R
-            $band=dt_dependencia::es_dependencia($datos['id_dependencia']);
+            $band=dt_dependencia::es_secretaria($datos['id_dependencia']);
             if($band){//si es dependencia siempre es true
                 $datos['ingresa_fondo_central']=true;
             }else{
-                 if($datos['ingresa_fondo']=='NO'){
+              if($datos['id_origen_recurso']==1 and $datos['id_programa']==40 ){//f12 y programa 40
+                    $datos['ingresa_fondo_central']=false;
+                }else{//f12 y programa de grado
+                    if($datos['id_origen_recurso']==1 and (($datos['id_programa']==16 or $datos['id_programa']==17 or $datos['id_programa']==18 or $datos['id_programa']==19 or $datos['id_programa']==20 or $datos['id_programa']==21 or $datos['id_programa']==22 or $datos['id_programa']==23 or $datos['id_programa']==24 or $datos['id_programa']==25 or $datos['id_programa']==26 or $datos['id_programa']==27 or $datos['id_programa']==28 or $datos['id_programa']==33 or $datos['id_programa']==34 or $datos['id_programa']==39)) ){//f12
                         $datos['ingresa_fondo_central']=false;
-                }else{
-                        $datos['ingresa_fondo_central']=true;
-                    }
+                      }else{//f12
+                          if($datos['id_origen_recurso']==1 and $datos['id_programa']=35){
+                              $datos['ingresa_fondo_central']=true;
+                          }else{
+                             if($datos['ingresa_fondo']=='NO'){
+                                $datos['ingresa_fondo_central']=false;
+                             }else{
+                                $datos['ingresa_fondo_central']=true;
+                              } 
+                          }
+                      }   
+                }
             }
             if($form['id_origen_recurso']<>$datos['id_origen_recurso'] or $form['id_punto_venta']<>$datos['id_punto_venta'] or $form['id_programa']<>$datos['id_programa'] or $form['mes_cobro']<>$datos['mes_cobro'] or $form['ano_cobro']<>$datos['ano_cobro']){
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
@@ -170,7 +193,7 @@ class ci_detalle_formulario extends toba_ci
                 }else{
                     toba::notificacion()->agregar('No puede cambiar Origen del Recurso, Punto de Venta, Programa o mes/año de cobro porque el formulario tiene items. Elimine los items y luego modifique.', 'info');  
                 }
-            }else{               
+            }else{          
                 $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                 $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
                 toba::notificacion()->agregar('Los datos se han guardado correctamente', 'info');  
@@ -178,7 +201,6 @@ class ci_detalle_formulario extends toba_ci
         }else{
           toba::notificacion()->agregar('El formulario no puede ser modificado', 'info');   
         }
-        
     }
     function evt__form_inicial__modif($datos)//boton para finanzas
     {

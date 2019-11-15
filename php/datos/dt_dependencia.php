@@ -12,7 +12,7 @@ class dt_dependencia extends toba_datos_tabla
             $sql = toba::perfil_de_datos()->filtrar($sql);
             return toba::db('formularios')->consultar($sql);
 	}
-        function es_dependencia($id){
+        function es_secretaria($id){
             $sql="select case when tipo_dep=1 then true else false end as depen "
                     . " from dependencia where sigla='".$id."'";
             $resul = toba::db('formularios')->consultar($sql);
