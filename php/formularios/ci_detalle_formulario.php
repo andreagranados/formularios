@@ -94,7 +94,6 @@ class ci_detalle_formulario extends toba_ci
                $datos['ingresa_fondo']='NO';
               // $this->pantalla()->tab("pant_modalidad")->desactivar();
            }
-           
            $form->set_datos($datos);
         }//else{
           //  $this->pantalla()->tab("pant_detalle")->desactivar();
@@ -115,10 +114,10 @@ class ci_detalle_formulario extends toba_ci
             if($datos['id_origen_recurso']==1 and $datos['id_programa']==40 ){//f12 y programa 40
                 $datos['ingresa_fondo_central']=false;
             }else{//f12 y programa de grado
-                if($datos['id_origen_recurso']==1 and (($datos['id_programa']=16 or $datos['id_programa']=17 or $datos['id_programa']=18 or $datos['id_programa']=19 or $datos['id_programa']=20 or $datos['id_programa']=21 or $datos['id_programa']=22 or $datos['id_programa']=23 or $datos['id_programa']=24 or $datos['id_programa']=25 or $datos['id_programa']=26 or $datos['id_programa']=27 or $datos['id_programa']=28 or $datos['id_programa']=33 or $datos['id_programa']=34 or $datos['id_programa']=39)) ){//f12
+                if($datos['id_origen_recurso']==1 and (($datos['id_programa']==16 or $datos['id_programa']==17 or $datos['id_programa']==18 or $datos['id_programa']==19 or $datos['id_programa']==20 or $datos['id_programa']==21 or $datos['id_programa']==22 or $datos['id_programa']==23 or $datos['id_programa']==24 or $datos['id_programa']==25 or $datos['id_programa']==26 or $datos['id_programa']==27 or $datos['id_programa']==28 or $datos['id_programa']==33 or $datos['id_programa']==34 or $datos['id_programa']==39)) ){//f12
                     $datos['ingresa_fondo_central']=false;
                   }else{//f12
-                      if($datos['id_origen_recurso']==1 and $datos['id_programa']=35){
+                      if($datos['id_origen_recurso']==1 and $datos['id_programa']==35){
                           $datos['ingresa_fondo_central']=true;
                       }else{
                          if($datos['ingresa_fondo']=='NO'){
@@ -130,7 +129,6 @@ class ci_detalle_formulario extends toba_ci
                   }   
             }
         }
-        
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -173,7 +171,7 @@ class ci_detalle_formulario extends toba_ci
                     if($datos['id_origen_recurso']==1 and (($datos['id_programa']==16 or $datos['id_programa']==17 or $datos['id_programa']==18 or $datos['id_programa']==19 or $datos['id_programa']==20 or $datos['id_programa']==21 or $datos['id_programa']==22 or $datos['id_programa']==23 or $datos['id_programa']==24 or $datos['id_programa']==25 or $datos['id_programa']==26 or $datos['id_programa']==27 or $datos['id_programa']==28 or $datos['id_programa']==33 or $datos['id_programa']==34 or $datos['id_programa']==39)) ){//f12
                         $datos['ingresa_fondo_central']=false;
                       }else{//f12
-                          if($datos['id_origen_recurso']==1 and $datos['id_programa']=35){
+                          if($datos['id_origen_recurso']==1 and $datos['id_programa']==35){
                               $datos['ingresa_fondo_central']=true;
                           }else{
                              if($datos['ingresa_fondo']=='NO'){
