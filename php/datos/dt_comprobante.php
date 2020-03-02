@@ -4,8 +4,8 @@ class dt_comprobante extends toba_datos_tabla
     
         function importar($datos=array()){
             foreach ($datos as $key => $value) {
-                $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado)".
-                     "values(".$value['id_punto_venta'].",".$value['nro_comprobante'].",'".$value['fecha_emision']."',".$value['total'].",1,'I'".")"; 
+                $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado,tipo)".
+                     "values(".$value['id_punto_venta'].",".$value['nro_comprobante'].",'".$value['fecha_emision']."',".$value['total'].",1,'I',".$value['tipo'].")"; 
                 toba::db('formularios')->consultar($sql);
             }
         }
@@ -28,7 +28,8 @@ class dt_comprobante extends toba_datos_tabla
                 $concatenar='';
             }
         
-            $sql = "SELECT id_comprob, nro_comprobante||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante"
+            $sql = "SELECT * from "
+                    . " (SELECT id_comprob, lpad(cast(nro_comprobante as text),8,'0')||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante"
                     . " FROM comprobante c"
                     . " WHERE c.id_punto_venta=$id_punto
                      and ( (extract(year from c.fecha_emision)<$ano) or (extract(year from c.fecha_emision)=$ano and extract(month from c.fecha_emision)<=$mes))"
@@ -41,6 +42,7 @@ class dt_comprobante extends toba_datos_tabla
                                            and t_f.estado<>'N'
                                            )"
                     .$concatenar
+                    .") sub"
                     . " order by nro_comprobante";
             
             return toba::db('formularios')->consultar($sql);

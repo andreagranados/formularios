@@ -204,25 +204,58 @@ class ci_detalle_formulario extends toba_ci
     {
         $datos2=array();
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-        if($form['estado']<>$datos['estado']){//si modifica estado
-            if($datos['estado']=='A' or $datos['estado']=='N' or $datos['estado']=='R'){
-                $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
-                $datos2['estado']=$datos['estado'];
-                if($datos['estado']=='N'){//si anula tambien anula el recibo si lo tuviese
-                    $this->controlador()->dep('datos')->tabla('formulario')->anular_recibo($form['id_form']);
+        if($form['estado']=='E' or $form['estado']=='A' or $form['estado']=='R' or $form['estado']=='N') {//puede cambiar el estado y la observacion
+            if($datos['estado']<>$form['estado']){//si cambia el estado
+               
+                if($datos['estado']=='A' or $datos['estado']=='R' or $datos['estado']=='N'){
+                    if($datos['estado']=='A'){//si lo aprueba
+                        if($form['check_presupuesto']==1){
+                            $datos2['estado']=$datos['estado'];
+                            $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
+                            $mensaje=' Datos guardados correctamente';
+                        }else{
+                            $mensaje=' Debe tener el check de presupuesto para aprobar';
+                        }
+                    }else{//para estados R o N no hace falta chequear el check presupuesto
+                        $datos2['estado']=$datos['estado'];
+                        $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
+                        $mensaje=' Datos guardados correctamente';
+                    }
+                    
+                    if($datos['estado']=='N'){//si anula tambien anula el recibo si lo tuviese
+                        $this->controlador()->dep('datos')->tabla('formulario')->anular_recibo($form['id_form']);
+                    }
+                   
+                }else{
+                    $mensaje=' No es posible cambiar el estado.';
                 }
-                $mensaje='Recuerde que solo puede modificar el nro de expediente. Datos guardados correctamente';
-            }else{
-                $mensaje=' No es posible modificar el estado';
             }
+            //$mensaje='Recuerde que solo puede modificar el nro de expediente. Datos guardados correctamente';
+        }else{
+            $mensaje=' Recuerde que solo puede modificar estado y observacion si el formulario se encuentra en estado E';
         }
+        //print_r($datos2);
         $datos2['nro_expediente']=$datos['nro_expediente'];//que el expediente lo pueda cambiar siempre
         $this->controlador()->dep('datos')->tabla('formulario')->set($datos2);
         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
         toba::notificacion()->agregar($mensaje, 'info');  
         
     }
-
+    
+    function evt__form_inicial__modifp($datos)//boton para presupuesto
+    {
+        $datos2=array();
+        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        if($form['estado']=='E'){//si esta en E
+            $datos2['check_presupuesto']=$datos['check_presupuesto'];     
+        }
+        //la observacion la puede cambiar en cualquier momento
+        $datos2['observacionpresupuesto']=$datos['observacionpresupuesto'];
+        $this->controlador()->dep('datos')->tabla('formulario')->set($datos2);
+        $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+        toba::notificacion()->agregar('Guardado correctamente. Recuerde que solo en estado E puede tocar el check', 'info');  
+    }
+    
     function evt__form_inicial__cancelar($datos)
     {
         $this->controlador()->set_pantalla('pant_seleccion');

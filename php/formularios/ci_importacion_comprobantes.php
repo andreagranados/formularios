@@ -24,18 +24,19 @@ class ci_importacion_comprobantes extends toba_ci
 		move_uploaded_file($datos['archivo']['tmp_name'], $img['path']);
             }
             $sql=" CREATE LOCAL TEMP TABLE auxi(
-                    fila            integer,
-                    id_punto_venta    integer,
-                    nro_comprobante    integer,
-                    fecha_emision   date,
-                    total   numeric
+                    fila                integer,
+                    id_punto_venta      integer,
+                    nro_comprobante     integer,
+                    fecha_emision       date,
+                    total               numeric,
+                    tipo                integer
                     );";
             toba::db('formularios')->consultar($sql);
             $fp = fopen ( $path['path'] , "r" ); 
             $f=1;
             //Similar a fgets() excepto que fgetcsv() analiza la línea que lee para buscar campos en formato CSV, devolviendo un array que contiene los campos leídos
             while (($data = fgetcsv($fp, 2048, ";")) !== FALSE) {//mientras hay lineas que leer
-         //print_r($data);exit;
+        // print_r($data);exit;
                 $i = 0; 
 //                foreach($data as $row) {
 //                    echo "Campo $i: $row<br>\n"; // Muestra todos los campos de la fila actual 
@@ -43,9 +44,17 @@ class ci_importacion_comprobantes extends toba_ci
 //                    
 //                 }
 //                 echo "<br /><br />\n\n";
+                $pos = strpos($data[1], '-');
+                $tip= intval(substr($data[1],0,$pos-1)) ;
+                if($tip==13 or $tip==213){
+                    $monto=$data[15]*(-1);  
+                }else{
+                    $monto=$data[15];
+                }
+                //print_r($tip);exit;
                 $numero = count($data);
-                $sql="insert into auxi(fila,id_punto_venta,nro_comprobante,fecha_emision,total)values("
-                        .$f.",".$data[2].",".$data[3].",'".$data[0]."',".$data[15]. ")";
+                $sql="insert into auxi(fila,id_punto_venta,nro_comprobante,fecha_emision,total,tipo)values("
+                        .$f.",".$data[2].",".$data[3].",'".$data[0]."',".$monto. ",".$tip.")";
                 toba::db('formularios')->consultar($sql);
                 $f++;
                
@@ -63,7 +72,8 @@ class ci_importacion_comprobantes extends toba_ci
                 //verifico que no haya comprobantes que ya estan en la base de datos
                 $sql="select * from auxi a where exists (select * from comprobante c"
                         . "                              where a.id_punto_venta=c.id_punto_venta"
-                        . "                                 and a.nro_comprobante=c.nro_comprobante )";
+                        . "                                 and a.nro_comprobante=c.nro_comprobante "
+                        . "                                 and a.tipo=c.tipo )";
                 $resul=toba::db('formularios')->consultar($sql);  
               // print_r($resul);
                
@@ -92,7 +102,7 @@ class ci_importacion_comprobantes extends toba_ci
 	function conf__cuadro(formularios_ei_cuadro $cuadro)
 	{
             if(isset($this->s__datos)){
-                 //print_r($this->s__datos);
+               //  print_r($this->s__datos);exit;
                 return $this->s__datos;
             }
 	}
@@ -104,6 +114,7 @@ class ci_importacion_comprobantes extends toba_ci
 	function evt__importar()
 	{//encierro la linea de codigo que puede producir un error en el try
             try{
+                //print_r($this->s__datos);exit;
                 $this->dep('datos')->tabla('comprobante')->importar($this->s__datos);
                 toba::notificacion()->agregar(utf8_decode('Importación exitosa!'), 'info');
                 unset($this->s__datos);

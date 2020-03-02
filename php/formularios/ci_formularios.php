@@ -220,8 +220,8 @@ class ci_formularios extends toba_ci
 
                    }
                    $pdf->ezText("\n\n", 10);
-                   $pdf->addText(500,80,8,'------------------------------------------------------------------------'); 
-                   $pdf->addText(500,70,8,'            Firma del Responsable Administrativo '); 
+                   $pdf->addText(500,80,8,'--------------------------------------------------------------------------------'); 
+                   $pdf->addText(500,70,8,'Firma, sello y aclaracion del Responsable Administrativo '); 
                    $pdf->addText(500,60,8,utf8_decode('     El presente tiene carácter de Declaración Jurada ')); 
 
                    //Recorremos cada una de las hojas del documento para agregar el encabezado

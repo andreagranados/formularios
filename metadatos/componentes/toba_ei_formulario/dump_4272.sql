@@ -202,7 +202,7 @@ INSERT INTO apex_objeto_ut_formulario (objeto_ut_formulario_proyecto, objeto_ut_
 	NULL, --auto_reset
 	NULL, --ancho
 	'150px', --ancho_etiqueta
-	'0', --expandir_descripcion
+	'1', --expandir_descripcion
 	NULL, --campo_bl
 	NULL, --scroll
 	NULL, --filas
@@ -802,7 +802,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'16', --orden
 	'Detalle', --etiqueta
 	NULL, --etiqueta_estilo
-	NULL, --descripcion
+	'Ingresar el detalle del concepto de facturación (descripción del servicio prestado)', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo
