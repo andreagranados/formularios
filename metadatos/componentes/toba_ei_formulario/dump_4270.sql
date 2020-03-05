@@ -658,7 +658,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'observacionfinanzas', --columnas
 	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
-	'11', --orden
+	'13', --orden
 	'ObservacionesFinanzas', --etiqueta
 	NULL, --etiqueta_estilo
 	NULL, --descripcion
@@ -738,7 +738,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'estado', --columnas
 	'1', --obligatorio
 	'0', --oculto_relaja_obligatorio
-	'10', --orden
+	'12', --orden
 	'Estado', --etiqueta
 	NULL, --etiqueta_estilo
 	NULL, --descripcion
@@ -1218,7 +1218,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'observacionpresupuesto', --columnas
 	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
-	'13', --orden
+	'11', --orden
 	'ObservacionesPresupuesto', --etiqueta
 	NULL, --etiqueta_estilo
 	NULL, --descripcion
@@ -1298,7 +1298,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'check_presupuesto', --columnas
 	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
-	'12', --orden
+	'10', --orden
 	'Check Pres', --etiqueta
 	NULL, --etiqueta_estilo
 	NULL, --descripcion

@@ -802,7 +802,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'16', --orden
 	'Detalle', --etiqueta
 	NULL, --etiqueta_estilo
-	'Ingresar el detalle del concepto de facturación (descripción del servicio prestado)', --descripcion
+	'Ingresar el detalle del concepto de facturación (descripción del servicio prestado). No limitarse unicamente a los números de factura.', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo

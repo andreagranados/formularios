@@ -820,14 +820,11 @@ class ci_detalle_formulario extends toba_ci
             
 	function conf()
 	{
-            
              if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
                $datos = $this->controlador()->dep('datos')->tabla('formulario')->get();
                if(!$datos['ingresa_fondo_central']){
-                   
                    $this->pantalla()->tab("pant_modalidad")->desactivar();
-               }
-               
+               } 
             }else{
                 $this->pantalla()->tab("pant_detalle")->desactivar();
                 $this->pantalla()->tab("pant_modalidad")->desactivar();
