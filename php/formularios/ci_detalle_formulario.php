@@ -229,6 +229,8 @@ class ci_detalle_formulario extends toba_ci
                 }else{
                     $mensaje=' No es posible cambiar el estado.';
                 }
+            }else{
+                $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
             }
             //$mensaje='Recuerde que solo puede modificar el nro de expediente. Datos guardados correctamente';
         }else{

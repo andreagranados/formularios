@@ -23,14 +23,18 @@ class dt_comprobante extends toba_datos_tabla
 //            $b=$a-1;
 //            $fec=date("d/m/Y",strtotime($fecha_creac));
             if($id_comprob<>0){
-                $concatenar=" UNION select id_comprob, nro_comprobante||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante from comprobante where id_comprob=".$id_comprob;
+                $concatenar=" UNION select id_comprob,c.tipo,c.fecha_emision, t.desc_corta||'('||c.tipo||')'||'-'||lpad(cast(nro_comprobante as text),8,'0')||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante "
+                        . "    from comprobante c "
+                        . "    LEFT OUTER JOIN tipo_comprobante t ON (c.tipo=t.id_tipo) "
+                        . "    where id_comprob=".$id_comprob;
             }else{
                 $concatenar='';
             }
         
             $sql = "SELECT * from "
-                    . " (SELECT id_comprob, lpad(cast(nro_comprobante as text),8,'0')||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante"
+                    . " (SELECT id_comprob,c.tipo,c.fecha_emision,t.desc_corta||'('||c.tipo||')'||'-'||lpad(cast(nro_comprobante as text),8,'0')||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante"
                     . " FROM comprobante c"
+                    . " LEFT OUTER JOIN tipo_comprobante t on (c.tipo=t.id_tipo) "
                     . " WHERE c.id_punto_venta=$id_punto
                      and ( (extract(year from c.fecha_emision)<$ano) or (extract(year from c.fecha_emision)=$ano and extract(month from c.fecha_emision)<=$mes))"
                     . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos) de formularios no anulados
@@ -43,7 +47,7 @@ class dt_comprobante extends toba_datos_tabla
                                            )"
                     .$concatenar
                     .") sub"
-                    . " order by nro_comprobante";
+                    . " order by tipo,fecha_emision,nro_comprobante";
             
             return toba::db('formularios')->consultar($sql);
         }
@@ -99,11 +103,11 @@ class dt_comprobante extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-            $sql=" select * from (select t_c.fecha_emision,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else case when sub.estado='N' then 'N' else 'R' end end as rendido,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
+            $sql=" select * from (select t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else case when sub.estado='N' then 'N' else 'R' end end as rendido,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
                     from comprobante t_c
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)
-                    
+                    left outer join tipo_comprobante t_t on (t_t.id_tipo=t_c.tipo)
                     left outer join (select c.id_comprob ,nro_ingreso||'/'||anio_ingreso as nro_formulario, f.estado,nro_expediente
                                      from item t_i 
                                      inner join formulario f on (f.id_form=t_i.id_form)
@@ -112,7 +116,7 @@ class dt_comprobante extends toba_datos_tabla
                                    
                                        )sub2
                                        $condicion"
-                    . " order by rendido,dependencia,id_punto,anio,mes,dia ";
+                    . " order by rendido,dependencia,id_punto,tipo_comprob,nro_comprobante,anio,mes,dia ";
             
             return toba::db('formularios')->consultar($sql);
         }

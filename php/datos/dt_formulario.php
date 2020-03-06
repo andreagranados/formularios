@@ -99,7 +99,7 @@ end as puede"
         }
         function get_listado_filtro($where=null){
             $condicion=' WHERE 1=1 ';
-           if(!is_null($where)){
+            if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
             $pd = toba::manejador_sesiones()->get_perfil_datos(); 
@@ -156,6 +156,10 @@ end as puede"
             $sql="select distinct extract(year from fecha_creacion) as anio"
                     . " from formulario";
             return toba::db('formularios')->consultar($sql);
+        }
+        function desasociar_recibo($id_form){
+            $sql=" update formulario set estado='T',id_recibo=null where id_form=".$id_form;
+            toba::db('formularios')->consultar($sql);
         }
         
 }

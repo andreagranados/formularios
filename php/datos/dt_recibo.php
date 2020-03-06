@@ -18,6 +18,17 @@ class dt_recibo extends toba_datos_tabla
              $sql="select distinct extract(year from fecha) as anio from recibo ";
              return toba::db('formularios')->consultar($sql);
          }
+         function asociado_formulario($id_recibo){
+             $sql="select * from formulario "
+                     . " where id_recibo=".$id_recibo;
+             $resul= toba::db('formularios')->consultar($sql);
+             $salida=array();
+             if(count($resul)>0){
+                 $salida[0]=$resul[0]['id_form'];
+                 $salida[1]=$resul[0]['nro_ingreso'].'/'.$resul[0]['anio_ingreso'];
+             }
+             return $salida;
+         }
                                                                             
 }                                                                           
                                                                             

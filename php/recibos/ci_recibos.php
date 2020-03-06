@@ -39,14 +39,22 @@ class ci_recibos extends toba_ci
              $this->set_pantalla('pant_edicion');
 	}
         function evt__anular()
-	{
+	{//anular un recibo
             if($this->dep('datos')->tabla('recibo')->esta_cargada()){
+                $mensaje='';
+                $recibo=$this->dep('datos')->tabla('recibo')->get();
+                $form_asoc=$this->dep('datos')->tabla('recibo')->asociado_formulario($recibo['id_recibo']);
+                //print_r($form_asoc);exit;
+                if(count($form_asoc)>0){//tiene asociado un formulario
+                   $this->dep('datos')->tabla('formulario')->desasociar_recibo($form_asoc[0]);
+                   $mensaje=" Este recibo correspondia al formulario ".$form_asoc[1];
+                }
                 $datos['estado']='A';
                 $this->dep('datos')->tabla('recibo')->set($datos);
                 $this->dep('datos')->tabla('recibo')->sincronizar();
                 $this->dep('datos')->tabla('recibo')->resetear();
                 $this->set_pantalla('pant_inicial');
-                toba::notificacion()->agregar('El recibo ha sido anulado correctamente', 'info');  
+                toba::notificacion()->agregar('El recibo ha sido anulado correctamente'.$mensaje, 'info');  
             } 
 	}
         function evt__volver()
