@@ -36,9 +36,9 @@ class ci_formularios extends toba_ci
             if (isset($this->s__where)) {
                 $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro($this->s__where));
             } 
-//            else{
-//                $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro());
-//            }
+            else{
+                $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro());
+            }
 	}
 
 	function evt__cuadro__seleccion($datos)

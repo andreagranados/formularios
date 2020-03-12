@@ -125,7 +125,8 @@ end as puede"
                          INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
                          LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) 
                          GROUP BY t_f.id_form,fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.mes_cobro,t_f.ano_cobro,anio_ingreso,nro_ingreso,nro_expediente,fecha_creacion, id_dependencia,id_recibo,t_f.check_presupuesto,observacionpresupuesto,observacionfinanzas,pasado_pilaga,id_punto_venta,estado,titulo
-                         )sub $condicion";
+                         )sub $condicion"
+                    . " order by fecha_creacion desc";
            
            // $sql = toba::perfil_de_datos()->filtrar($sql);
             return toba::db('formularios')->consultar($sql);

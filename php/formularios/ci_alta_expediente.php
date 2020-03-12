@@ -105,7 +105,7 @@ class ci_alta_expediente extends toba_ci
             if($bandera){
                 $this->dep('datos')->tabla('expediente')->eliminar_todo();
                 $this->dep('datos')->tabla('expediente')->resetear();
-                toba::notificacion()->agregar('El expediente se eliminado correctamente', 'info'); 
+                toba::notificacion()->agregar('El expediente ha sido eliminado correctamente', 'info'); 
             }else{
                 toba::notificacion()->agregar('Este expediente tiene formularios asociados, no puede borrarlo', 'error');  
             }
