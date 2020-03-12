@@ -53,6 +53,17 @@ class form_campos_solicitados extends toba_ei_formulario
                                             
                             }
                         }
+                        {$this->objeto_js}.evt__id_categ__procesar = function(es_inicial)
+                        {
+                                var myvar=this.ef('id_categ').get_estado();
+                                console.log(myvar);
+                                switch (this.ef('id_categ').get_estado()) {
+                                case '7': this.ef('tipo_posg').mostrar();break;
+                                        default: this.ef('tipo_posg').ocultar(); break;
+                                }
+
+                        }
+
                         {$this->objeto_js}.evt__id_origen_recurso__procesar = function(es_inicial) 
 			{
                                 this.ef('id_origen_recurso').ocultar();

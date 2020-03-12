@@ -34,6 +34,14 @@ end as puede"
             $resul=toba::db('formularios')->consultar($sql);
             return $resul[0]['puede'];
         }
+        function esta_en_libro_cerrado($id_form){//retorna 1 si el libro esta cerrado y 0 en caso contrario
+            $sql="select case when l.cerrado then 1 else 0 end as cerrado "
+                    . " from formulario f"
+                    . " left outer join libro_ingreso l on (f.ano_cobro=l.anio)"
+                    . "where id_form= ".$id_form;
+            $resul=toba::db('formularios')->consultar($sql);
+            return $resul[0]['cerrado'];
+        }
         function anular_recibo($id_form){
             $sql="update recibo set estado='A' where id_recibo in(select id_recibo from formulario where id_form=".
                     $id_form. ")";

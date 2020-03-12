@@ -12,6 +12,7 @@ class ci_alta_expediente extends toba_ci
             if (isset($this->s__datos_filtro)) {
                 $filtro->set_datos($this->s__datos_filtro);
             }
+            $filtro->columna('anio')->set_condicion_fija('es_igual_a',true)  ;
 	}
 
 	function evt__filtros__filtrar($datos)
@@ -85,12 +86,15 @@ class ci_alta_expediente extends toba_ci
             if($bandera){
                 toba::notificacion()->agregar('Ese expediente ya existe', 'error');  
                 $this->set_pantalla('pant_inicial');
+                
             }else{
                 $this->dep('datos')->tabla('expediente')->set($datos);
                 $this->dep('datos')->tabla('expediente')->sincronizar();
-                $exp=$this->dep('datos')->tabla('expediente')->get();
-                $datose['nro_expediente']=$exp['nro_expediente'];      
-                $this->dep('datos')->tabla('expediente')->cargar($datose);    
+                //$exp=$this->dep('datos')->tabla('expediente')->get();
+                //$datose['nro_expediente']=$exp['nro_expediente'];      
+                //$this->dep('datos')->tabla('expediente')->cargar($datose); 
+                toba::notificacion()->agregar('El expediente ha sido ingresado correctamente', 'info'); 
+                $this->set_pantalla('pant_inicial');
             }
 	}
 
@@ -101,6 +105,7 @@ class ci_alta_expediente extends toba_ci
             if($bandera){
                 $this->dep('datos')->tabla('expediente')->eliminar_todo();
                 $this->dep('datos')->tabla('expediente')->resetear();
+                toba::notificacion()->agregar('El expediente se eliminado correctamente', 'info'); 
             }else{
                 toba::notificacion()->agregar('Este expediente tiene formularios asociados, no puede borrarlo', 'error');  
             }

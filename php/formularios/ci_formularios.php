@@ -177,7 +177,7 @@ class ci_formularios extends toba_ci
                             $opc=array('showLines'=>2,'shaded'=>0,'rowGap' => 3,'width'=>700,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>130),'col4'=>array('width'=>90),'col5'=>array('width'=>300),'col6'=>array('width'=>90,'justification'=>'right')));
                             break;
                         case 2://f13
-                            $resol=utf8_decode('RESOLUCIÓN');
+                            $resol=utf8_decode('NORMA');
                             //$cols=array('col2'=>'<b>'.$resol.'</b>','col3' => '<b>ORGANISMO</b>','col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>CONDICION DE VENTA</b>','col7' => '<b>DETALLE COND VENTA</b>','col8' => '<b>MONTO</b>'); 
                             $cols=array('col2'=>'<b>'.$resol.'</b>','col3' => '<b>ORGANISMO</b>','col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>MONTO</b>'); 
                             //$opc=array('showLines'=>2,'shaded'=>0,'width'=>700,'cols'=>array('col2'=>array('width'=>80),'col3'=>array('width'=>80),'col4'=>array('width'=>90),'col5'=>array('width'=>195),'col6'=>array('width'=>80),'col7'=>array('width'=>190),'col8'=>array('width'=>85,'justification'=>'right')));
