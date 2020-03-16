@@ -64,7 +64,7 @@ class ci_detalle_formulario extends toba_ci
             }
             
         }else{$id_comprob=0;}
-        return $this->controlador()->dep('datos')->tabla('comprobante')->get_comprobantes($form['id_punto_venta'],$form['mes_cobro'],$form['ano_cobro'],$id_comprob);
+        return $this->controlador()->dep('datos')->tabla('comprobante')->get_comprobantes($form['id_punto_venta'],$form['ano_cobro'],$id_comprob);
     }
     
     function transforma($iNumero){

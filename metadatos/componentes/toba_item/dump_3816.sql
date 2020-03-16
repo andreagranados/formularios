@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[3816]--  Alta Recibos 
+--[3816]--  Alta Visualización Recibos 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -23,7 +23,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --actividad_buffer
 	NULL, --actividad_patron_proyecto
 	NULL, --actividad_patron
-	'Alta Recibos', --nombre
+	'Alta Visualización Recibos', --nombre
 	NULL, --descripcion
 	'26', --punto_montaje
 	NULL, --actividad_accion

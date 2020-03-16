@@ -108,6 +108,12 @@ class ci_recibos extends toba_ci
             $datos=$this->dep('datos')->tabla('recibo')->get();
             $form->set_datos($datos);
         }
+        function evt__form_recibosl__modificacion($datos)
+        {
+            $datos2['aclaracion']=$datos['aclaracion'];
+            $this->dep('datos')->tabla('recibo')->set($datos2);
+            $this->dep('datos')->tabla('recibo')->sincronizar();
+        }
         //-----recibo
         function transforma($iNumero){
             $sTexto = NumeroALetras::convertir($iNumero);
@@ -122,7 +128,7 @@ class ci_recibos extends toba_ci
         function vista_pdf(toba_vista_pdf $salida){ 
             if($this->dep('datos')->tabla('recibo')->esta_cargada()){
                 $recibo=$this->dep('datos')->tabla('recibo')->get();            
-                $salida->set_nombre_archivo("Recibo.pdf");
+                $salida->set_nombre_archivo("Recibo".'_'.$recibo['id_recibo'].".pdf");
                 //recuperamos el objteo ezPDF para agregar la cabecera y el pie de página 
                 $salida->set_papel_orientacion('portrait');
                 $salida->inicializar();

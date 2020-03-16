@@ -1602,7 +1602,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'4', --orden
 	'Tipo Posgrado', --etiqueta
 	NULL, --etiqueta_estilo
-	'Si es una carrera indique la Ordenanza de creación en el campo Detalle', --descripcion
+	'Si es una carrera indique la Ordenanza de creación en el campo Detalle. Si es curso de posgrado sólo los encuadrados en el Art. 42 de la Ordenanza 510/2011', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo

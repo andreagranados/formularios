@@ -14,7 +14,7 @@ class dt_comprobante extends toba_datos_tabla
             $sql = "SELECT id_comprob, nro_comprobante FROM comprobante ORDER BY estado";
             return toba::db('formularios')->consultar($sql);
 	}
-        function get_comprobantes($id_punto,$mes,$ano,$id_comprob){
+        function get_comprobantes($id_punto,$ano,$id_comprob){
             //las facturas se cobran en forma posterior a la emision, por lo tanto busco los comprobantes cuya
             
             //toma el mes y año de cobro de las facturas
@@ -36,7 +36,7 @@ class dt_comprobante extends toba_datos_tabla
                     . " FROM comprobante c"
                     . " LEFT OUTER JOIN tipo_comprobante t on (c.tipo=t.id_tipo) "
                     . " WHERE c.id_punto_venta=$id_punto
-                     and ( (extract(year from c.fecha_emision)<$ano) or (extract(year from c.fecha_emision)=$ano and extract(month from c.fecha_emision)<=$mes))"
+                     and ( (extract(year from c.fecha_emision)<=$ano))"// or (extract(year from c.fecha_emision)=$ano and extract(month from c.fecha_emision)<=$mes))"
                     . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos) de formularios no anulados
                     . "                  inner join item t_i on (t_c.id_comprob=t_i.id_comprobante)"
                     . "                  inner join formulario t_f on (t_f.id_form =t_i.id_form)"
