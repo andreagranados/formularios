@@ -36,9 +36,9 @@ class ci_formularios extends toba_ci
             if (isset($this->s__where)) {
                 $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro($this->s__where));
             } 
-            else{
-                $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro());
-            }
+//            else{
+//                $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro());
+//            }
 	}
 
 	function evt__cuadro__seleccion($datos)
@@ -78,7 +78,7 @@ class ci_formularios extends toba_ci
                 $salida->set_papel_orientacion('landscape');
                 $salida->inicializar();
                 $pdf = $salida->get_pdf();//top,bottom,left,righ
-                $pdf->ezSetMargins(80, 50, 50, 50);
+                $pdf->ezSetMargins(70, 50, 20, 20);
                 //Configuramos el pie de página. El mismo, tendra el número de página centrado en la página y la fecha ubicada a la derecha. 
                 //Primero definimos la plantilla para el número de página.
                 $formato = utf8_decode('Página {PAGENUM} de {TOTALPAGENUM}   ');
@@ -122,7 +122,7 @@ class ci_formularios extends toba_ci
                    //llama a una funcion para asignar el numero de entrada         
                    $sql="select asigna_numero_ingreso(".$form['id_form'].")";
                    $resul=toba::db('formularios')->consultar($sql);
-                   $salida->set_nombre_archivo("Formulario".$resul[0]['asigna_numero_ingreso']."pdf");
+                   $salida->set_nombre_archivo("Formulario".$resul[0]['asigna_numero_ingreso'].".pdf");
                    $datos_form=$this->dep('datos')->tabla('item')->get_listado($form['id_form']);
                    //print_r($datos_form);EXIT();
                    $datos=array();
@@ -134,18 +134,18 @@ class ci_formularios extends toba_ci
                    $salida->titulo(utf8_d_seguro($tit)); 
                    $pdf->ezText($texto, 8, array('justification'=>'center'));
                    $pdf->ezText("\n\n", 10);
-                   $pdf->ezText('      '.$dep, 10);//dependencia
+                   $pdf->ezText($dep, 10);//dependencia
                    if(isset($form['id_punto_venta'])){
                       if($form['id_punto_venta']<0){
                           $punto=0;
                       }else{
                           $punto=$form['id_punto_venta'];
                       }
-                      $pdf->ezText('      PUNTO DE VENTA: <b>'.$punto.'</b>', 10); 
+                      $pdf->ezText('PUNTO DE VENTA: <b>'.$punto.'</b>', 10); 
                    }
                    $fec=date("d/m/Y",strtotime($form['fecha_creacion']));
-                   $pdf->ezText('      FECHA CREACION: '.$fec, 10);
-                   $pdf->ezText('      EXPEDIENTE: '.$form['nro_expediente'], 10);
+                   $pdf->ezText('FECHA CREACION: '.$fec, 10);
+                   $pdf->ezText('EXPEDIENTE: '.$form['nro_expediente'], 10);
                    //print_r($datos_form );exit;
                    foreach ($datos_form as $item) {
                         switch ($form['id_origen_recurso']){
@@ -229,7 +229,8 @@ class ci_formularios extends toba_ci
                    }
                    $pdf->ezText("\n\n", 10);
                    $pdf->addText(500,80,8,'--------------------------------------------------------------------------------'); 
-                   $pdf->addText(500,70,8,'Firma, sello y aclaracion del Responsable Administrativo '); 
+                   $firma=utf8_decode('Firma, sello y aclaración del Responsable Administrativo');
+                   $pdf->addText(500,70,8,$firma); 
                    $pdf->addText(500,60,8,utf8_decode('     El presente tiene carácter de Declaración Jurada ')); 
 
                    //Recorremos cada una de las hojas del documento para agregar el encabezado

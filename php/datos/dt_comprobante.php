@@ -48,7 +48,6 @@ class dt_comprobante extends toba_datos_tabla
                     .$concatenar
                     .") sub"
                     . " order by tipo,fecha_emision,nro_comprobante";
-            
             return toba::db('formularios')->consultar($sql);
         }
         function esta_repetido($id_comp){//retorna true cuando esta repetido

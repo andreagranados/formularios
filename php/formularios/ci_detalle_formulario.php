@@ -51,7 +51,7 @@ class ci_detalle_formulario extends toba_ci
     function get_monto($id_comprobante){
         return $this->controlador()->dep('datos')->tabla('comprobante')->get_monto($id_comprobante);
     }
-    //trae el listado de comprobantes en funcion al punto de venta y al mes y año de cobro
+    //trae el listado de comprobantes en funcion al punto de venta y año de cobro
     //si lo cobro en 2019 es porque lo facturo en 2019 o en 2018
     function get_comprobantes($corresponde){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -183,7 +183,7 @@ class ci_detalle_formulario extends toba_ci
                       }   
                 }
             }
-            if($form['id_origen_recurso']<>$datos['id_origen_recurso'] or $form['id_punto_venta']<>$datos['id_punto_venta'] or $form['id_programa']<>$datos['id_programa'] or $form['mes_cobro']<>$datos['mes_cobro'] or $form['ano_cobro']<>$datos['ano_cobro']){
+            if($form['id_origen_recurso']<>$datos['id_origen_recurso'] or $form['id_punto_venta']<>$datos['id_punto_venta'] or $form['id_programa']<>$datos['id_programa'] or $form['ano_cobro']<>$datos['ano_cobro']){
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
                 if(!$bandera){
                     $this->controlador()->dep('datos')->tabla('formulario')->set($datos);

@@ -50,6 +50,12 @@ INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, i
 	'formularios', --proyecto
 	'presupuesto', --usuario_grupo_acc
 	NULL, --item_id
+	'3823'  --item
+);
+INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
+	'formularios', --proyecto
+	'presupuesto', --usuario_grupo_acc
+	NULL, --item_id
 	'3825'  --item
 );
 INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (

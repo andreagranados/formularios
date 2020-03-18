@@ -570,7 +570,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'formularios', --objeto_cuadro_proyecto
 	'4265', --objeto_cuadro
 	'4569', --objeto_cuadro_col
-	'cobrado', --clave
+	'ano_cobro', --clave
 	'8', --orden
 	'Ejercicio', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
