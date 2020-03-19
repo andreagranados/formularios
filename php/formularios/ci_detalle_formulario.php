@@ -107,6 +107,7 @@ class ci_detalle_formulario extends toba_ci
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
         $datos['pasado_pilaga']=false;
+        $datos['check_presupuesto']=false;
         $band=dt_dependencia::es_secretaria($datos['id_dependencia']);
         if($band){//si es secretaria siempre es true
             $datos['ingresa_fondo_central']=true;
