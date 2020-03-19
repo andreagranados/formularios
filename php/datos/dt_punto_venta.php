@@ -1,20 +1,33 @@
 <?php
 class dt_punto_venta extends toba_datos_tabla
 {
-	function get_descripciones($id_dependencia=null)
+	function get_descripciones_filtro($id_dependencia=null)
 	{
             $where ="";
             if(isset($id_dependencia)){
               $where=" WHERE id_dependencia='".$id_dependencia."'";        
              }
-            $sql = "SELECT case when id_punto<0 then 0 else id_punto end as id_punto, '('||id_punto||')'||descripcion as descripcion "
+            $sql = "SELECT case when id_punto<=0 then 0 else id_punto end as id_punto, '('||id_punto||')'||descripcion as descripcion "
                     . " FROM punto_venta $where"
                     
                     . " ORDER BY descripcion";
            
             return toba::db('formularios')->consultar($sql);
 	}
-          function get_listado($where=null){
+        function get_descripciones($id_dependencia=null)
+	{
+            $where ="";
+            if(isset($id_dependencia)){
+              $where=" WHERE id_dependencia='".$id_dependencia."'";        
+             }
+            $sql = "SELECT id_punto, '('||id_punto||')'||descripcion as descripcion "
+                    . " FROM punto_venta $where"
+                    
+                    . " ORDER BY descripcion";
+           
+            return toba::db('formularios')->consultar($sql);
+	}
+        function get_listado($where=null){
               
             $condicion='';
             if(!is_null($where)){

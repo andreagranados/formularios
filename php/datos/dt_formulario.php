@@ -1,7 +1,41 @@
 <?php
 class dt_formulario extends toba_datos_tabla
-{       
-        function puede_enviar($id_form){
+{      
+    function get_programa($id_form){
+        $sql="select id_programa from formulario where id_form=$id_form";
+        $resul=toba::db('formularios')->consultar($sql);
+        if(count($resul)>0){
+            return $resul[0]['id_programa'];
+        }
+    }
+    function su_punto_venta($id_form){
+        $sql="select id_punto_venta from formulario where id_form=$id_form";
+        $resul=toba::db('formularios')->consultar($sql);
+        if(count($resul)>0){
+            return $resul[0]['id_punto_venta'];
+        }
+    }
+    function get_formularios(){
+        $condicion=" WHERE estado='I' ";
+        
+        $pd = toba::manejador_sesiones()->get_perfil_datos(); 
+        $con="select sigla from dependencia ";
+        $con = toba::perfil_de_datos()->filtrar($con);
+        $resul=toba::db('formularios')->consultar($con);
+       
+        if(isset($pd)){//pd solo tiene valor cuando el usuario esta asociado a un perfil de datos
+                    $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
+                }//sino es usuario de la central no filtro a menos que haya elegido
+          
+        $sql="select distinct id_form,nro_expediente||' PV: '||id_punto_venta||'('||p.nombre||')' as descripcion"
+                . " from formulario f"
+                . " left outer join programa p on (f.id_programa=p.id_programa)"
+                . "$condicion";
+        return toba::db('formularios')->consultar($sql);
+    }
+    
+    
+    function puede_enviar($id_form){
             $sql=" select ".
                     "case when ingresa_fondo_central then case when tipo_dep=1 then 
        case when totalm=totali then true else false 

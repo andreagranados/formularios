@@ -15,7 +15,7 @@ class dt_categoria extends toba_datos_tabla
             
             //return $resul;//Array ( [0] => Array ( [id_categoria] => 8 [descripcion] => 8-Otros ) )
         }
-        
+                
 }
 
 ?>
