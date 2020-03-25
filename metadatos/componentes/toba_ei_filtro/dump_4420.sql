@@ -197,7 +197,7 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --descripcion
 	'0', --obligatorio
 	'0', --inicial
-	'3', --orden
+	'4', --orden
 	NULL, --estado_defecto
 	'0', --opciones_es_multiple
 	NULL, --opciones_ef
@@ -248,30 +248,30 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'436', --objeto_ei_filtro_col
 	'4420', --objeto_ei_filtro
 	'formularios', --objeto_ei_filtro_proyecto
-	'cadena', --tipo
+	'opciones', --tipo
 	'id_programa', --nombre
 	'id_programa', --expresion
 	'Programa', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
 	'0', --inicial
-	'4', --orden
+	'5', --orden
 	NULL, --estado_defecto
 	'0', --opciones_es_multiple
-	NULL, --opciones_ef
-	NULL, --carga_metodo
+	'ef_combo', --opciones_ef
+	'get_descripciones', --carga_metodo
 	NULL, --carga_clase
 	NULL, --carga_include
-	NULL, --carga_dt
+	'4383', --carga_dt
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
-	NULL, --carga_fuente
+	'formularios', --carga_fuente
 	NULL, --carga_lista
-	NULL, --carga_col_clave
-	NULL, --carga_col_desc
-	'0', --carga_permite_no_seteado
-	NULL, --carga_no_seteado
-	NULL, --carga_no_seteado_ocultar
+	'id_programa', --carga_col_clave
+	'nombre', --carga_col_desc
+	'1', --carga_permite_no_seteado
+	'--Seleccion--', --carga_no_seteado
+	'0', --carga_no_seteado_ocultar
 	NULL, --carga_maestros
 	NULL, --edit_tamano
 	NULL, --edit_maximo
@@ -288,7 +288,7 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --popup_carga_desc_clase
 	NULL, --popup_carga_desc_include
 	NULL, --popup_puede_borrar_estado
-	NULL, --punto_montaje
+	'26', --punto_montaje
 	NULL, --check_valor_si
 	NULL, --check_valor_no
 	NULL, --check_desc_si
@@ -306,30 +306,30 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'437', --objeto_ei_filtro_col
 	'4420', --objeto_ei_filtro
 	'formularios', --objeto_ei_filtro_proyecto
-	'cadena', --tipo
+	'opciones', --tipo
 	'id_origen_recurso', --nombre
 	'id_origen_recurso', --expresion
 	'Fuente', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
 	'0', --inicial
-	'5', --orden
+	'6', --orden
 	NULL, --estado_defecto
 	'0', --opciones_es_multiple
-	NULL, --opciones_ef
-	NULL, --carga_metodo
+	'ef_combo', --opciones_ef
+	'get_descripciones', --carga_metodo
 	NULL, --carga_clase
 	NULL, --carga_include
-	NULL, --carga_dt
+	'4262', --carga_dt
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
-	NULL, --carga_fuente
+	'formularios', --carga_fuente
 	NULL, --carga_lista
-	NULL, --carga_col_clave
-	NULL, --carga_col_desc
-	'0', --carga_permite_no_seteado
-	NULL, --carga_no_seteado
-	NULL, --carga_no_seteado_ocultar
+	'id_origen', --carga_col_clave
+	'descripcion', --carga_col_desc
+	'1', --carga_permite_no_seteado
+	'--Seleccion--', --carga_no_seteado
+	'0', --carga_no_seteado_ocultar
 	NULL, --carga_maestros
 	NULL, --edit_tamano
 	NULL, --edit_maximo
@@ -346,7 +346,7 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --popup_carga_desc_clase
 	NULL, --popup_carga_desc_include
 	NULL, --popup_puede_borrar_estado
-	NULL, --punto_montaje
+	'26', --punto_montaje
 	NULL, --check_valor_si
 	NULL, --check_valor_no
 	NULL, --check_desc_si
@@ -422,31 +422,31 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'439', --objeto_ei_filtro_col
 	'4420', --objeto_ei_filtro
 	'formularios', --objeto_ei_filtro_proyecto
-	'cadena', --tipo
+	'opciones', --tipo
 	'id_punto', --nombre
 	'id_punto', --expresion
 	'Punto Venta', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
 	'0', --inicial
-	'6', --orden
+	'3', --orden
 	NULL, --estado_defecto
 	'0', --opciones_es_multiple
-	NULL, --opciones_ef
-	NULL, --carga_metodo
+	'ef_combo', --opciones_ef
+	'get_descripciones_filtro', --carga_metodo
 	NULL, --carga_clase
 	NULL, --carga_include
-	NULL, --carga_dt
+	'4264', --carga_dt
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
-	NULL, --carga_fuente
+	'formularios', --carga_fuente
 	NULL, --carga_lista
-	NULL, --carga_col_clave
-	NULL, --carga_col_desc
-	'0', --carga_permite_no_seteado
-	NULL, --carga_no_seteado
-	NULL, --carga_no_seteado_ocultar
-	NULL, --carga_maestros
+	'id_punto', --carga_col_clave
+	'descripcion', --carga_col_desc
+	'1', --carga_permite_no_seteado
+	'--Seleccion--', --carga_no_seteado
+	'0', --carga_no_seteado_ocultar
+	'id_dependencia', --carga_maestros
 	NULL, --edit_tamano
 	NULL, --edit_maximo
 	NULL, --edit_mascara
@@ -462,7 +462,7 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --popup_carga_desc_clase
 	NULL, --popup_carga_desc_include
 	NULL, --popup_puede_borrar_estado
-	NULL, --punto_montaje
+	'26', --punto_montaje
 	NULL, --check_valor_si
 	NULL, --check_valor_no
 	NULL, --check_desc_si
@@ -480,9 +480,9 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'440', --objeto_ei_filtro_col
 	'4420', --objeto_ei_filtro
 	'formularios', --objeto_ei_filtro_proyecto
-	'cadena', --tipo
-	'tiene_retencion', --nombre
-	'tiene_retencion', --expresion
+	'opciones', --tipo
+	'tiene_reten', --nombre
+	'tiene_reten', --expresion
 	'Tiene Retención', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
@@ -490,20 +490,20 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'7', --orden
 	NULL, --estado_defecto
 	'0', --opciones_es_multiple
-	NULL, --opciones_ef
+	'ef_combo', --opciones_ef
 	NULL, --carga_metodo
 	NULL, --carga_clase
 	NULL, --carga_include
 	NULL, --carga_dt
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
-	NULL, --carga_fuente
-	NULL, --carga_lista
+	'formularios', --carga_fuente
+	'SI,NO', --carga_lista
 	NULL, --carga_col_clave
 	NULL, --carga_col_desc
-	'0', --carga_permite_no_seteado
-	NULL, --carga_no_seteado
-	NULL, --carga_no_seteado_ocultar
+	'1', --carga_permite_no_seteado
+	'--Seleccion--', --carga_no_seteado
+	'0', --carga_no_seteado_ocultar
 	NULL, --carga_maestros
 	NULL, --edit_tamano
 	NULL, --edit_maximo
@@ -520,7 +520,7 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --popup_carga_desc_clase
 	NULL, --popup_carga_desc_include
 	NULL, --popup_puede_borrar_estado
-	NULL, --punto_montaje
+	'26', --punto_montaje
 	NULL, --check_valor_si
 	NULL, --check_valor_no
 	NULL, --check_desc_si

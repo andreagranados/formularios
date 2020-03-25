@@ -73,14 +73,14 @@ class dt_item extends toba_datos_tabla
         return toba::db('formularios')->consultar($sql);
     }
     function get_extracontable($where=null){
-        $condicion=" WHERE t_f.estado<>'N' ";
+        $condicion=" WHERE estado<>'N' ";
         if(!is_null($where)){
               $condicion.=' and  '.$where;
          }
         // print_r($condicion);
-        $sql="select distinct t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.descripcion as desc_punto,
-        CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN 'SI' ELSE 'NO' END as tiene_retencion,CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN trunc(t_i.monto*t_p.porc_retencion/100,2) ELSE 0 END as retencion,
-    case when t_p.id_punto > 0 then lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') else '' end as nro_comprobante,t_co.total,nro_ingreso||'/'||anio_ingreso as nro_ingreso,
+        $sql="select * from (select distinct t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.descripcion as desc_punto,
+        CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN 'SI' ELSE 'NO' END as tiene_reten,CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN trunc(t_i.monto*t_p.porc_retencion/100,2) ELSE 0 END as retencion,
+    case when t_p.id_punto > 0 then lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') else '' end as nro_comprobante,t_i.monto,nro_ingreso||'/'||anio_ingreso as nro_ingreso,
     t_tc.descripcion as tipo_comprob, t_f.estado
             from item t_i
             inner join formulario t_f on (t_i.id_form=t_f.id_form)
@@ -91,6 +91,7 @@ class dt_item extends toba_datos_tabla
             inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
             left outer join comprobante t_co on (t_i.id_comprobante =t_co.id_comprob)
             left outer join tipo_comprobante t_tc on (t_tc.id_tipo =t_co.tipo)
+            )sub
           $condicion "
                 ;
         return toba::db('formularios')->consultar($sql);

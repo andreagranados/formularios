@@ -311,13 +311,13 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'formularios', --objeto_cuadro_proyecto
 	'4419', --objeto_cuadro
 	'4627', --objeto_cuadro_col
-	'total', --clave
+	'monto', --clave
 	'10', --orden
 	'Total', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
 	NULL, --ancho
-	'1', --formateo
+	'2', --formateo
 	NULL, --vinculo_indice
 	NULL, --no_ordenar
 	NULL, --mostrar_xls
@@ -342,7 +342,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'formularios', --objeto_cuadro_proyecto
 	'4419', --objeto_cuadro
 	'4628', --objeto_cuadro_col
-	'tiene_retencion', --clave
+	'tiene_reten', --clave
 	'9', --orden
 	'Tiene Retención', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
@@ -379,7 +379,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
 	NULL, --ancho
-	'1', --formateo
+	'2', --formateo
 	NULL, --vinculo_indice
 	NULL, --no_ordenar
 	NULL, --mostrar_xls
