@@ -974,14 +974,14 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'4270', --objeto_ei_formulario
 	'formularios', --objeto_ei_formulario_proyecto
 	'ano_cobro', --identificador
-	'ef_combo', --elemento_formulario
+	'ef_editable', --elemento_formulario
 	'ano_cobro', --columnas
 	'1', --obligatorio
 	'0', --oculto_relaja_obligatorio
 	'7', --orden
 	'Ejercicio', --etiqueta
 	NULL, --etiqueta_estilo
-	'Sólo libros abiertos', --descripcion
+	'Ejercicio correspondiente al Libro que se encuentra abierto', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo
@@ -992,10 +992,10 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	NULL, --estado_defecto
 	'1', --solo_lectura
 	'0', --solo_lectura_modificacion
-	'get_libros_abiertos', --carga_metodo
+	'get_anio_libro_abierto', --carga_metodo
 	NULL, --carga_clase
 	NULL, --carga_include
-	'4386', --carga_dt
+	NULL, --carga_dt
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
 	'formularios', --carga_fuente
@@ -1008,7 +1008,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'0', --carga_permite_no_seteado
 	'--Seleccione--', --carga_no_seteado
 	'0', --carga_no_seteado_ocultar
-	NULL, --edit_tamano
+	'4', --edit_tamano
 	NULL, --edit_maximo
 	NULL, --edit_mascara
 	NULL, --edit_unidad

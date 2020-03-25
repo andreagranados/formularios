@@ -101,9 +101,14 @@ class ci_detalle_formulario extends toba_ci
         //}     
         $this->s__mostrar_i=0;
     }
-
+    function get_anio_libro_abierto(){
+         $lib=$this->controlador()->dep('datos')->tabla('libro_ingreso')->get_libros_abiertos();
+         if(count($lib)>0){
+             return $lib[0]['anio'];
+         }
+    }
     function evt__form_inicial__alta($datos)
-    {
+    {     
         $datos['estado']='I';
         $datos['fecha_creacion']=date('d/m/Y');
         $datos['pasado_pilaga']=false;
