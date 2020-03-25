@@ -38,8 +38,9 @@ class ci_libros_ingreso extends formularios_ci
 
 	function evt__form__baja()
 	{
-            $this->dep('datos')->eliminar_todo();
+            $this->dep('datos')->tabla('libro_ingreso')->eliminar_todo();
             $this->resetear();
+            toba::notificacion()->agregar('El libro se ha eliminado exitosamente', 'info'); 
 	}
 
 	function evt__form__modificacion($datos)
