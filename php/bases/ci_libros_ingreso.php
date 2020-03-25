@@ -1,6 +1,7 @@
 <?php
 class ci_libros_ingreso extends formularios_ci
 {
+    protected $s__mostrar;
 	//-----------------------------------------------------------------------------------
 	//---- cuadro -----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
@@ -25,10 +26,16 @@ class ci_libros_ingreso extends formularios_ci
             if ($this->dep('datos')->tabla('libro_ingreso')->esta_cargada()) {
                 $form->set_datos($this->dep('datos')->tabla('libro_ingreso')->get());
             }
+            if($this->s__mostrar==1){
+                print_r('hola');
+                $form->desactivar_efs('numero');
+               // $form->desactivar_efs($datos);
+            }
 	}
 
 	function evt__form__alta($datos)
 	{
+            $this->s__mostrar=1;
             $datos['numero']=1;
             $this->dep('datos')->tabla('libro_ingreso')->set($datos);
             $this->dep('datos')->tabla('libro_ingreso')->sincronizar();
@@ -37,20 +44,21 @@ class ci_libros_ingreso extends formularios_ci
             toba::notificacion()->agregar('Se ha ingresado un nuevo libro', 'info'); 
 	}
 
-	function evt__form__baja()
-	{
-            $this->dep('datos')->tabla('libro_ingreso')->eliminar_todo();
-            $this->resetear();
-            toba::notificacion()->agregar('El libro se ha eliminado exitosamente', 'info'); 
-	}
-
 	function evt__form__modificacion($datos)
 	{
+            $this->s__mostrar=0;
             $this->dep('datos')->tabla('libro_ingreso')->set($datos);
             $this->dep('datos')->tabla('libro_ingreso')->sincronizar();
             $this->set_pantalla('pant_inicial');   
             $this->dep('datos')->tabla('libro_ingreso')->resetear();
             toba::notificacion()->agregar('Los datos se han guardado correctamente', 'info'); 
+	}
+        
+        function evt__form__baja()
+	{
+            $this->dep('datos')->tabla('libro_ingreso')->eliminar_todo();
+            $this->resetear();
+            toba::notificacion()->agregar('El libro se ha eliminado exitosamente', 'info'); 
 	}
 
 	function evt__form__cancelar()
