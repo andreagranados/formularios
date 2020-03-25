@@ -93,7 +93,8 @@ class dt_item extends toba_datos_tabla
             left outer join tipo_comprobante t_tc on (t_tc.id_tipo =t_co.tipo)
             )sub
           $condicion "
-                ;
+                . " order by ano_cobro,id_dependencia,id_form"
+                    ;
         return toba::db('formularios')->consultar($sql);
         
     }
