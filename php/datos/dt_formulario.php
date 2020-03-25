@@ -188,7 +188,7 @@ end as puede"
             return $resul[0]['dependencia'];  
         }
         function get_punto_venta($id_form){
-            $sql="select 'PUNTO DE VENTA: ' ||t_p.id_punto||' ('||t_p.descripcion||')'  as punto_venta"
+            $sql="select 'PUNTO DE VENTA: ' ||case when t_p.id_punto<=0 then 0 else t_p.id_punto end||' ('||t_p.descripcion||')'  as punto_venta"
                     . " from formulario t_f "
                     . " inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)"
                     . " where id_form=$id_form";
