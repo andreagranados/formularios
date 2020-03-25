@@ -244,6 +244,16 @@ class ci_formularios extends toba_ci
                     } 
             }
         }
+        
+    function conf()
+    {
+        
+        $id = toba::memoria()->get_parametro('id_form');
+        if(isset($id)){//si vuelve 
+            
+            $this->dep('ci_detalle_formulario')->set_pantalla('pant_inicial');
+        }
+    }
 
 }
 ?>

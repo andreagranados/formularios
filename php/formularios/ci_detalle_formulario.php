@@ -679,6 +679,20 @@ class ci_detalle_formulario extends toba_ci
                 toba::notificacion()->agregar('Ya no puede agregar al formulario. Verifique el estado del formulario', 'info'); 
             }
 	}
+        function evt__rango(){
+            $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+            if($form['estado']=='I'){
+                if($form['id_punto_venta']<=0){//punto ficticio
+                    toba::notificacion()->agregar('No puede levantar un rango de comprobantes para un punto de venta ficticio', 'info');     
+                }else{
+                    $parametros['id_form']=$form['id_form'];
+                    toba::vinculador()->navegar_a('formularios',3838,$parametros);    
+                }
+            }else{
+                toba::notificacion()->agregar('El formulario debe estar en estado Inicial para poder agregar un rango de comprobantes', 'info'); 
+            }
+        }
+        
         function evt__enviar()
 	{
 //            $x=13550.40;
@@ -837,7 +851,7 @@ class ci_detalle_formulario extends toba_ci
             
 	function conf()
 	{
-             if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
+            if ($this->controlador()->dep('datos')->tabla('formulario')->esta_cargada()) {
                $datos = $this->controlador()->dep('datos')->tabla('formulario')->get();
                if(!$datos['ingresa_fondo_central']){
                    $this->pantalla()->tab("pant_modalidad")->desactivar();
@@ -845,7 +859,7 @@ class ci_detalle_formulario extends toba_ci
             }else{
                 $this->pantalla()->tab("pant_detalle")->desactivar();
                 $this->pantalla()->tab("pant_modalidad")->desactivar();
-            }     
+            }
 	}
 
 }

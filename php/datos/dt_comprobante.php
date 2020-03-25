@@ -1,7 +1,21 @@
 <?php
 class dt_comprobante extends toba_datos_tabla
 {
-    
+        function get_comprobantes_desde_hasta($id_form,$tipo_comp,$anio,$desde,$hasta){
+           
+            $sql=" select t_c.*,t_t.descripcion as tipo_c,
+                 lpad(cast(t_c.id_punto_venta as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_factura 
+                from comprobante t_c
+                left outer join tipo_comprobante t_t on (t_c.tipo=t_t.id_tipo)
+                    where extract(year from fecha_emision)=".$anio
+                    ." and tipo=$tipo_comp
+                    and id_punto_venta in (select id_punto_venta from formulario where id_form=$id_form)
+                    and nro_comprobante>=(select nro_comprobante from comprobante where id_comprob=$desde)
+                    and nro_comprobante<=(select nro_comprobante from comprobante where id_comprob=$hasta)";
+           
+            return toba::db('formularios')->consultar($sql);
+
+        }
         function importar($datos=array()){
             foreach ($datos as $key => $value) {
                 $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado,tipo)".
@@ -14,6 +28,27 @@ class dt_comprobante extends toba_datos_tabla
             $sql = "SELECT id_comprob, nro_comprobante FROM comprobante ORDER BY estado";
             return toba::db('formularios')->consultar($sql);
 	}
+        function get_comprobantes_rango($id_punto,$ano,$tipo){
+           
+             $sql = "SELECT * from "
+                    . " (SELECT id_comprob,c.tipo,c.fecha_emision,t.desc_corta||'('||c.tipo||')'||'-'||lpad(cast(nro_comprobante as text),8,'0')||'('||to_char(fecha_emision,'DD/MM/YYYY')||')' as nro_comprobante"
+                    . " FROM comprobante c"
+                    . " LEFT OUTER JOIN tipo_comprobante t on (c.tipo=t.id_tipo) "
+                    . " WHERE c.id_punto_venta=$id_punto
+                     and ( (extract(year from c.fecha_emision)<=$ano))"// or (extract(year from c.fecha_emision)=$ano and extract(month from c.fecha_emision)<=$mes))"
+                    . " and not exists (select * from comprobante t_c" //todos menos los comprobantes de ese punto venta asociados a items (ya rendidos) de formularios no anulados
+                    . "                  inner join item t_i on (t_c.id_comprob=t_i.id_comprobante)"
+                    . "                  inner join formulario t_f on (t_f.id_form =t_i.id_form)"
+                    . "                 where "
+                    . "                      t_f.id_punto_venta=$id_punto
+                                           and t_c.id_comprob=c.id_comprob
+                                           and t_f.estado<>'N'
+                                           )"
+                    ." and tipo=".$tipo
+                    .") sub"
+                    . " order by tipo,fecha_emision,nro_comprobante";
+            return toba::db('formularios')->consultar($sql);
+        }
         function get_comprobantes($id_punto,$ano,$id_comprob){
             //las facturas se cobran en forma posterior a la emision, por lo tanto busco los comprobantes cuya
             

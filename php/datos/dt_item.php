@@ -1,6 +1,23 @@
 <?php
 class dt_item extends toba_datos_tabla
 {
+    function importar($datos_item=array(),$datos=array()){//$datos tiene los datos comunes a todos los items
+       // print_r($datos);exit;//Array ( [id_form] => 64 [id_categ] => 8 [id_vinc] => 2 [detalle] => sas [anio] => 2019 [tipo_comprob] => 11 [desde] => 437 [hasta] => 441 ) 
+       // print_r($datos_item);exit;
+            foreach ($datos_item as $key => $value) {
+                 $sql="INSERT INTO item(
+               id_form, id_categ, id_vinc, proviene_de, nro_resol, 
+                organismo, id_condicion_venta, nro_cheque, id_banco, fecha_emision_cheque, 
+                nro_transferencia, cuil1, cuil, cuil2, alias, detalle, monto, 
+                cuenta_a_acreditar, trans_proviene_de, id_comprobante, tipo_posg)
+            VALUES ( ".$datos['id_form'].",". $datos['id_categ'].",". $datos['id_vinc'].", null, null, 
+                    null, null, null, null, null, 
+                    null, null, null, null, null, '".$datos['detalle']."',".$value['total'].", 
+                    null, null,". $value['id_comprob'].", null);
+            ";
+            toba::db('formularios')->consultar($sql);
+        } 
+    }
     function get_listado($id_form){
         //si es F12 y la categoria tiene retencion entonces calculo porcentaje
         $sql="select sub.*,t_t.total,case when id_origen_recurso=1 and tiene_retencion then trunc(t_t.total*porc_retencion/100,2)  else 0 end  as retencion from "
@@ -29,7 +46,6 @@ class dt_item extends toba_datos_tabla
         if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-
         $pd = toba::manejador_sesiones()->get_perfil_datos(); 
         $con="select sigla from dependencia ";
         $con = toba::perfil_de_datos()->filtrar($con);
@@ -38,31 +54,16 @@ class dt_item extends toba_datos_tabla
         if(isset($pd)){//pd solo tiene valor cuando el usuario esta asociado a un perfil de datos
                 $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
-        //print_r($where);
-//        $sql="select dependencia,total as total_bruto,retencion, total-retencion as total_neto from 
-//            (select dependencia,sum(total) as total,sum(retencion)as retencion from
-//            (select dependencia,id_form,total, case when id_origen_recurso=1 and tiene_retencion then trunc(total*porc_retencion/100,2)  else 0 end  as retencion from 
-//            (select distinct t_d.descripcion as dependencia,t_f.id_form,t_p.porc_retencion,t_f.id_origen_recurso,CASE WHEN t_i.id_categ is null THEN false ELSE t_c.tiene_retencion END as tiene_retencion,total
-//            from item t_i
-//            inner join formulario t_f on (t_i.id_form=t_f.id_form)
-//            inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
-//            inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
-//            left outer join categoria t_c on (t_i.id_categ =t_c.id_categoria)
-//            left outer join (select t_it.id_form,sum(monto) as total from item t_it
-//                                        group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form)
-//           $where
-//            )sub    
-//                           )sub2 
-//                           group by dependencia )sub3";
-        $sql="select dependencia,id_punto,total as total_bruto,retencion, total-retencion as total_neto from 
+       //f12 categorias con retencion --> tiene retencion                 
+        $sql="select dependencia,case when id_punto<=0 then 0 else id_punto end as id_punto,total as total_bruto,retencion, total-retencion as total_neto from 
             (select dependencia,id_punto,sum(total) as total,sum(retencion)as retencion from
             (select dependencia,id_form,id_punto,total, case when id_origen_recurso=1 and tiene_retencion then trunc(total*porc_retencion/100,2)  else 0 end  as retencion from 
-            (select distinct t_f.id_dependencia,t_d.descripcion as dependencia,extract(year from t_f.fecha_creacion)as anio,t_f.id_form,t_p.id_punto,t_p.porc_retencion,t_f.id_origen_recurso,CASE WHEN t_i.id_categ is null THEN false ELSE t_c.tiene_retencion END as tiene_retencion,total
+            (select distinct t_f.id_dependencia,t_d.descripcion as dependencia,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.porc_retencion,t_f.id_origen_recurso,t_c.tiene_retencion as tiene_retencion,total
             from item t_i
             inner join formulario t_f on (t_i.id_form=t_f.id_form)
             inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
             inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
-            left outer join categoria t_c on (t_i.id_categ =t_c.id_categoria)
+            inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
             left outer join (select t_it.id_form,sum(monto) as total from item t_it
                                         group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form)
            where t_f.estado<>'N'
@@ -71,7 +72,30 @@ class dt_item extends toba_datos_tabla
                            group by dependencia,id_punto )sub3";
         return toba::db('formularios')->consultar($sql);
     }
-    
+    function get_extracontable($where=null){
+        $condicion=" WHERE t_f.estado<>'N' ";
+        if(!is_null($where)){
+              $condicion.=' and  '.$where;
+         }
+        // print_r($condicion);
+        $sql="select distinct t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.descripcion as desc_punto,
+        CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN 'SI' ELSE 'NO' END as tiene_retencion,CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN trunc(t_i.monto*t_p.porc_retencion/100,2) ELSE 0 END as retencion,
+    case when t_p.id_punto > 0 then lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') else '' end as nro_comprobante,t_co.total,nro_ingreso||'/'||anio_ingreso as nro_ingreso,
+    t_tc.descripcion as tipo_comprob, t_f.estado
+            from item t_i
+            inner join formulario t_f on (t_i.id_form=t_f.id_form)
+            inner join origen_ingreso t_o on (t_f.id_origen_recurso=t_o.id_origen)
+            inner join programa t_pr on (t_f.id_programa=t_pr.id_programa)
+            inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
+            inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
+            inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
+            left outer join comprobante t_co on (t_i.id_comprobante =t_co.id_comprob)
+            left outer join tipo_comprobante t_tc on (t_tc.id_tipo =t_co.tipo)
+          $condicion "
+                ;
+        return toba::db('formularios')->consultar($sql);
+        
+    }
     
     
 }?>

@@ -62,8 +62,8 @@ class ci_importacion_comprobantes extends toba_ci
             //$sql="select * from auxi";$resul=toba::db('formularios')->consultar($sql);print_r($resul);exit;
                   
             //verifico que no haya repetidos. Cuento la cantidad de registro que se repiten
-            $sql="select * from (select id_punto_venta,nro_comprobante,count(*) as cant from auxi"
-                    . " group by id_punto_venta,nro_comprobante)sub where cant>1";
+            $sql="select * from (select id_punto_venta,nro_comprobante,tipo,count(*) as cant from auxi"
+                    . " group by id_punto_venta,nro_comprobante,tipo)sub where cant>1";
             $resul=toba::db('formularios')->consultar($sql);
             
             if(count($resul)>0){
@@ -78,9 +78,34 @@ class ci_importacion_comprobantes extends toba_ci
               // print_r($resul);
                
                 if(count($resul)==0){//no hay repetidos pasa a la siguiente pantalla
-                    $sql="select * from auxi";
-                    $this->s__datos=toba::db('formularios')->consultar($sql);   
-                    $this->set_pantalla('pant_importar');
+                //verifico que no haya comprobantes que ya estan en la base de datos
+                    $sql="select distinct id_punto_venta from auxi a where id_punto_venta "
+                            . " not in (select distinct id_punto from punto_venta) ";
+                            
+                    $resul=toba::db('formularios')->consultar($sql);
+                    if(count($resul)>0){
+                        $mensaje='';
+                        foreach ($resul as $key => $value) {
+                            $mensaje.=$value['id_punto_venta'].', ';    
+                        }
+                        toba::notificacion()->agregar('Los siguientes puntos de venta no se encuentran en la base: '.$mensaje, 'info');
+                    }else{
+                        $sql="select distinct tipo from auxi a where tipo "
+                            . " not in (select distinct id_tipo from tipo_comprobante) ";
+                            
+                        $resul=toba::db('formularios')->consultar($sql);
+                        if(count($resul)>0){
+                            $mensaje='';
+                            foreach ($resul as $key => $value) {
+                                $mensaje.=$value['tipo'].', ';    
+                            }
+                            toba::notificacion()->agregar('Los siguientes tipos de comprobantes no se encuentran en la base: '.$mensaje, 'info');
+                        }else{
+                            $sql="select * from auxi";
+                            $this->s__datos=toba::db('formularios')->consultar($sql);   
+                            $this->set_pantalla('pant_importar');
+                        }
+                    }
                 }else{
                     $mensaje='';
                     foreach ($resul as $key => $value) {

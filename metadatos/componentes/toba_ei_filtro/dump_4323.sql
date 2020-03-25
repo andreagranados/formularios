@@ -135,18 +135,18 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'opciones', --tipo
 	'anio', --nombre
 	'anio', --expresion
-	'Año', --etiqueta
-	'Considera todos los formularios que hayan sido ingresados en el año que se selecciona', --descripcion
+	'Ejercicio', --etiqueta
+	'Ejercicio al que corresponden los formularios en los que hayan sido ingresados los comprobantes', --descripcion
 	'1', --obligatorio
 	'1', --inicial
 	'1', --orden
 	NULL, --estado_defecto
 	'0', --opciones_es_multiple
 	'ef_combo', --opciones_ef
-	'get_anios', --carga_metodo
+	'get_listado', --carga_metodo
 	NULL, --carga_clase
 	NULL, --carga_include
-	'4259', --carga_dt
+	'4386', --carga_dt
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
 	'formularios', --carga_fuente

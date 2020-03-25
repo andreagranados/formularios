@@ -15,9 +15,8 @@ class dt_formulario extends toba_datos_tabla
             return $resul[0]['id_punto_venta'];
         }
     }
-    function get_formularios(){
-        $condicion=" WHERE estado='I' ";
-        
+    function get_formularios(){//utilizada desde Importar rango de facturacion
+        $condicion=" WHERE estado='I' and id_punto_venta>0";
         $pd = toba::manejador_sesiones()->get_perfil_datos(); 
         $con="select sigla from dependencia ";
         $con = toba::perfil_de_datos()->filtrar($con);
@@ -27,7 +26,7 @@ class dt_formulario extends toba_datos_tabla
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
           
-        $sql="select distinct id_form,nro_expediente||' PV: '||id_punto_venta||'('||p.nombre||')' as descripcion"
+        $sql="select distinct id_form,'('||id_form||')'||nro_expediente||' PV: '||id_punto_venta||'('||p.nombre||')' as descripcion"
                 . " from formulario f"
                 . " left outer join programa p on (f.id_programa=p.id_programa)"
                 . "$condicion";
@@ -139,10 +138,7 @@ end as puede"
                 return false;
             }
         }
-        function get_ejercicios(){
-            $sql="select distinct ano_cobro from formulario order by ano_cobro desc";
-            return toba::db('formularios')->consultar($sql);
-        }
+
         function get_listado_filtro($where=null){
             $condicion=' WHERE 1=1 ';
             if(!is_null($where)){
