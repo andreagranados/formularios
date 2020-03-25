@@ -29,6 +29,7 @@ class ci_libros_ingreso extends formularios_ci
 
 	function evt__form__alta($datos)
 	{
+            $datos['numero']=1;
             $this->dep('datos')->tabla('libro_ingreso')->set($datos);
             $this->dep('datos')->tabla('libro_ingreso')->sincronizar();
             $this->set_pantalla('pant_inicial');   
