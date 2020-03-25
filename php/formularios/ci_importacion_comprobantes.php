@@ -35,7 +35,7 @@ class ci_importacion_comprobantes extends toba_ci
             $fp = fopen ( $path['path'] , "r" ); 
             $f=1;
             //Similar a fgets() excepto que fgetcsv() analiza la línea que lee para buscar campos en formato CSV, devolviendo un array que contiene los campos leídos
-            while (($data = fgetcsv($fp, 2048, ";")) !== FALSE) {//mientras hay lineas que leer
+            while (($data = fgetcsv($fp, 2048, ",")) !== FALSE) {//mientras hay lineas que leer
          print_r($data);exit;
                 $i = 0; 
 //                foreach($data as $row) {
