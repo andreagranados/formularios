@@ -227,7 +227,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'formularios', --objeto_cuadro_proyecto
 	'4335', --objeto_cuadro
 	'4531', --objeto_cuadro_col
-	'id_punto', --clave
+	'pv', --clave
 	'1', --orden
 	'Punto', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo

@@ -219,7 +219,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4419', --objeto_cuadro
 	'4624', --objeto_cuadro_col
 	'nro_expediente', --clave
-	'2', --orden
+	'4', --orden
 	'Expediente', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -249,8 +249,8 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'formularios', --objeto_cuadro_proyecto
 	'4419', --objeto_cuadro
 	'4625', --objeto_cuadro_col
-	'id_programa', --clave
-	'4', --orden
+	'prog', --clave
+	'9', --orden
 	'Programa', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -281,7 +281,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4419', --objeto_cuadro
 	'4626', --objeto_cuadro_col
 	'fuente', --clave
-	'3', --orden
+	'2', --orden
 	'Fuente', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -312,7 +312,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4419', --objeto_cuadro
 	'4627', --objeto_cuadro_col
 	'monto', --clave
-	'10', --orden
+	'11', --orden
 	'Total', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -343,7 +343,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4419', --objeto_cuadro
 	'4628', --objeto_cuadro_col
 	'tiene_reten', --clave
-	'9', --orden
+	'10', --orden
 	'Tiene Retención', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -374,7 +374,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4419', --objeto_cuadro
 	'4629', --objeto_cuadro_col
 	'retencion', --clave
-	'11', --orden
+	'12', --orden
 	'Retención', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -405,7 +405,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4419', --objeto_cuadro
 	'4630', --objeto_cuadro_col
 	'nro_ingreso', --clave
-	'12', --orden
+	'3', --orden
 	'Nro Formulario', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo

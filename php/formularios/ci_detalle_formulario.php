@@ -348,7 +348,11 @@ class ci_detalle_formulario extends toba_ci
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
                    //print_r($datos);
                    $form->set_datos($datos);
-               }           
+               }   
+               $f=$this->controlador()->dep('datos')->tabla('formulario')->get();
+               if($f['id_punto_venta']>0){
+                    $form->set_solo_lectura('monto', true);        
+               }
             }else{
                 $this->dep('form_detalle')->colapsar();
             }
