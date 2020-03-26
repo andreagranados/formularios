@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[3826]--  Total de Dependencia 
+--[3826]--  Totales por Dependencia y PV 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -23,7 +23,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --actividad_buffer
 	NULL, --actividad_patron_proyecto
 	NULL, --actividad_patron
-	'Total de Dependencia', --nombre
+	'Totales por Dependencia y PV', --nombre
 	NULL, --descripcion
 	'26', --punto_montaje
 	NULL, --actividad_accion

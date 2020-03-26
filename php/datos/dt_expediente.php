@@ -66,6 +66,29 @@ class dt_expediente extends toba_datos_tabla
                 . " ORDER BY nro_expediente";
         return toba::db('formularios')->consultar($sql);
     }
+    //retorna true cuando pudo hacer la modificacion
+    function modificar($datos=array(),$exped){//cuando quiere modificar el numero de expediente
+        $sql="select * from expediente where nro_expediente='".$datos['nro_expediente']."'";
+        $resul=toba::db('formularios')->consultar($sql);
+        if(count($resul)>0){
+            $band=false;
+            
+        }else{
+            $sql="update expediente set nro_expediente='".$datos['nro_expediente']."' where nro_expediente='".$exped."'";
+            toba::db('formularios')->consultar($sql);
+            $band=true;
+        }
+        return $band;
+    }
+    function tiene_formularios($exp){
+          $sql="select * from formulario where nro_expediente='".$exp."'";
+          $resul=toba::db('formularios')->consultar($sql);  
+          if(count($resul)>0){
+              return true;
+          }else{
+              return false;
+          }
+    }
 
 }
 ?>

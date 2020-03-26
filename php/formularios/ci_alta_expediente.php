@@ -44,6 +44,7 @@ class ci_alta_expediente extends toba_ci
             $this->dep('datos')->tabla('expediente')->cargar($datos);
             $this->set_pantalla('pant_edicion');
 	}
+       
 	//-----------------------------------------------------------------------------------
 	//---- JAVASCRIPT -------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
@@ -115,9 +116,27 @@ class ci_alta_expediente extends toba_ci
 
 	function evt__form_exped__modificacion($datos)
 	{
-//            $this->dep('datos')->tabla('expediente')->set($datos);
-//            $this->dep('datos')->tabla('expediente')->sincronizar();
-//            toba::notificacion()->agregar('El expediente se ha modificado correctamente', 'info');  
+            $form=$this->dep('datos')->tabla('expediente')->get();
+            if($form['nro_expediente']<>$datos['nro_expediente'] or $form['descripcion']<>$datos['descripcion']){
+                $mensaje='';
+                $band2=true;
+                if($form['nro_expediente']<>$datos['nro_expediente']){//modifica expediente
+                     $band=$this->dep('datos')->tabla('expediente')->tiene_formularios($form['nro_expediente']);
+                     if($band){
+                         $mensaje='El expediente tenia formularios asociados.';
+                     }
+                     $band2=$this->dep('datos')->tabla('expediente')->modificar($datos,$form['nro_expediente']);
+                    
+                }
+                if($band2){
+                    $this->dep('datos')->tabla('expediente')->set($datos);
+                    $this->dep('datos')->tabla('expediente')->sincronizar();
+                    toba::notificacion()->agregar('El expediente se ha modificado correctamente '.$mensaje, 'info');  
+                }else{
+                    toba::notificacion()->agregar('Ya existe un expediente con ese numero', 'info');
+                }
+              
+             }
 	}
 
 	function evt__form_exped__cancelar()

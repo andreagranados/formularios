@@ -118,13 +118,13 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'4391', --objeto
 	'modificacion', --identificador
 	'&Modificar', --etiqueta
-	'0', --maneja_datos
+	'1', --maneja_datos
 	NULL, --sobre_fila
 	NULL, --confirmacion
 	'ei-boton-mod', --estilo
 	'apex', --imagen_recurso_origen
-	NULL, --imagen
-	'0', --en_botonera
+	'guardar.gif', --imagen
+	'1', --en_botonera
 	NULL, --ayuda
 	'3', --orden
 	NULL, --ci_predep

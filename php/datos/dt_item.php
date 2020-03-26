@@ -55,21 +55,37 @@ class dt_item extends toba_datos_tabla
                 $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
        //f12 categorias con retencion --> tiene retencion                 
-        $sql="select dependencia,case when id_punto<=0 then 0 else id_punto end as id_punto,total as total_bruto,retencion, total-retencion as total_neto from 
-            (select dependencia,id_punto,sum(total) as total,sum(retencion)as retencion from
-            (select dependencia,id_form,id_punto,total, case when id_origen_recurso=1 and tiene_retencion then trunc(total*porc_retencion/100,2)  else 0 end  as retencion from 
-            (select distinct t_f.id_dependencia,t_d.descripcion as dependencia,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.porc_retencion,t_f.id_origen_recurso,t_c.tiene_retencion as tiene_retencion,total
-            from item t_i
-            inner join formulario t_f on (t_i.id_form=t_f.id_form)
-            inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
-            inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
-            inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
-            left outer join (select t_it.id_form,sum(monto) as total from item t_it
-                                        group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form)
-           where t_f.estado<>'N'
-            )sub    $condicion
+//        $sql="select dependencia,case when id_punto<=0 then 0 else id_punto end as id_punto,total as total_bruto,retencion, total-retencion as total_neto from 
+//            (select dependencia,id_punto,sum(total) as total,sum(retencion)as retencion from
+//            (select dependencia,id_form,id_punto,total, case when id_origen_recurso=1 and tiene_retencion then trunc(total*porc_retencion/100,2)  else 0 end  as retencion from 
+//                (select distinct t_f.id_dependencia,t_d.descripcion as dependencia,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.porc_retencion,t_f.id_origen_recurso,t_c.tiene_retencion as tiene_retencion,total
+//                from item t_i
+//                inner join formulario t_f on (t_i.id_form=t_f.id_form)
+//                inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
+//                inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
+//                inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
+//                left outer join (select t_it.id_form,sum(monto) as total from item t_it
+//                                            group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form)
+//               where t_f.estado<>'N'
+//                )sub    $condicion
+//                           )sub2 
+//                           group by dependencia,id_punto )sub3";
+        $sql="select dependencia,id_punto,case when id_punto<=0 then 0 else id_punto end as pv,desc_punto,total as total_bruto,retencion, total-retencion as total_neto from 
+            (select dependencia,id_punto,desc_punto, sum(total) as total,sum(retencion)as retencion from
+            (select dependencia, id_form, id_punto, desc_punto, total, case when id_origen_recurso=1 and tiene_retencion then trunc(total*porc_retencion/100,2)  else 0 end  as retencion from 
+                (select distinct t_f.id_dependencia,t_d.descripcion as dependencia,ano_cobro as anio,t_f.id_form,t_p.id_punto,t_p.descripcion as desc_punto,t_p.porc_retencion,t_f.id_origen_recurso,t_c.tiene_retencion as tiene_retencion,total
+                from item t_i
+                inner join formulario t_f on (t_i.id_form=t_f.id_form)
+                inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)
+                inner join dependencia t_d on (t_d.sigla=t_f.id_dependencia)
+                inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
+                left outer join (select t_it.id_form,sum(monto) as total from item t_it
+                                            group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form)
+               where t_f.estado<>'N'
+                )sub    $condicion
                            )sub2 
-                           group by dependencia,id_punto )sub3";
+                           group by dependencia,id_punto ,desc_punto
+                           )sub3";        
         return toba::db('formularios')->consultar($sql);
     }
     function get_extracontable($where=null){
