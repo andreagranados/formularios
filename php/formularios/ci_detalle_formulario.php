@@ -690,7 +690,7 @@ class ci_detalle_formulario extends toba_ci
 	}
         function evt__rango(){
             $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-            if($form['estado']=='I'){
+            if($form['estado']=='I' or $form['estado']=='R' ){
                 if($form['id_punto_venta']<=0){//punto ficticio
                     toba::notificacion()->agregar('No puede levantar un rango de comprobantes para un punto de venta ficticio', 'info');     
                 }else{
@@ -698,7 +698,7 @@ class ci_detalle_formulario extends toba_ci
                     toba::vinculador()->navegar_a('formularios',3838,$parametros);    
                 }
             }else{
-                toba::notificacion()->agregar('El formulario debe estar en estado Inicial para poder agregar un rango de comprobantes', 'info'); 
+                toba::notificacion()->agregar('El formulario debe estar en estado Inicial o Rechazado para poder agregar un rango de comprobantes', 'info'); 
             }
         }
         
