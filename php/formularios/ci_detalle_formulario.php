@@ -350,7 +350,7 @@ class ci_detalle_formulario extends toba_ci
                    $form->set_datos($datos);
                }   
                $f=$this->controlador()->dep('datos')->tabla('formulario')->get();
-               if($f['id_punto_venta']>0){
+               if($f['id_punto_venta']>0){//esto para que no me modifique el monto que trae del comprobante
                     $form->set_solo_lectura('monto', true);        
                }
             }else{

@@ -247,11 +247,13 @@ class ci_formularios extends toba_ci
         
     function conf()
     {
-        
         $id = toba::memoria()->get_parametro('id_form');
-        if(isset($id)){//si vuelve 
-            
-            $this->dep('ci_detalle_formulario')->set_pantalla('pant_inicial');
+        if(isset($id)){//si vuelve desde la operacion para importar rango
+             $datos['id_form']=$id;
+             $this->dep('datos')->tabla('formulario')->cargar($datos);
+             $this->set_pantalla('pant_edicion');
+             toba::notificacion()->agregar(utf8_decode('Importación exitosa!'), 'info');
+           // $this->dep('ci_detalle_formulario')->set_pantalla('pant_inicial');//este no funciona
         }
     }
 
