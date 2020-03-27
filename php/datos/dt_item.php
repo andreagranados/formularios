@@ -107,6 +107,7 @@ class dt_item extends toba_datos_tabla
             inner join categoria t_c on (t_i.id_categ =t_c.id_categoria)
             left outer join comprobante t_co on (t_i.id_comprobante =t_co.id_comprob)
             left outer join tipo_comprobante t_tc on (t_tc.id_tipo =t_co.tipo)
+            left outer join tipo_proviene_de t_t on (t_i.proviene_de=t_t.id_proviene)
             )sub
           $condicion "
                 . " order by ano_cobro,id_dependencia,id_form"

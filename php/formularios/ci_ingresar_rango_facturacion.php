@@ -1,7 +1,7 @@
 <?php
 class ci_ingresar_rango_facturacion extends toba_ci
 {
-    //protected $s__datos;
+    protected $s__datos;
     protected $s__datos_comprob;
     protected $s__rango;
    
@@ -33,7 +33,7 @@ class ci_ingresar_rango_facturacion extends toba_ci
     
     function evt__form_inicial__validar($datos)
     {//print_r($datos);//Array ( [id_form] => 64 [id_categ] => 8 [id_vinc] => 2 [detalle] => sas [anio] => 2019 [tipo_comprob] => 11 [desde] => 437 [hasta] => 442 )
-         // $this->s__datos=$datos;
+          $this->s__datos=$datos;
           $this->set_pantalla('pant_importar');
     }
 
