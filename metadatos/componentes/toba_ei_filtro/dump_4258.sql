@@ -190,10 +190,10 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'366', --objeto_ei_filtro_col
 	'4258', --objeto_ei_filtro
 	'formularios', --objeto_ei_filtro_proyecto
-	'numero', --tipo
-	'nro_ingreso', --nombre
-	'nro_ingreso', --expresion
-	'Número Ingreso', --etiqueta
+	'cadena', --tipo
+	'numero_ingreso', --nombre
+	'numero_ingreso', --expresion
+	'Nro Formulario', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
 	'0', --inicial

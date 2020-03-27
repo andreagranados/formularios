@@ -142,7 +142,7 @@ class dt_comprobante extends toba_datos_tabla
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)
                     left outer join tipo_comprobante t_t on (t_t.id_tipo=t_c.tipo)
-                    left outer join (select c.id_comprob ,nro_ingreso||'/'||anio_ingreso as nro_formulario, f.estado,nro_expediente
+                    left outer join (select c.id_comprob ,lpad(cast(nro_ingreso as text),4,'0')||'/'||anio_ingreso as nro_formulario, f.estado,nro_expediente
                                      from item t_i 
                                      inner join formulario f on (f.id_form=t_i.id_form)
                                      inner join comprobante c on (c.id_comprob=t_i.id_comprobante)
