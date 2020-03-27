@@ -324,7 +324,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4432', --objeto_cuadro_col
 	'numero_ingreso', --clave
 	'10', --orden
-	'Nro Ingreso', --titulo
+	'Nro Formulario', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'0', --estilo
 	NULL, --ancho

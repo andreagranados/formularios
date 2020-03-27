@@ -16,7 +16,7 @@ class dt_formulario extends toba_datos_tabla
         }
     }
     function get_formularios(){//utilizada desde Importar rango de facturacion
-        $condicion=" WHERE estado='I' and id_punto_venta>0";
+        $condicion=" WHERE (estado='I' or estado='R') and id_punto_venta>0";
         $pd = toba::manejador_sesiones()->get_perfil_datos(); 
         $con="select sigla from dependencia ";
         $con = toba::perfil_de_datos()->filtrar($con);
@@ -154,7 +154,7 @@ end as puede"
                 }//sino es usuario de la central no filtro a menos que haya elegido
           
             $sql="select *, case when check_presupuesto then 'SI' else 'NO' end as check_pres from 
-                (select t_f.id_form,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,pasado_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, t_f.nro_ingreso||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_f.estado,t_c.titulo as origen ,sum(t_i.monto) as monto
+                (select t_f.id_form,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,pasado_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_f.estado,t_c.titulo as origen ,sum(t_i.monto) as monto
                          from formulario t_f 
                          INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
                          LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) 

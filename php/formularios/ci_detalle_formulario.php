@@ -695,6 +695,7 @@ class ci_detalle_formulario extends toba_ci
                     toba::notificacion()->agregar('No puede levantar un rango de comprobantes para un punto de venta ficticio', 'info');     
                 }else{
                     $parametros['id_form']=$form['id_form'];
+                    //print_r($parametros);
                     toba::vinculador()->navegar_a('formularios',3838,$parametros);    
                 }
             }else{
