@@ -494,7 +494,7 @@ class ci_detalle_formulario extends toba_ci
                        break;
                    case 4://f21
                        //$columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
-                       $columnas=array('nro_resol','organismo','proviene_descrip');
+                       $columnas=array('nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        $elem['categ']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;
@@ -504,7 +504,7 @@ class ci_detalle_formulario extends toba_ci
                    
                    case 5: //f22
                        //$columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
-                       $columnas=array('nro_resol','organismo','proviene_descrip');
+                       $columnas=array('nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        $elem['categ']="<b>TOTAL:</b>";
                        $elem['id_item']=-1;

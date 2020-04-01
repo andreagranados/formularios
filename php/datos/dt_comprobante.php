@@ -1,6 +1,11 @@
 <?php
 class dt_comprobante extends toba_datos_tabla
 {
+        function get_anios(){
+            $sql="select distinct extract(year from fecha_emision) as anio"
+                    . " from comprobante";
+            return toba::db('formularios')->consultar($sql);
+        }
         function get_comprobantes_desde_hasta($id_form,$tipo_comp,$anio,$desde,$hasta){
            
             $sql=" select t_c.*,t_t.descripcion as tipo_c,

@@ -94,10 +94,13 @@ class dt_item extends toba_datos_tabla
               $condicion.=' and  '.$where;
          }
         // print_r($condicion);
-        $sql="select * from (select distinct t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,lpad(cast(t_pr.id_programa as text),2,'0') as prog,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,case when t_p.id_punto<=0 then 0 else id_punto end as pv, t_p.descripcion as desc_punto,
-        CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN 'SI' ELSE 'NO' END as tiene_reten,CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN trunc(t_i.monto*t_p.porc_retencion/100,2) ELSE 0 END as retencion,t_f.ano_cobro,case when t_f.id_dependencia='FAIN' then 'SI' else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pila,
+        $sql="select *,monto-retencion as neto from (select distinct t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,lpad(cast(t_pr.id_programa as text),2,'0') as prog,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,case when t_p.id_punto<=0 then 0 else id_punto end as pv, t_p.descripcion as desc_punto,
+        CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN 'SI' ELSE 'NO' END as tiene_reten,CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN trunc(t_i.monto*t_p.porc_retencion/100,2) ELSE 0 END as retencion,t_f.ano_cobro,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pila,
     case when t_p.id_punto > 0 then lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') else '' end as nro_comprobante,t_i.monto,lpad(cast(nro_ingreso as text),4,'0')||'/'||anio_ingreso as nro_ingreso,
-    t_tc.descripcion as tipo_comprob, t_f.estado
+    t_tc.descripcion as tipo_comprob, t_f.estado,
+    case when t_f.id_origen_recurso=2 then 'Norma: '||t_i.nro_resol||' Organismo: '||t_i.organismo else case when t_f.id_origen_recurso=3 then t_t.descripcion else case when t_f.id_origen_recurso=4 or t_f.id_origen_recurso=5 then ' Organismo: '||t_i.organismo else '' end end end as otros_datos,
+    case when t_f.id_programa=40 then t_pos.descripcion else '' end as posgrado, t_i.detalle,t_cv.descripcion as cond_venta,
+    case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transferencia: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre  else '' end end as cond_venta2
             from item t_i
             inner join formulario t_f on (t_i.id_form=t_f.id_form)
             inner join origen_ingreso t_o on (t_f.id_origen_recurso=t_o.id_origen)
@@ -108,6 +111,11 @@ class dt_item extends toba_datos_tabla
             left outer join comprobante t_co on (t_i.id_comprobante =t_co.id_comprob)
             left outer join tipo_comprobante t_tc on (t_tc.id_tipo =t_co.tipo)
             left outer join tipo_proviene_de t_t on (t_i.proviene_de=t_t.id_proviene)
+            left outer join tipo_posgrado t_pos on (t_i.tipo_posg=t_pos.id_tipo)
+            left outer join condicion_venta t_cv on (t_cv.id_cond=t_i.id_condicion_venta)
+            left outer join banco t_b on (t_i.id_banco =t_b.id_banco)
+            left outer join cuenta_bancaria t_cu on (t_i.cuenta_a_acreditar=t_cu.id_cuenta) 
+            left outer join banco t_ba on (t_ba.id_banco=t_cu.id_banco)
             )sub
           $condicion "
                 . " order by ano_cobro,id_dependencia,id_form"
