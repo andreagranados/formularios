@@ -778,8 +778,8 @@ class ci_detalle_formulario extends toba_ci
             $resul=toba::db('formularios')->consultar($sql);
             if($resul[0]['genera_recibo']==1){//corresponde generar recibo
                 //recupero los datos del recibo para mostrarlos
-                $recibo=$this->controlador()->dep('datos')->tabla('formulario')->get_recibo($form['id_form']);    
-                $salida->set_nombre_archivo("Recibo.pdf");
+                $recibo=$this->controlador()->dep('datos')->tabla('formulario')->get_recibo($form['id_form']);   
+                $salida->set_nombre_archivo("Recibo_".$recibo[0]['id_recibo'].".pdf");
                 //recuperamos el objteo ezPDF para agregar la cabecera y el pie de página 
                 $salida->set_papel_orientacion('portrait');
                 $salida->inicializar();
