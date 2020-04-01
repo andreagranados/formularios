@@ -78,7 +78,7 @@ class ci_formularios extends toba_ci
                 $salida->set_papel_orientacion('landscape');
                 $salida->inicializar();
                 $pdf = $salida->get_pdf();//top,bottom,left,righ
-                $pdf->ezSetMargins(70, 50, 20, 20);
+                $pdf->ezSetMargins(75, 50, 20, 20);
                 //Configuramos el pie de página. El mismo, tendra el número de página centrado en la página y la fecha ubicada a la derecha. 
                 //Primero definimos la plantilla para el número de página.
                 $formato = utf8_decode('Página {PAGENUM} de {TOTALPAGENUM}   ');
@@ -238,8 +238,8 @@ class ci_formularios extends toba_ci
                         $pdf->reopenObject($id); //definimos el path a la imagen de logo de la organizacion 
                         //agregamos al documento la imagen y definimos su posición a través de las coordenadas (x,y) y el ancho y el alto.
                         $imagen = toba::proyecto()->get_path().'/www/img/sello.jpg';
-                        $pdf->addJpegFromFile($imagen, 700, 500, 80, 75);
-                        $pdf->addText(730,533,8,$resul[0]['asigna_numero_ingreso']); 
+                        $pdf->addJpegFromFile($imagen, 700, 515, 80, 75);
+                        $pdf->addText(730,548,8,$resul[0]['asigna_numero_ingreso']); 
                         $pdf->closeObject(); 
                     } 
             }
