@@ -91,6 +91,7 @@ class ci_alta_expediente extends toba_ci
             }else{
                 $this->dep('datos')->tabla('expediente')->set($datos);
                 $this->dep('datos')->tabla('expediente')->sincronizar();
+                $this->dep('datos')->tabla('expediente')->resetear();
                 //$exp=$this->dep('datos')->tabla('expediente')->get();
                 //$datose['nro_expediente']=$exp['nro_expediente'];      
                 //$this->dep('datos')->tabla('expediente')->cargar($datose); 
