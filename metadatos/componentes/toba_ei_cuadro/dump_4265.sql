@@ -539,7 +539,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'formularios', --objeto_cuadro_proyecto
 	'4265', --objeto_cuadro
 	'4568', --objeto_cuadro_col
-	'id_programa', --clave
+	'prog', --clave
 	'6', --orden
 	'Programa', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
