@@ -186,6 +186,20 @@ end as puede"
             $resul= toba::db('formularios')->consultar($sql);
             return $resul[0]['dependencia'];  
         }
+        function get_disponibilidad($id_form){
+            $sql="select t_o.tipo_cuenta ||' Nro '|| t_o.nro_cuenta||' Banco '||t_b.nombre as disponib "
+                    . " from formulario t_f "
+                    . " left outer join cuenta_bancaria t_o on (t_f.disponibilidad=t_o.id_cuenta)"
+                    . " left outer join banco t_b on (t_o.id_banco=t_b.id_banco)"
+                    . " where id_form=$id_form";
+            $resul= toba::db('formularios')->consultar($sql);
+            if(count($resul)>0){
+               return $resul[0]['disponib']; 
+            }else{
+               return ' '; 
+            }
+            return $resul[0]['disponib'];
+        }
         function get_punto_venta($id_form){
             $sql="select 'PUNTO DE VENTA: ' ||case when t_p.id_punto<=0 then 0 else t_p.id_punto end||' ('||t_p.descripcion||')'  as punto_venta"
                     . " from formulario t_f "

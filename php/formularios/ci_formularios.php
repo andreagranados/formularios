@@ -131,6 +131,7 @@ class ci_formularios extends toba_ci
                    //Configuración de Título.
                    $tit=$this->dep('datos')->tabla('formulario')->get_titulo($form['id_form']);
                    $dep=$this->dep('datos')->tabla('formulario')->get_dependencia($form['id_form']);
+                   $disp=$this->dep('datos')->tabla('formulario')->get_disponibilidad($form['id_form']);
                    $salida->titulo(utf8_d_seguro($tit)); 
                    $pdf->ezText($texto, 8, array('justification'=>'center'));
                    $pdf->ezText("\n\n", 10);
@@ -222,6 +223,7 @@ class ci_formularios extends toba_ci
                        $pdf->ezTable($datos1,array('col1'=>'','col2'=>''),'',array('showHeadings'=>0,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('justification'=>'left','width'=>710),'col2'=>array('justification'=>'right','width'=>90))));
 
                    }
+                   $pdf->ezText('<b>Recursos en disponibilidad en: </b>'.$disp,10); 
                    if($form['ingresa_fondo_central']==1){
                        $pdf->ezText("\n\n", 10);
                        $pdf->ezTable($modalidad, $cols_mod, 'MODALIDAD DE INGRESOS DE FONDOS A TESORERIA UNCO',$opc_mod);
