@@ -126,6 +126,18 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'formularios', --proyecto
+	'3274', --dep_id
+	'4257', --objeto_consumidor
+	'4426', --objeto_proveedor
+	'columnas', --identificador
+	NULL, --parametros_a
+	NULL, --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	NULL  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'formularios', --proyecto
 	'3121', --dep_id
 	'4257', --objeto_consumidor
 	'4265', --objeto_proveedor
@@ -221,8 +233,15 @@ INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id)
 	'formularios', --proyecto
 	'1745', --pantalla
 	'4257', --objeto_ci
-	'1', --orden
+	'2', --orden
 	'3121'  --dep_id
+);
+INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
+	'formularios', --proyecto
+	'1745', --pantalla
+	'4257', --objeto_ci
+	'1', --orden
+	'3274'  --dep_id
 );
 INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
 	'formularios', --proyecto
