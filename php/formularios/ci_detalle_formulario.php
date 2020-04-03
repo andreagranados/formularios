@@ -367,7 +367,7 @@ class ci_detalle_formulario extends toba_ci
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->puede_agregar($form['id_form'],$datos['id_categ']);
             }
             if($bandera){
-                 if(isset($datos['cuil1'])){
+                 if(isset($datos['nro_cuil'])){
                     $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                     $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                     $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
@@ -409,7 +409,7 @@ class ci_detalle_formulario extends toba_ci
                 $bandera=$this->controlador()->dep('datos')->tabla('formulario')->puede_agregar($form['id_form'],$datos['id_categ']);
             }
             if($bandera){
-                if(isset($datos['cuil1'])){
+                if(isset($datos['nro_cuil'])){
                     $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                     $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                     $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
@@ -566,6 +566,7 @@ class ci_detalle_formulario extends toba_ci
 //                   }
 //                   $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
 //                   //print_r($datos);
+                   $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
                    $form->set_datos($datos);
                }           
             }else{
@@ -585,7 +586,7 @@ class ci_detalle_formulario extends toba_ci
 //                }
                // if($bandera){
                     $datos['id_form']=$form['id_form'];
-                    if(isset($datos['cuil1'])){
+                    if(isset($datos['nro_cuil'])){
                         $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                         $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                         $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
@@ -622,7 +623,7 @@ class ci_detalle_formulario extends toba_ci
                     $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
                 }
                 if($bandera){
-                    if(isset($datos['cuil1'])){
+                    if(isset($datos['nro_cuil'])){
                         $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                         $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                         $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
