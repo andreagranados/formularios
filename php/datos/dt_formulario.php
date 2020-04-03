@@ -175,7 +175,7 @@ end as puede"
             return $resul[0]['id_origen_recurso'];
         }
         function get_titulo($id_form){
-            $sql="select 'FORMULARIO ' ||t_o.titulo||'-'|| t_o.descripcion as titulo "
+            $sql="select 'FORMULARIO ' || t_o.descripcion as titulo "
                     . " from formulario t_f "
                     . " inner join origen_ingreso t_o on (t_f.id_origen_recurso=t_o.id_origen)"
                     . " where id_form=$id_form";

@@ -2,7 +2,7 @@
 class dt_modalidad_pago extends toba_datos_tabla
 {
     function get_listado($id_form){
-        $sql="select t_m.id_mod,t_m.id_form,trim(t_o.descripcion) as condicion,case when t_m.id_condicion_venta=2 then 'Nro Cheque: '||cast(nro_cheque as text)||' '||t_b.nombre||' (Fecha: '||cast(to_char(t_m.fecha_emision_cheque, 'DD/MM/YYYY') as text)||')' else case when t_m.id_condicion_venta=3 then 'Nro transferencia: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre  else '' end end as detalle, monto "
+        $sql="select t_m.id_mod,t_m.id_form,trim(t_o.descripcion) as condicion,case when t_m.id_condicion_venta=2 then 'Nro Cheque: '||cast(nro_cheque as text)||' '||t_b.nombre||' (Fecha: '||cast(to_char(t_m.fecha_emision_cheque, 'DD/MM/YYYY') as text)||')' else case when t_m.id_condicion_venta=3 then 'Nro transf.: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre||coalesce(' CUIL/T:'||cuil1||'-'||lpad(cast(cuil as text),8,'0')||'-'||cuil2,'')  else '' end end as detalle, monto "
                 . " from modalidad_pago t_m"
                 . " inner join condicion_venta t_o on (t_m.id_condicion_venta =t_o.id_cond)"
                 . " left outer join banco t_b on (t_m.id_banco =t_b.id_banco)"
