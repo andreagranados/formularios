@@ -100,9 +100,10 @@ class dt_item extends toba_datos_tabla
     t_tc.descripcion as tipo_comprob, t_f.estado,
     case when t_f.id_origen_recurso=2 then 'Norma: '||t_i.nro_resol||' Organismo: '||t_i.organismo else case when t_f.id_origen_recurso=3 then t_t.descripcion else case when t_f.id_origen_recurso=4 or t_f.id_origen_recurso=5 then ' Organismo: '||t_i.organismo else '' end end end as otros_datos,
     case when t_f.id_programa=40 then t_pos.descripcion else '' end as posgrado, t_i.detalle,t_cv.descripcion as cond_venta,
-    case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transferencia: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre  else '' end end as cond_venta2
+    case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transf: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre||coalesce(' CUIL/T:'||cuil1||'-'||lpad(cast(cuil as text),8,'0')||'-'||cuil2,'')  else '' end end as cond_venta2,t_e.descripcion as desc_exp
             from item t_i
             inner join formulario t_f on (t_i.id_form=t_f.id_form)
+            inner join expediente t_e on (t_f.nro_expediente=t_e.nro_expediente)
             inner join origen_ingreso t_o on (t_f.id_origen_recurso=t_o.id_origen)
             inner join programa t_pr on (t_f.id_programa=t_pr.id_programa)
             inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)

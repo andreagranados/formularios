@@ -52,6 +52,10 @@ class ci_extracontable extends formularios_ci
                         $c=array('cond_venta2');
                         $this->dep('cuadro')->eliminar_columnas($c); 
                 }   
+               if($this->s__columnas['desc_exp']==0){
+                        $c=array('desc_exp');
+                        $this->dep('cuadro')->eliminar_columnas($c); 
+                }   
              $cuadro->set_datos($this->dep('datos')->tabla('item')->get_extracontable($this->s__where));
                 
             }

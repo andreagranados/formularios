@@ -47,8 +47,16 @@ class ci_formularios extends toba_ci
 	function conf__cuadro(toba_ei_cuadro $cuadro)
 	{
             if (isset($this->s__where)) {
-                 if($this->s__columnas['disponibilidad']==0){
+                if($this->s__columnas['disponibilidad']==0){
                         $c=array('disponibilidad');
+                        $this->dep('cuadro')->eliminar_columnas($c); 
+                }
+                if($this->s__columnas['modalidad']==0){
+                        $c=array('modalidad');
+                        $this->dep('cuadro')->eliminar_columnas($c); 
+                }
+                if($this->s__columnas['desc_pv']==0){
+                        $c=array('desc_pv');
                         $this->dep('cuadro')->eliminar_columnas($c); 
                 }
                 $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro($this->s__where));
@@ -102,7 +110,7 @@ class ci_formularios extends toba_ci
                 $pdf->ezStartPageNumbers(100, 20, 8, 'left', utf8_d_seguro($formato), 1); 
                 $usuario = toba::usuario()->get_nombre();
                     //Luego definimos la ubicación de la fecha en el pie de página.
-                $pdf->addText(500,20,8,'Generado por usuario: '.$usuario.' '.date('d/m/Y h:i:s a')); 
+                //$pdf->addText(500,20,8,'Generado por usuario: '.$usuario.' '.date('d/m/Y h:i:s a')); 
                 $titulo="   ";
                 $opciones = array(
                     'showLines'=>1,
@@ -111,7 +119,7 @@ class ci_formularios extends toba_ci
                    // 'lineCol' => (r,g,b) array,// defining the colour of the lines, default, black.
                     //'showLines'=>2,//coloca las lineas horizontales
                     //'showHeadings' => true,//muestra el nombre de las columnas
-                    'titleFontSize' => 12,
+                    'titleFontSize' => 10,
                     'fontSize' => 10,
                     //'shadeCol' => array(1,1,1,1,1,1,1,1,1,1,1,1),
                     //'shadeCol' => array(0.1,0.1,0.1),//darle color a las filas intercaladamente
@@ -259,6 +267,7 @@ class ci_formularios extends toba_ci
                         $imagen = toba::proyecto()->get_path().'/www/img/sello.jpg';
                         $pdf->addJpegFromFile($imagen, 700, 515, 80, 75);
                         $pdf->addText(730,548,8,$resul[0]['asigna_numero_ingreso']); 
+                        $pdf->addText(500,20,8,'Generado por usuario: '.$usuario.' '.date('d/m/Y h:i:s a')); 
                         $pdf->closeObject(); 
                     } 
             }
