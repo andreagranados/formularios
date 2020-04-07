@@ -119,7 +119,7 @@ class ci_formularios extends toba_ci
                    // 'lineCol' => (r,g,b) array,// defining the colour of the lines, default, black.
                     //'showLines'=>2,//coloca las lineas horizontales
                     //'showHeadings' => true,//muestra el nombre de las columnas
-                    'titleFontSize' => 10,
+                    'titleFontSize' => 9,
                     'fontSize' => 10,
                     //'shadeCol' => array(1,1,1,1,1,1,1,1,1,1,1,1),
                     //'shadeCol' => array(0.1,0.1,0.1),//darle color a las filas intercaladamente
@@ -157,6 +157,7 @@ class ci_formularios extends toba_ci
                    $tit=$this->dep('datos')->tabla('formulario')->get_titulo($form['id_form']);
                    $dep=$this->dep('datos')->tabla('formulario')->get_dependencia($form['id_form']);
                    $disp=$this->dep('datos')->tabla('formulario')->get_disponibilidad($form['id_form']);
+                   $prog=$this->dep('datos')->tabla('formulario')->get_desc_programa($form['id_form']);
                    $salida->titulo(utf8_d_seguro($tit)); 
                    $pdf->ezText($texto, 8, array('justification'=>'center'));
                    $pdf->ezText("\n\n", 10);
@@ -172,6 +173,7 @@ class ci_formularios extends toba_ci
                    $fec=date("d/m/Y",strtotime($form['fecha_creacion']));
                    $pdf->ezText('FECHA CREACION: '.$fec, 10);
                    $pdf->ezText('EXPEDIENTE: '.$form['nro_expediente'], 10);
+                   $pdf->ezText($prog, 10);
                    //print_r($datos_form );exit;
                    foreach ($datos_form as $item) {
                         switch ($form['id_origen_recurso']){
@@ -209,7 +211,7 @@ class ci_formularios extends toba_ci
                             //$cols=array('col2'=>'<b>'.$resol.'</b>','col3' => '<b>ORGANISMO</b>','col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>CONDICION DE VENTA</b>','col7' => '<b>DETALLE COND VENTA</b>','col8' => '<b>MONTO</b>'); 
                             $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
                             //$opc=array('showLines'=>2,'shaded'=>0,'width'=>700,'cols'=>array('col2'=>array('width'=>80),'col3'=>array('width'=>80),'col4'=>array('width'=>90),'col5'=>array('width'=>195),'col6'=>array('width'=>80),'col7'=>array('width'=>190),'col8'=>array('width'=>85,'justification'=>'right')));
-                            $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col7'=>array('width'=>90),'col8'=>array('width'=>90,'justification'=>'right')));
+                            $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>90),'col7'=>array('width'=>260),'col8'=>array('width'=>90,'justification'=>'right')));
                             break;
                         case 3://f14
                             $cat=utf8_decode('CATEGORÍA');

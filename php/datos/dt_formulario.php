@@ -212,6 +212,18 @@ end as puede"
                return ' '; 
             }
         }
+        function get_desc_programa($id_form){
+            $sql="select t_p.nombre as programa "
+                    . " from formulario t_f "
+                    . " inner join programa t_p on (t_f.id_programa=t_p.id_programa)"
+                    . " where id_form=$id_form";
+            $resul= toba::db('formularios')->consultar($sql);
+            if(count($resul)>0){
+               return $resul[0]['programa']; 
+            }else{
+               return ' '; 
+            }
+        }
         function get_punto_venta($id_form){
             $sql="select 'PUNTO DE VENTA: ' ||case when t_p.id_punto<=0 then 0 else t_p.id_punto end||' ('||t_p.descripcion||')'  as punto_venta"
                     . " from formulario t_f "
