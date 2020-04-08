@@ -261,7 +261,13 @@ class ci_formularios extends toba_ci
                    $firma=utf8_decode('Firma, sello y aclaración del Responsable Administrativo');
                    $pdf->addText(500,70,8,$firma); 
                    $pdf->addText(500,60,8,utf8_decode('     El presente tiene carácter de Declaración Jurada ')); 
-
+                   if($form['id_programa']==40){
+                      $pdf->addText(100,80,8,'--------------------------------------------------------------------------'); 
+                      $firma=utf8_decode('Firma, sello y aclaración del Responsable de Posgrado');
+                      $pdf->addText(100,70,8,$firma); 
+                      $pdf->addText(100,60,8,utf8_decode('     El presente tiene carácter de Declaración Jurada '));   
+                   }
+                  
                    //Recorremos cada una de las hojas del documento para agregar el encabezado
                     foreach ($pdf->ezPages as $pageNum=>$id){ 
                         $pdf->reopenObject($id); //definimos el path a la imagen de logo de la organizacion 

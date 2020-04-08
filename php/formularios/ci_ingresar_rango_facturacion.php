@@ -21,8 +21,31 @@ class ci_ingresar_rango_facturacion extends toba_ci
 
     function conf__form_inicial(formularios_ei_formulario $form)
     {
+       
         if(isset($this->s__rango)){//viene de la solapa detalle entonces cargo el formulario correspondiente
             $form->set_datos($this->s__rango);
+            $prog=$this->dep('datos')->tabla('formulario')->get_programa($this->s__rango['id_form']);
+            $ff=$this->dep('datos')->tabla('formulario')->get_origen_recurso($this->s__rango['id_form']);
+            if($prog<>40){
+                $form->desactivar_efs('tipo_posg')  ;
+            }
+            $f12=array('nro_resol','proviene_de','organismo');
+            $f13=array('proviene_de');
+            $f14=array('nro_resol','organismo');
+            $f21=array('nro_resol','proviene_de');
+            $f22=array('nro_resol','proviene_de');
+            $ftodos=array('nro_resol','proviene_de','organismo');
+         
+            switch ($ff) {
+                case 1: $form->desactivar_efs($f12)  ;             break;
+                case 2: $form->desactivar_efs($f13)  ;              break;//f13
+                case 3: $form->desactivar_efs($f14)  ;             break;//f14
+                case 4: $form->desactivar_efs($f21)  ;             break;//f21
+                case 5: $form->desactivar_efs($f22)  ;             break;//f22
+                default: $form->desactivar_efs($ftodos)  ;             break;
+            }
+            
+            
         }
 //        else{
 //            if(isset($this->s__datos)){
@@ -63,7 +86,6 @@ class ci_ingresar_rango_facturacion extends toba_ci
         $id_form= toba::memoria()->get_parametro('id_form');
         if(isset($id_form)){//si tiene valor entonces viene desde el detalle del formulario
             $this->s__rango['id_form']=$id_form;
-            
         }
     }
 }

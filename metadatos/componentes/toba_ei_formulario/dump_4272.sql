@@ -477,8 +477,8 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'proviene_de', --identificador
 	'ef_combo', --elemento_formulario
 	'proviene_de', --columnas
-	'0', --obligatorio
-	'0', --oculto_relaja_obligatorio
+	'1', --obligatorio
+	'1', --oculto_relaja_obligatorio
 	'7', --orden
 	'Proviene de', --etiqueta
 	NULL, --etiqueta_estilo
@@ -557,8 +557,8 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'nro_resol', --identificador
 	'ef_editable', --elemento_formulario
 	'nro_resol', --columnas
-	'0', --obligatorio
-	'0', --oculto_relaja_obligatorio
+	'1', --obligatorio
+	'1', --oculto_relaja_obligatorio
 	'5', --orden
 	'Norma', --etiqueta
 	NULL, --etiqueta_estilo
@@ -637,8 +637,8 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'organismo', --identificador
 	'ef_editable', --elemento_formulario
 	'organismo', --columnas
-	'0', --obligatorio
-	'0', --oculto_relaja_obligatorio
+	'1', --obligatorio
+	'1', --oculto_relaja_obligatorio
 	'6', --orden
 	'Organismo', --etiqueta
 	NULL, --etiqueta_estilo

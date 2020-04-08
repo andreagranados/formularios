@@ -5,15 +5,35 @@ class dt_item extends toba_datos_tabla
        // print_r($datos);exit;//Array ( [id_form] => 64 [id_categ] => 8 [id_vinc] => 2 [detalle] => sas [anio] => 2019 [tipo_comprob] => 11 [desde] => 437 [hasta] => 441 ) 
        // print_r($datos_item);exit;
             foreach ($datos_item as $key => $value) {
+                if(isset($datos['proviene_de'])){
+                    $prov=$datos['proviene_de'];
+                }else{
+                    $prov='null';
+                }
+                if(isset($datos['nro_resol'])){
+                    $resol=$datos['nro_resol'];
+                }else{
+                    $resol='null';
+                }
+                if(isset($datos['organismo'])){
+                    $org=$datos['organismo'];
+                }else{
+                    $org='null';
+                }
+                 if(isset($datos['tipo_posg'])){
+                    $tp=$datos['tipo_posg'];
+                }else{
+                    $tp='null';
+                }
                  $sql="INSERT INTO item(
                id_form, id_categ, id_vinc, proviene_de, nro_resol, 
                 organismo, id_condicion_venta, nro_cheque, id_banco, fecha_emision_cheque, 
                 nro_transferencia, cuil1, cuil, cuil2, alias, detalle, monto, 
                 cuenta_a_acreditar, trans_proviene_de, id_comprobante, tipo_posg)
-            VALUES ( ".$datos['id_form'].",". $datos['id_categ'].",". $datos['id_vinc'].", null, null, 
-                    null, null, null, null, null, 
+            VALUES ( ".$datos['id_form'].",". $datos['id_categ'].",". $datos['id_vinc'].",".$prov.",'".$resol."', 
+                    '".$org."', null, null, null, null, 
                     null, null, null, null, null, '".$datos['detalle']."',".$value['total'].", 
-                    null, null,". $value['id_comprob'].", null);
+                    null, null,". $value['id_comprob'].",".$tp.");
             ";
             toba::db('formularios')->consultar($sql);
         } 
