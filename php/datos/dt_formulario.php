@@ -152,7 +152,7 @@ end as puede"
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
           
-            $sql="select * from (select sub.*, case when check_presupuesto then 'SI' else 'NO' end as check_pres,md.modalidad from 
+            $sql="select * from (select sub.*, case when check_presupuesto then 'SI' else 'NO' end as check_pres,md.modalidad,us.usuario from 
                 (select distinct t_f.id_form,t_b.nombre||' Nro Cuenta: '||t_cu.nro_cuenta as disponibilidad,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,lpad(cast(t_f.id_programa as text),2,'0') as prog,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_p.descripcion as desc_pv,t_f.estado,t_c.titulo as origen ,t_t.total as monto"//sum(t_i.monto) as monto
                          ." from formulario t_f 
                          INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
@@ -172,6 +172,8 @@ end as puede"
                                         left outer join banco n on (n.id_banco=i.id_banco)
                                         group by i.id_form )md 
                                     ON (md.id_form=sub.id_form)"
+                    ."   LEFT OUTER JOIN (select id_form,auditoria_usuario as usuario from public_auditoria.logs_formulario"
+                    . "                   where auditoria_operacion='I')us ON (us.id_form=sub.id_form)"                
                     . ")sub2 $condicion"
                     . " order by fecha_creacion desc";
            // $sql = toba::perfil_de_datos()->filtrar($sql);

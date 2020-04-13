@@ -451,7 +451,7 @@ class ci_detalle_formulario extends toba_ci
            $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
            $this->datos=$this->controlador()->dep('datos')->tabla('item')->get_listado($form['id_form']);
           // print_r($this->datos);exit;
-           if($form['estado']<>'A'){//el boton imprimir solo aparece si el formualrio esta aprobado
+           if($form['estado']<>'A' and $form['estado']<>'T' and $form['estado']<>'P'){//el boton imprimir solo aparece si el formualrio esta aprobado (T o P para que pueda reimprimir)
                 $cuadro->eliminar_evento('imprimir');
             }
            

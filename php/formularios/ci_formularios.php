@@ -59,6 +59,10 @@ class ci_formularios extends toba_ci
                         $c=array('desc_pv');
                         $this->dep('cuadro')->eliminar_columnas($c); 
                 }
+                  if($this->s__columnas['usuario']==0){
+                        $c=array('usuario');
+                        $this->dep('cuadro')->eliminar_columnas($c); 
+                }
                 $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro($this->s__where));
             } 
 //            else{
