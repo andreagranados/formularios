@@ -753,6 +753,13 @@ class ci_detalle_formulario extends toba_ci
 //             }
 //            
 //        }
+        function evt__volver()
+        {
+            $this->controlador()->set_pantalla('pant_seleccion');
+            $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+            $this->controlador()->dep('datos')->tabla('item')->resetear();
+            $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+        }
         function puntos_cm ($medida, $resolucion=72)
         {
            //// 2.54 cm / pulgada
