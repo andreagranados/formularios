@@ -830,7 +830,7 @@ class ci_detalle_formulario extends toba_ci
                $dia=date("d",strtotime($recibo[0]['fecha']));
                $anio=date("Y",strtotime($recibo[0]['fecha']));
                $monto_letras= $this->transforma($recibo[0]['monto']);
-               $texto=utf8_decode('Recibí de ').trim($recibo[0]['recibi_de']).' la suma de pesos '. $monto_letras.' en concepto de '.$recibo[0]['concepto'];
+               $texto=utf8_decode('Recibí de ').trim($recibo[0]['recibi_de']).' la suma de pesos '. utf8_decode($monto_letras).' en concepto de '.$recibo[0]['concepto'];
                $texto2=utf8_decode('Neuquén, ').$dia.' de'.$mes.$anio;
                
                $datos[0]=array('col1'=>'');
