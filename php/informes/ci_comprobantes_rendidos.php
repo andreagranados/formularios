@@ -9,14 +9,9 @@ class ci_comprobantes_rendidos extends formularios_ci
         function conf__filtros(toba_ei_filtro $filtro)
 	{
             if (isset($this->s__datos_filtro)) {
-                $filtro->set_datos($this->s__datos_filtro);
-                //print_r($this->s__datos_filtro);
-                //if(isset($this->s__datos_filtro['fecha_emision'])){
-                 
-                //}
+                $filtro->set_datos($this->s__datos_filtro);               
             }
-            
-         $filtro->columna('fecha_emision')->set_condicion_fija('entre',true)  ;   
+            $filtro->columna('fecha_emision')->set_condicion_fija('entre',true)  ;   
 	}
 
 	function evt__filtros__filtrar($datos)
