@@ -10,7 +10,13 @@ class ci_comprobantes_rendidos extends formularios_ci
 	{
             if (isset($this->s__datos_filtro)) {
                 $filtro->set_datos($this->s__datos_filtro);
+                //print_r($this->s__datos_filtro);
+                //if(isset($this->s__datos_filtro['fecha_emision'])){
+                 
+                //}
             }
+            
+         $filtro->columna('fecha_emision')->set_condicion_fija('entre',true)  ;   
 	}
 
 	function evt__filtros__filtrar($datos)

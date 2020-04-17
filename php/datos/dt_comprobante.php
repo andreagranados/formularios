@@ -142,7 +142,7 @@ class dt_comprobante extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-            $sql=" select * from (select t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else case when sub.estado='N' then 'N' else 'R' end end as rendido,sub.id_form,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
+            $sql=" select * from (select t_c.total,t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else case when sub.estado='N' then 'N' else 'R' end end as rendido,sub.id_form,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
                     from comprobante t_c
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)
