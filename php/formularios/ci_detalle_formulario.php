@@ -608,10 +608,10 @@ class ci_detalle_formulario extends toba_ci
                 $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_cheque($datos['nro_cheque']);
             }
             if($bandera){
-                if(isset($datos['nro_transferencia']) and $modalidad['nro_transferencia']<>$datos['nro_transferencia']){
-                    $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
-                }
-                if($bandera){
+//                if(isset($datos['nro_transferencia']) and $modalidad['nro_transferencia']<>$datos['nro_transferencia']){
+//                    $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
+//                }
+//                if($bandera){
                     if(isset($datos['nro_cuil'])){
                         $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                         $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
@@ -623,9 +623,9 @@ class ci_detalle_formulario extends toba_ci
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
                     toba::notificacion()->agregar('Se ha modificado correctamente', 'info');   
                     $this->s__mostrar_m=0;
-                }else{
-                    throw new toba_error('El numero de transferencia se repite');   
-                }
+//                }else{
+//                    throw new toba_error('El numero de transferencia se repite');   
+//                }
                 
             }else{
               throw new toba_error('El numero de cheque se repite');   
