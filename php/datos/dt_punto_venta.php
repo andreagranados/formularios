@@ -11,7 +11,7 @@ class dt_punto_venta extends toba_datos_tabla
                     . " FROM punto_venta $where"
                     
                     . " ORDER BY descripcion";
-           
+            $sql = toba::perfil_de_datos()->filtrar($sql);
             return toba::db('formularios')->consultar($sql);
 	}
         function get_listado($where=null){

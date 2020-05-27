@@ -179,4 +179,25 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'SUBSECRETARÍA DE VINCULACIÓN Y TRANSFERENCIA TECNOLÓGICA', --descripcion
 	NULL  --listar
 );
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'108', --usuario_perfil_datos
+	'218', --nombre
+	'Comedor', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'109', --usuario_perfil_datos
+	'219', --nombre
+	'Deportes', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'110', --usuario_perfil_datos
+	'211', --nombre
+	'SEBU', --descripcion
+	NULL  --listar
+);
 --- FIN Grupo de desarrollo 0
