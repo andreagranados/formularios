@@ -200,4 +200,18 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'SEBU', --descripcion
 	NULL  --listar
 );
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'111', --usuario_perfil_datos
+	'260', --nombre
+	'Sexu FAEA', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'112', --usuario_perfil_datos
+	'262', --nombre
+	'262 Posgrado FAEA', --descripcion
+	NULL  --listar
+);
 --- FIN Grupo de desarrollo 0
