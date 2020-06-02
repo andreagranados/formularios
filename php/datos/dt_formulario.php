@@ -190,7 +190,7 @@ end as puede"
                                         group by i.id_form )md 
                                     ON (md.id_form=sub.id_form)"
                     ."   LEFT OUTER JOIN (select id_form,auditoria_usuario as usuario from public_auditoria.logs_formulario"
-                    . "                   where auditoria_operacion='I')us ON (us.id_form=sub.id_form)"                
+                    . "                   where auditoria_operacion='I' and auditoria_usuario<>'postgres')us ON (us.id_form=sub.id_form)"                
                     . ")sub2 $condicion"
                     . " order by fecha_creacion desc";
            // $sql = toba::perfil_de_datos()->filtrar($sql);
