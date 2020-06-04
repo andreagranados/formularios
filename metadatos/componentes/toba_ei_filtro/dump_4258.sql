@@ -423,8 +423,8 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'4258', --objeto_ei_filtro
 	'formularios', --objeto_ei_filtro_proyecto
 	'booleano', --tipo
-	'pasado_pilaga', --nombre
-	'pasado_pilaga', --expresion
+	'pas_pilaga', --nombre
+	'pas_pilaga', --expresion
 	'Pasado Pilaga', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
