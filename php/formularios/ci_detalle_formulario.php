@@ -555,6 +555,10 @@ class ci_detalle_formulario extends toba_ci
                $this->dep('form_modalidad')->descolapsar();
                if($this->controlador()->dep('datos')->tabla('modalidad_pago')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
+                   if(isset($datos['archivo_trans'])){
+                        $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$datos['archivo_trans'];
+                        $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
+                    }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
                    $form->set_datos($datos);
                }           
@@ -565,6 +569,7 @@ class ci_detalle_formulario extends toba_ci
         function evt__form_modalidad__alta($datos)
 	{
             $bandera=true;
+            $adj=false;
             $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
             if(isset($datos['nro_cheque'])){//si tiene cheque
                 $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_cheque($datos['nro_cheque']);
@@ -580,10 +585,28 @@ class ci_detalle_formulario extends toba_ci
                         $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                         $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                     }
+                    if (isset($datos['archivo_trans'])) {
+                        $archivo=$datos['archivo_trans'];
+                        $datos['archivo_trans']='';
+                        $adj=true;
+                    }
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->set($datos);
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->sincronizar();
+                    
+                    if($adj){
+                        $modalidad=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
+                        $nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
+                        $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$nombre_ca;
+                        if(move_uploaded_file($archivo['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                               $valor=strval($nombre_ca);      
+                        }
+                        $this->controlador()->dep('datos')->tabla('modalidad_pago')->cambiar_adj($modalidad['id_mod'],$valor);
+                        
+                    }
+                    
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
                     $this->s__mostrar_m=0;
+                    
 //                }else{
 //                    throw new toba_error('El numero de transferencia se repite');
 //                }
@@ -594,11 +617,22 @@ class ci_detalle_formulario extends toba_ci
 	}
         function evt__form_modalidad__baja()
 	{
+            $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
+            if(isset($datos['archivo_trans'])){//si tiene archivo lo borra
+                $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$datos['archivo_trans'];
+                unlink($nomb_ft);
+            }
             $this->controlador()->dep('datos')->tabla('modalidad_pago')->eliminar_todo();
             $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
             toba::notificacion()->agregar('Se ha eliminado correctamente', 'info');   
             $this->s__mostrar_m=0;
 	}
+        
+        function evt__form_modalidad__cancelar()
+        {
+            $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+            $this->s__mostrar_m=0;
+        }
 
 	function evt__form_modalidad__modificacion($datos)
         {
@@ -612,6 +646,12 @@ class ci_detalle_formulario extends toba_ci
 //                    $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
 //                }
 //                if($bandera){
+                    if (isset($datos['archivo_trans'])) {
+                            $nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
+                            $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$nombre_ca;
+                            if(move_uploaded_file($datos['archivo_trans']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                               $datos['archivo_trans']=strval($nombre_ca);}
+                    }
                     if(isset($datos['nro_cuil'])){
                         $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                         $datos['cuil']=substr($datos['nro_cuil'], 2, 8);

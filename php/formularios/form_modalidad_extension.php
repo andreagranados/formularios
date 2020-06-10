@@ -19,6 +19,8 @@ class form_modalidad_extension extends toba_ei_formulario
                                             this.ef('nro_cheque').ocultar();
                                             this.ef('id_banco').ocultar();
                                             this.ef('fecha_emision_cheque').ocultar();
+                                            this.ef('archivo_trans').ocultar();
+                                            this.ef('imagen_vista_previa_t').ocultar();
                                             /*this.ef('cuil1').ocultar();
                                             this.ef('cuil').ocultar();
                                             this.ef('cuil2').ocultar();*/
@@ -30,6 +32,8 @@ class form_modalidad_extension extends toba_ei_formulario
                                             this.ef('nro_cheque').mostrar();
                                             this.ef('id_banco').mostrar();
                                             this.ef('fecha_emision_cheque').mostrar();
+                                            this.ef('archivo_trans').ocultar();
+                                            this.ef('imagen_vista_previa_t').ocultar();
                                             /*this.ef('cuil1').ocultar();
                                             this.ef('cuil').ocultar();
                                             this.ef('cuil2').ocultar();*/
@@ -40,7 +44,9 @@ class form_modalidad_extension extends toba_ei_formulario
                                             this.ef('fecha_emision_cheque').ocultar();
                                             this.ef('cuenta_a_acreditar').mostrar();
                                             this.ef('nro_transferencia').mostrar();
-                                             this.ef('nro_cuil').mostrar();
+                                            this.ef('nro_cuil').mostrar();
+                                            this.ef('archivo_trans').mostrar();
+                                            this.ef('imagen_vista_previa_t').mostrar();
                                             break;
                                         default:/* por defecto no aparece nada*/
                                             this.ef('cuenta_a_acreditar').ocultar();
@@ -49,6 +55,8 @@ class form_modalidad_extension extends toba_ei_formulario
                                             this.ef('nro_cheque').ocultar();
                                             this.ef('id_banco').ocultar();
                                             this.ef('fecha_emision_cheque').ocultar();
+                                            this.ef('archivo_trans').ocultar();
+                                            this.ef('imagen_vista_previa_t').ocultar();
                                             break;   
 									
 				}

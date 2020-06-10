@@ -401,7 +401,7 @@ INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, id
 	'pant_modalidad', --identificador
 	'3', --orden
 	'Modalidad de Ingreso de Fondos Unco', --etiqueta
-	NULL, --descripcion
+	'Mientras la Dirección de Tesorería Central no retome la atención en forma personal, sólo se aceptarán transferencias.', --descripcion
 	NULL, --tip
 	'apex', --imagen_recurso_origen
 	NULL, --imagen
