@@ -28,4 +28,10 @@ INSERT INTO apex_restriccion_funcional (proyecto, restriccion_funcional, descrip
 	'restricciones_presupuesto', --descripcion
 	'0'  --permite_edicion
 );
+INSERT INTO apex_restriccion_funcional (proyecto, restriccion_funcional, descripcion, permite_edicion) VALUES (
+	'formularios', --proyecto
+	'54', --restriccion_funcional
+	'restricciones_consulta', --descripcion
+	'0'  --permite_edicion
+);
 --- FIN Grupo de desarrollo 0
