@@ -59,7 +59,7 @@ class dt_formulario extends toba_datos_tabla
 else true 
 end as puede"
                     ." from 
-                 (select subcon.*,case when id_origen_recurso=1 and tiene_retencion then trunc(totali*porc_retencion/100,2)  else 0 end  as retencion  from
+                 (select subcon.*,case when id_origen_recurso=1 and tiene_retencion then round(totali*porc_retencion/100,2)  else 0 end  as retencion  from
                  (select distinct t_f.id_form,t_f.nro_expediente,t_f.id_dependencia,t_f.id_origen_recurso,t_f.ingresa_fondo_central,t_d.tipo_dep,t_c.tiene_retencion,t_p.porc_retencion,subm.totalm,subi.totali
                      from formulario t_f
                      inner join dependencia t_d on (t_f.id_dependencia=t_d.sigla)
