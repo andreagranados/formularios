@@ -58,7 +58,8 @@ class dt_item extends toba_datos_tabla
                 . ")sub"
                 . " left outer join (select id_form,sum(monto) as total from item "
                 . "                  where id_form=$id_form"
-                . "                  group by id_form) t_t on (t_t.id_form=sub.id_form)";
+                . "                  group by id_form) t_t on (t_t.id_form=sub.id_form)"
+                . " order by nro_factura";
         return toba::db('formularios')->consultar($sql);
     }
     function get_totales($where=null){
