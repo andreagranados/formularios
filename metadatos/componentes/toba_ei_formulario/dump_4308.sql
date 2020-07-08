@@ -296,7 +296,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'4308', --objeto_ei_formulario
 	'formularios', --objeto_ei_formulario_proyecto
 	'concepto', --identificador
-	'ef_editable', --elemento_formulario
+	'ef_editable_textarea', --elemento_formulario
 	'concepto', --columnas
 	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
