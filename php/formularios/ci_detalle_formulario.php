@@ -372,6 +372,12 @@ class ci_detalle_formulario extends toba_ci
                     $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                     $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                 }
+                 if($datos['corresponde_factura']=='SI'){
+                    $total=$this->controlador()->dep('datos')->tabla('comprobante')->get_monto($datos['id_comprobante']);
+                    if($total<>$datos['monto']){
+                        $datos['monto']=$total;
+                    }
+                }
                 $this->controlador()->dep('datos')->tabla('item')->set($datos);
                 $this->controlador()->dep('datos')->tabla('item')->sincronizar();
                 $this->controlador()->dep('datos')->tabla('item')->resetear();
@@ -413,6 +419,13 @@ class ci_detalle_formulario extends toba_ci
                     $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                     $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                     $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);    
+                }
+                
+                if($datos['corresponde_factura']=='SI'){
+                    $total=$this->controlador()->dep('datos')->tabla('comprobante')->get_monto($datos['id_comprobante']);
+                    if($total<>$datos['monto']){
+                        $datos['monto']=$total;
+                    }
                 }
                 $this->controlador()->dep('datos')->tabla('item')->set($datos);
                 $this->controlador()->dep('datos')->tabla('item')->sincronizar();
@@ -646,18 +659,19 @@ class ci_detalle_formulario extends toba_ci
 //                    $bandera=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia($datos['nro_transferencia']);
 //                }
 //                if($bandera){
+                    $nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
+                    $datos['archivo_trans']=strval($nombre_ca);//esto xq sino deja en nulo el campo archivo transferencia
                     if (isset($datos['archivo_trans'])) {
-                            $nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
+                            //$nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
                             $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$nombre_ca;
-                            if(move_uploaded_file($datos['archivo_trans']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
-                               $datos['archivo_trans']=strval($nombre_ca);}
+                            move_uploaded_file($datos['archivo_trans']['tmp_name'], $destino_ca);//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no                       
                     }
                     if(isset($datos['nro_cuil'])){
                         $datos['cuil1']=substr($datos['nro_cuil'], 0, 2);
                         $datos['cuil']=substr($datos['nro_cuil'], 2, 8);
                         $datos['cuil2']=substr($datos['nro_cuil'], 10, 1);
                     }
-
+                    
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->set($datos);
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->sincronizar();
                     $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();

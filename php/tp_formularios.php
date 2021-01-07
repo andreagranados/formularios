@@ -87,7 +87,8 @@
 			}
 			echo "<div $info >";		
 			echo 'Versi�n <strong>' . $version .'</strong>';
-			echo '</div>';		
+			echo '</div>';	
+                       
 		}
 	}	
 		
@@ -100,7 +101,8 @@
 	{
                 echo "</div>";		
 		echo "<div class='login-pie'>";
-                
+                echo "<div><strong> El Ejercicio 2021 se habilitar&aacute el 11/02/2021 </strong></div>";
+                echo "<br>";
                 echo "<div>Desarrollado por <strong> <a href='http://sti.uncoma.edu.ar'>" . toba_recurso::imagen_proyecto("isosubti.png",true,null,'20px')."</a>Secretar&iacute;a de Hacienda <a href='http://www.uncoma.edu.ar' style='text-decoration: none' target='_blank'> - Uncoma</a></strong></div>
 			<div>2019 - ".date('Y')."</div>";
 
