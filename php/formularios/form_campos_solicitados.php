@@ -100,6 +100,9 @@ class form_campos_solicitados extends toba_ei_formulario
                                             this.ef('nro_resol').ocultar();
                                             this.ef('proviene_de').ocultar();
                                             break;
+                                         case '6':
+                                            this.ef('proviene_de').ocultar();/*solo para f14*/
+                                                break;
 					default:
                                             this.ef('id_categ').ocultar();
                                             this.ef('id_vinc').ocultar();

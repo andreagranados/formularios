@@ -20,13 +20,6 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 );
 INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
 	'formularios', --proyecto
-	'83', --usuario_perfil_datos
-	'BICE', --nombre
-	'Biblioteca Central', --descripcion
-	NULL  --listar
-);
-INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
-	'formularios', --proyecto
 	'84', --usuario_perfil_datos
 	'CRUB', --nombre
 	'Centro Regional Universitario Bariloche', --descripcion
@@ -204,7 +197,7 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'formularios', --proyecto
 	'111', --usuario_perfil_datos
 	'260', --nombre
-	'Sexu FAEA', --descripcion
+	'260 Sexu FAEA', --descripcion
 	NULL  --listar
 );
 INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
@@ -212,6 +205,48 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'112', --usuario_perfil_datos
 	'262', --nombre
 	'262 Posgrado FAEA', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'113', --usuario_perfil_datos
+	'SEAC', --nombre
+	'SECRETARIA ACADEMICA', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'114', --usuario_perfil_datos
+	'POST', --nombre
+	'Sin factura Postgrado (SEAC)', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'115', --usuario_perfil_datos
+	'BIBL', --nombre
+	'Biblioteca (SEAC)', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'117', --usuario_perfil_datos
+	'SCIN', --nombre
+	'Sin Factura CIN (SCYT)', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'118', --usuario_perfil_datos
+	'SCYT', --nombre
+	'SCYT (Sin CIN)', --descripcion
+	NULL  --listar
+);
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'119', --usuario_perfil_datos
+	'CIPO', --nombre
+	'Comedor Cipo (SEBU)', --descripcion
 	NULL  --listar
 );
 --- FIN Grupo de desarrollo 0

@@ -562,7 +562,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'5', --orden
 	'Norma', --etiqueta
 	NULL, --etiqueta_estilo
-	'Especificar la Norma a través de la cual se otorga el fondo (para F13)', --descripcion
+	'Especificar la Norma a través de la cual se otorga el fondo (para F13/F11)', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo

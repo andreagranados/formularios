@@ -13,13 +13,6 @@ INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dime
 );
 INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
 	'formularios', --proyecto
-	'83', --usuario_perfil_datos
-	'21', --dimension
-	'121', --elemento
-	'BICE '  --clave
-);
-INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
-	'formularios', --proyecto
 	'84', --usuario_perfil_datos
 	'21', --dimension
 	'122', --elemento
@@ -216,23 +209,9 @@ INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dime
 );
 INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
 	'formularios', --proyecto
-	'108', --usuario_perfil_datos
-	'22', --dimension
-	'152', --elemento
-	'-3'  --clave
-);
-INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
-	'formularios', --proyecto
 	'110', --usuario_perfil_datos
 	'22', --dimension
 	'153', --elemento
-	'-3'  --clave
-);
-INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
-	'formularios', --proyecto
-	'109', --usuario_perfil_datos
-	'22', --dimension
-	'154', --elemento
 	'-3'  --clave
 );
 INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
@@ -269,5 +248,124 @@ INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dime
 	'21', --dimension
 	'159', --elemento
 	'ASMA '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'113', --usuario_perfil_datos
+	'21', --dimension
+	'160', --elemento
+	'SEAC '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'114', --usuario_perfil_datos
+	'22', --dimension
+	'161', --elemento
+	'-27'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'114', --usuario_perfil_datos
+	'21', --dimension
+	'162', --elemento
+	'SEAC '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'115', --usuario_perfil_datos
+	'21', --dimension
+	'163', --elemento
+	'SEAC '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'115', --usuario_perfil_datos
+	'22', --dimension
+	'165', --elemento
+	'0'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'115', --usuario_perfil_datos
+	'22', --dimension
+	'166', --elemento
+	'214'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'109', --usuario_perfil_datos
+	'22', --dimension
+	'172', --elemento
+	'-29'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'108', --usuario_perfil_datos
+	'22', --dimension
+	'174', --elemento
+	'-30'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'117', --usuario_perfil_datos
+	'21', --dimension
+	'175', --elemento
+	'SECT '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'117', --usuario_perfil_datos
+	'22', --dimension
+	'176', --elemento
+	'-28'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'118', --usuario_perfil_datos
+	'21', --dimension
+	'177', --elemento
+	'SECT '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'118', --usuario_perfil_datos
+	'22', --dimension
+	'178', --elemento
+	'-4'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'118', --usuario_perfil_datos
+	'22', --dimension
+	'179', --elemento
+	'206'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'118', --usuario_perfil_datos
+	'22', --dimension
+	'180', --elemento
+	'223'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'119', --usuario_perfil_datos
+	'21', --dimension
+	'181', --elemento
+	'SEBU '  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'119', --usuario_perfil_datos
+	'22', --dimension
+	'182', --elemento
+	'-31'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'119', --usuario_perfil_datos
+	'22', --dimension
+	'183', --elemento
+	'211'  --clave
 );
 --- FIN Grupo de desarrollo 0

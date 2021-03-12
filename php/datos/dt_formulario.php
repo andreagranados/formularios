@@ -160,15 +160,23 @@ end as puede"
             $resul=toba::db('formularios')->consultar($con);
             $con2="select id_punto from punto_venta ";
             $con2 = toba::perfil_de_datos()->filtrar($con2);
+            $pos=strripos($con2,'WHERE');//devuelve falso sino encuentra
+
             $resul2=toba::db('formularios')->consultar($con2);
-                       
+          
             if(isset($pd)){//pd solo tiene valor cuando el usuario esta asociado a un perfil de datos
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
-                    if(count($resul2)==1){//le aplica el perfil del punto de venta
-                        $condicion.=" and id_punto_venta = ".$resul2[0]['id_punto'];
+                    if(!$pos===false){//aplica el perfil del punto de venta cuando encuentra el where
+                        $condicion.=" and id_punto_venta IN ( ";
+                        foreach ($resul2 as $key => $value) {
+                            $condicion.=$value['id_punto'].',';
+                        }
+                        $condicion=substr ( $condicion ,0 , strlen($condicion)-1 ) ;//le saco el ultimo ,
+                        $condicion.=')';
+                       //print_r($condicion);
                     }
                 }//sino es usuario de la central no filtro a menos que haya elegido
-          
+         
              $sql="select distinct * from (select sub.*, case when check_presupuesto then 'SI' else 'NO' end as check_pres,md.modalidad,us.usuario from 
                 (select distinct t_f.id_form,t_b.nombre||' Nro Cuenta: '||t_cu.nro_cuenta as disponibilidad,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,lpad(cast(t_f.id_programa as text),2,'0') as prog,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pilaga,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 1 else 0 end else case when t_f.pasado_pilaga then 1 else 0 end end  as pas_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_p.descripcion as desc_pv,t_f.estado,t_c.titulo as origen ,t_t.total as monto"//sum(t_i.monto) as monto
                          ." from formulario t_f 
@@ -194,6 +202,7 @@ end as puede"
                     . ")sub2 $condicion"
                     . " order by fecha_creacion desc";
            // $sql = toba::perfil_de_datos()->filtrar($sql);
+             
             return toba::db('formularios')->consultar($sql);
         }
         

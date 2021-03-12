@@ -523,6 +523,15 @@ class ci_detalle_formulario extends toba_ci
                        $elem['id_item']=-1;
                        $elem['monto']=$this->datos[0]['total'];
                        array_push($this->datos,$elem);break;
+                    case 6://si es F11
+                       //$columnas=array('categ','vinc','proviene_descrip');
+                       $columnas=array('proviene_descrip');
+                       $cuadro->eliminar_columnas($columnas);
+                       $elem['categ']="<b>TOTAL:</b>";
+                       $elem['id_item']=-1;
+                       $elem['monto']=$this->datos[0]['total'];
+                       array_push($this->datos,$elem);
+                       break;
                    
                    default:
                        break;
