@@ -80,9 +80,77 @@ class ci_formularios extends toba_ci
             $mensaje=$this->dep('datos')->tabla('formulario')->pasado_pilaga($datos['id_form']);
             toba::notificacion()->agregar($mensaje, 'info');  
 	}
+        function evt__cuadro__adjuntos($datos)
+	{
+            $this->dep('datos')->tabla('formulario')->cargar($datos);
+            
+            $datos=$this->dep('datos')->tabla('formulario')->get();          
+            if(isset($datos['nro_ingreso'])){
+                $this->set_pantalla('pant_adjuntos');
+             }else{
+                toba::notificacion()->agregar('El formulario aun no tiene numero', 'info');    
+            }
+            
+	}
 	function evt__agregar()
 	{
              $this->set_pantalla('pant_edicion');
+	}
+        function evt__form_adjuntos__modificacion($datos)
+        {
+            $formu=$this->dep('datos')->tabla('formulario')->get();
+            if(isset($formu['nro_ingreso'])){
+                    if (isset($datos['archivo_form']) or isset($datos['archivo_finanzas'])) {
+                        if (isset($datos['archivo_form'])) {//esta modificando el archivo formulario
+                                $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro'].".pdf";
+                                $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$nombre_ca;
+                                if(move_uploaded_file($datos['archivo_form']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                                    $datos2['archivo_form']=strval($nombre_ca);                                   
+                                }
+                            }
+                        if (isset($datos['archivo_finanzas'])) {//esta modificando el archivo formulario
+                                $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_finanzas.pdf";
+                                $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$nombre_ca;
+                                if(move_uploaded_file($datos['archivo_finanzas']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                                    $datos2['archivo_finanzas']=strval($nombre_ca);
+                                }
+                        }
+                        $this->dep('datos')->tabla('formulario')->set($datos2);
+                        $this->dep('datos')->tabla('formulario')->sincronizar();    
+                    }
+            }                
+         
+        
+        }
+        function conf__form_adjuntos(toba_ei_formulario $form)
+	{
+           if($this->dep('datos')->tabla('formulario')->esta_cargada()){
+               $datos=$this->dep('datos')->tabla('formulario')->get();          
+               if(isset($datos['nro_ingreso'])){
+                   $nombre='Formulario '.str_pad($datos['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$datos['ano_cobro'];
+                   if(isset($datos['archivo_form'])and $datos['archivo_form']<>''){
+                        $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$datos['archivo_form'];
+                        $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >form_firmado</a>";
+                    }
+                   if((isset($datos['archivo_finanzas']) and $datos['archivo_finanzas']<>'')){
+                        $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$datos['archivo_finanzas'];
+                        $datos['imagen_vista_previa_f'] = "<a target='_blank' href='{$nomb_ft}' >archivo_finanzas</a>";
+                    }
+                    
+                   $form->set_titulo($nombre);
+                   $form->set_datos($datos);
+               }
+              clearstatcache(); 
+           }           
+	}
+        //-----------------------------------------------------------------------------------
+	//---- Eventos ----------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
+
+	function evt__volver()
+	{
+            $this->set_pantalla('pant_seleccion');
+            $this->dep('datos')->tabla('formulario')->resetear();
 	}
 	//-----------------------------------------------------------------------------------
 	//---- JAVASCRIPT -------------------------------------------------------------------
@@ -337,6 +405,8 @@ class ci_formularios extends toba_ci
            // $this->dep('ci_detalle_formulario')->set_pantalla('pant_inicial');//este no funciona
         }
     }
+
+	
 
 }
 ?>
