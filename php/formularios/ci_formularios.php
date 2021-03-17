@@ -128,11 +128,11 @@ class ci_formularios extends toba_ci
                if(isset($datos['nro_ingreso'])){
                    $nombre='Formulario '.str_pad($datos['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$datos['ano_cobro'];
                    if(isset($datos['archivo_form'])and $datos['archivo_form']<>''){
-                        $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$datos['archivo_form'];
+                        $nomb_ft="/formularios/1.0/adjuntos/".$anio."/".$datos['archivo_form'];
                         $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >form_firmado</a>";
                     }
                    if((isset($datos['archivo_finanzas']) and $datos['archivo_finanzas']<>'')){
-                        $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$datos['archivo_finanzas'];
+                        $nomb_ft="/formularios/1.0/adjuntos/".$anio."/".$datos['archivo_finanzas'];
                         $datos['imagen_vista_previa_f'] = "<a target='_blank' href='{$nomb_ft}' >archivo_finanzas</a>";
                     }
                     
