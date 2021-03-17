@@ -100,28 +100,25 @@ class ci_formularios extends toba_ci
         {
             $formu=$this->dep('datos')->tabla('formulario')->get();
             $anio=$formu['ano_cobro'];
-            if(isset($formu['nro_ingreso'])){
-                    if (isset($datos['archivo_form']) or isset($datos['archivo_finanzas'])) {
-                        if (isset($datos['archivo_form'])) {//esta modificando el archivo formulario
-                                $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro'].".pdf";
-                                $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$anio."/".$nombre_ca;
-                                if(move_uploaded_file($datos['archivo_form']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
-                                    $datos2['archivo_form']=strval($nombre_ca);                                   
-                                }
-                            }
-                        if (isset($datos['archivo_finanzas'])) {//esta modificando el archivo formulario
-                                $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_finanzas.pdf";
-                                $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$anio."/".$nombre_ca;
-                                if(move_uploaded_file($datos['archivo_finanzas']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
-                                    $datos2['archivo_finanzas']=strval($nombre_ca);
-                                }
+            //ya esta chequeado que tiene numero de ingreso
+            if (isset($datos['archivo_form']) or isset($datos['archivo_finanzas'])) {
+                if (isset($datos['archivo_form'])) {//esta modificando el archivo formulario
+                        $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro'].".pdf";
+                        $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$anio."/".$nombre_ca;
+                        if(move_uploaded_file($datos['archivo_form']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                            $datos2['archivo_form']=strval($nombre_ca);                                   
                         }
-                        $this->dep('datos')->tabla('formulario')->set($datos2);
-                        $this->dep('datos')->tabla('formulario')->sincronizar();    
                     }
-            }                
-         
-        
+                if (isset($datos['archivo_finanzas'])) {//esta modificando el archivo formulario
+                        $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_finanzas.pdf";
+                        $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/formularios/".$anio."/".$nombre_ca;
+                        if(move_uploaded_file($datos['archivo_finanzas']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                            $datos2['archivo_finanzas']=strval($nombre_ca);
+                        }
+                }
+                $this->dep('datos')->tabla('formulario')->set($datos2);
+                $this->dep('datos')->tabla('formulario')->sincronizar();    
+            }
         }
         function conf__form_adjuntos(toba_ei_formulario $form)
 	{
