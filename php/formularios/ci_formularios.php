@@ -247,11 +247,14 @@ class ci_formularios extends toba_ci
                    $pdf->ezText($prog, 10);
                    //print_r($datos_form );exit;
                    $band=$this->dep('datos')->tabla('formulario')->igual_categ_vinc($form['id_form']);//es true si todos son iguales
+                   if($band){
+                       $c=$datos_form[0]['categ'];$v=$datos_form[0]['vinc'];
+                   }
                    foreach ($datos_form as $item) {
                         switch ($form['id_origen_recurso']){
                             case 1://f12
                                 if($band){
-                                    $c=$item['categ'];$v=$item['vinc'];
+                                    //$c=$item['categ'];$v=$item['vinc'];
                                     $datos[$i]=array( 'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));  
                                 }else{
                                     $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));
@@ -284,6 +287,13 @@ class ci_formularios extends toba_ci
                                     $datos[$i]=array( 'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
                                 }else{
                                     $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));   
+                                }
+                                break;
+                            case 6://f11
+                                if($band){
+                                    $datos[$i]=array( 'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
+                                }else{
+                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
                                 }
                                 break;
                         }
@@ -341,6 +351,18 @@ class ci_formularios extends toba_ci
                                 $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
                                 $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>350),'col7'=>array('width'=>90,'justification'=>'right')));   
                             }                            
+                            break;
+                        case 6://f11
+                            $resol=utf8_decode('NORMA');
+                            if($band){
+                                $cols=array('col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col4'=>array('width'=>90),'col5'=>array('width'=>140),'col6'=>array('width'=>90),'col7'=>array('width'=>390),'col8'=>array('width'=>90,'justification'=>'right')));
+                            }
+                            else{ 
+                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>90),'col7'=>array('width'=>260),'col8'=>array('width'=>90,'justification'=>'right')));
+                            }
+                            
                             break;
                         default:
                             break;
