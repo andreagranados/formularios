@@ -219,10 +219,23 @@ class ci_formularios extends toba_ci
                    $sql="select asigna_numero_ingreso(".$form['id_form'].")";
                    $resul=toba::db('formularios')->consultar($sql);
                    $salida->set_nombre_archivo("Formulario".$resul[0]['asigna_numero_ingreso'].".pdf");
+                   //recupero el estado luego del llamado a la funcion de asignacion de numero
+                   $estado=$this->dep('datos')->tabla('formulario')->get_estado($form['id_form']);
                    $datos_form=$this->dep('datos')->tabla('item')->get_listado($form['id_form']);
                    //print_r($datos_form);EXIT();
                    $datos=array();
-
+                   
+                   //Recorremos cada una de las hojas del documento para agregar el encabezado
+//                   if($estado=='I'){//si volvio a estado I es porque fue rendicion parcial
+//                        foreach ($pdf->ezPages as $pageNum=>$id){ 
+//                            $pdf->reopenObject($id); //definimos el path a la imagen de logo de la organizacion 
+//                            //agregamos al documento la imagen y definimos su posición a través de las coordenadas (x,y) y el ancho y el alto.
+//                            $imagen_rp = toba::proyecto()->get_path().'/www/img/rendicion.jpg';
+//                            $pdf->addJpegFromFile($imagen_rp, 200, 55, 400, 350);//200, 40, 400, 400
+//                            $pdf->closeObject(); 
+//                        } 
+//                   }
+                   
                    $i=0;
                    //Configuración de Título.
                    $tit=$this->dep('datos')->tabla('formulario')->get_titulo($form['id_form']);

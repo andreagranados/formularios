@@ -11,6 +11,13 @@ class dt_formulario extends toba_datos_tabla
             return false;
         }
     }
+    //retorna el estado del formulario que ingresa como argumento
+    function get_estado($id_form){
+        $sql="select estado from formulario "
+                . " where id_form=$id_form";
+        $resul=toba::db('formularios')->consultar($sql);
+        return $resul[0]['estado'];
+    }
     function get_programa($id_form){
         $sql="select id_programa from formulario where id_form=$id_form";
         $resul=toba::db('formularios')->consultar($sql);
@@ -201,7 +208,8 @@ end as puede"
                     . "                   where auditoria_operacion='I' and auditoria_usuario<>'postgres')us ON (us.id_form=sub.id_form)"                
                     . ")sub2 $condicion"
                     . " order by fecha_creacion desc";
-           // $sql = toba::perfil_de_datos()->filtrar($sql);
+     
+           // $sql = toba::perfil_de_datos()->filtrar($sql); no va
             return toba::db('formularios')->consultar($sql);
         }
         
