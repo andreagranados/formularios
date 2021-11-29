@@ -249,4 +249,11 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'Comedor Cipo (SEBU)', --descripcion
 	NULL  --listar
 );
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'120', --usuario_perfil_datos
+	'SUOS', --nombre
+	'SUBSECRETARIA DE OBRAS Y SERVICIOS', --descripcion
+	NULL  --listar
+);
 --- FIN Grupo de desarrollo 0
