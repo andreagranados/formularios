@@ -1,6 +1,17 @@
 <?php
 class dt_formulario extends toba_datos_tabla
 {      
+    function tiene_recibo($id_form){
+        $sql="select id_recibo from formulario"
+                . " where id_form=$id_form";
+        $resul=toba::db('formularios')->consultar($sql);
+        
+        if(isset($resul[0]['id_recibo'])){
+            return true;
+        }else{
+            return false;
+        }
+    }
     function igual_categ_vinc($id_form){//retorna true se todos los items tienen la misma categ y vinculacion
         $sql="select count(distinct id_item) as cant_i,count(distinct(id_categ)) as cant_c,count(distinct(id_vinc))as cant_v from item "
                 . " where id_form=$id_form";

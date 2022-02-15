@@ -19,6 +19,7 @@ class formularios_autoload
 
 	static protected $clases = array(
             'abm_ci' => 'extension_toba/componentes/abm_ci.php',
+            'formularios_abm_ci' => 'extension_toba/componentes/formularios_abm_ci.php',
 		'formularios_ci' => 'extension_toba/componentes/formularios_ci.php',
 		'formularios_cn' => 'extension_toba/componentes/formularios_cn.php',
 		'formularios_datos_relacion' => 'extension_toba/componentes/formularios_datos_relacion.php',

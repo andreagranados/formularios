@@ -2,12 +2,13 @@
 require_once 'NumeroALetras.php';
 require_once toba::proyecto()->get_path().'/php/datos/dt_dependencia.php';
 
-class ci_detalle_formulario extends toba_ci
+class ci_detalle_formulario extends formularios_abm_ci
 {
     protected $s__mostrar_i;
     protected $datos;
     protected $s__monto;
     protected $s__mostrar_m;
+    protected $nombre_tabla='formulario';
     
     function get_condiciones(){//dependiendo si es una secretaria o no trae las condiciones
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -829,95 +830,95 @@ class ci_detalle_formulario extends toba_ci
            return ($medida/(2.54))*$resolucion;
         }
         //generacion recibo
-        function vista_pdf(toba_vista_pdf $salida){  
-         
-         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-         if($form['estado']=='T'){
-            //llama a una funcion para generar el recibo. Si ya lo tiene retorna los datos, sino lo tiene lo genere y sino corresponde
-            $sql="select genera_recibo(".$form['id_form'].")";
-            $resul=toba::db('formularios')->consultar($sql);
-            if($resul[0]['genera_recibo']==1){//corresponde generar recibo
-                //recupero los datos del recibo para mostrarlos
-                $recibo=$this->controlador()->dep('datos')->tabla('formulario')->get_recibo($form['id_form']);   
-                $salida->set_nombre_archivo("Recibo_".$recibo[0]['id_recibo'].".pdf");
-                //recuperamos el objteo ezPDF para agregar la cabecera y el pie de página 
-                $salida->set_papel_orientacion('portrait');
-                $salida->inicializar();
-                $pdf = $salida->get_pdf();
-                $pdf->ezSetMargins(80, 50, 30, 30);//top,bottom,left,righ
-                //Configuramos el pie de página. El mismo, tendra el número de página centrado en la página y la fecha ubicada a la derecha. 
-                
-                $titulo="   ";
-                $opciones = array(
-                    'showHeadings'=>0,
-                    'shaded'=>0,
-                    'width'=>500,
-                    'justification'=>'full',
-                    'fontSize' => 12,
-                    'rowGap' => 10,
-                    'colGap' => 10,
-                    
-                    );
-               $datos2=array();
-               $num=utf8_decode('RECIBO N°: '.$recibo[0]['id_recibo']);
-               $datos2[0]=array('col1'=>'','col2'=>'');
-               $datos2[1]=array('col1'=>'','col2'=>'');//aqui numero de recibo
-               $datos2[2]=array('col1'=>'UNIVERSIDAD NACIONAL DEL COMAHUE','col2'=>$num);
-               $datos2[3]=array('col1'=>'','col2'=>'');
-               $datos2[4]=array('col1'=>'','col2'=>'');
-                         
-               $opc=array('showHeadings' => 0,'showLines'=>1,'shaded'=>0,'width'=>500,'colGap' => 10,'cols' =>array('col1'=>array('width'=>300,'justification'=>'right'),'col2'=>array('width'=>200,'justification'=>'right')));
-               //colocamos el cursor a unos 27 cm del final de la pagina
-               $pdf->ezSetY($this->puntos_cm(27));
-               $pdf->ezTable($datos2,array('col1'=>'','col2'=>''),'',$opc);
-              
-               $datos=array();
-               $m=date("m",strtotime($recibo[0]['fecha']));
-               switch ($m) {
-                    case 1:$mes=' Enero ';                  break;
-                    case 2:$mes=' Febrero ';                  break;  
-                    case 3:$mes=' Marzo ';                  break;  
-                    case 4:$mes=' Abril ';                  break;  
-                    case 5:$mes=' Mayo ';                  break;  
-                    case 6:$mes=' Junio ';                  break;  
-                    case 7:$mes=' Julio ';                  break;  
-                    case 8:$mes=' Agosto ';                  break;  
-                    case 9:$mes=' Septiembre ';                  break;  
-                    case 10:$mes=' Octubre ';                  break;  
-                    case 11:$mes=' Noviembre ';                  break;  
-                    case 12:$mes=' Diciembre ';                  break;  
-                   default:
-                       break;
-               }
-               
-               $dia=date("d",strtotime($recibo[0]['fecha']));
-               $anio=date("Y",strtotime($recibo[0]['fecha']));
-               $monto_letras= $this->transforma($recibo[0]['monto']);
-               $texto=utf8_decode('Recibí de ').trim($recibo[0]['recibi_de']).' la suma de pesos '. utf8_decode($monto_letras).' en concepto de '.$recibo[0]['concepto'];
-               $texto2=utf8_decode('Neuquén, ').$dia.' de'.$mes.$anio;
-               
-               $datos[0]=array('col1'=>'');
-               $datos[1]=array('col1'=>$texto);
-               $datos[2]=array('col1'=>$texto2);
-               //number_format($recibo['0']['monto'],2,'.','')
-               //para que muestre el monto con 2 decimales
-               $datos[3]=array('col1'=>'SON $ '.number_format($recibo[0]['monto'],2,',','.'));
-               
-               $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
-
-               //colocamos el cursor en la mitad
-               $pdf->ezSetY($this->puntos_cm(14));
-               $pdf->ezTable($datos2,array('col1'=>'','col2'=>''),'',$opc);
-               $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
-               $imagen = toba::proyecto()->get_path().'/www/img/logo-unc.jpg';
-               //$pdf->addJpegFromFile($imagen, 55, 690, 70, 65);//funciona
-               //donde 'x' e 'y' son las coordenadas de la esquina inferior izquierda de la imagen.
-               $pdf->addJpegFromFile($imagen, $this->puntos_cm(2), $this->puntos_cm(24.5), 70, 65);
-               $pdf->addJpegFromFile($imagen, $this->puntos_cm(2), $this->puntos_cm(11.5), 70, 65);
-
-              }
-        }
-        }
+//        function vista_pdf(toba_vista_pdf $salida){  
+//         
+//         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+//         if($form['estado']=='T'){
+//            //llama a una funcion para generar el recibo. Si ya lo tiene retorna los datos, sino lo tiene lo genere y sino corresponde
+//            $sql="select genera_recibo(".$form['id_form'].")";
+//            $resul=toba::db('formularios')->consultar($sql);
+//            if($resul[0]['genera_recibo']==1){//corresponde generar recibo
+//                //recupero los datos del recibo para mostrarlos
+//                $recibo=$this->controlador()->dep('datos')->tabla('formulario')->get_recibo($form['id_form']);   
+//                $salida->set_nombre_archivo("Recibo_".$recibo[0]['id_recibo'].".pdf");
+//                //recuperamos el objteo ezPDF para agregar la cabecera y el pie de página 
+//                $salida->set_papel_orientacion('portrait');
+//                $salida->inicializar();
+//                $pdf = $salida->get_pdf();
+//                $pdf->ezSetMargins(80, 50, 30, 30);//top,bottom,left,righ
+//                //Configuramos el pie de página. El mismo, tendra el número de página centrado en la página y la fecha ubicada a la derecha. 
+//                
+//                $titulo="   ";
+//                $opciones = array(
+//                    'showHeadings'=>0,
+//                    'shaded'=>0,
+//                    'width'=>500,
+//                    'justification'=>'full',
+//                    'fontSize' => 12,
+//                    'rowGap' => 10,
+//                    'colGap' => 10,
+//                    
+//                    );
+//               $datos2=array();
+//               $num=utf8_decode('RECIBO N°: '.$recibo[0]['id_recibo']);
+//               $datos2[0]=array('col1'=>'','col2'=>'');
+//               $datos2[1]=array('col1'=>'','col2'=>'');//aqui numero de recibo
+//               $datos2[2]=array('col1'=>'UNIVERSIDAD NACIONAL DEL COMAHUE','col2'=>$num);
+//               $datos2[3]=array('col1'=>'','col2'=>'');
+//               $datos2[4]=array('col1'=>'','col2'=>'');
+//                         
+//               $opc=array('showHeadings' => 0,'showLines'=>1,'shaded'=>0,'width'=>500,'colGap' => 10,'cols' =>array('col1'=>array('width'=>300,'justification'=>'right'),'col2'=>array('width'=>200,'justification'=>'right')));
+//               //colocamos el cursor a unos 27 cm del final de la pagina
+//               $pdf->ezSetY($this->puntos_cm(27));
+//               $pdf->ezTable($datos2,array('col1'=>'','col2'=>''),'',$opc);
+//              
+//               $datos=array();
+//               $m=date("m",strtotime($recibo[0]['fecha']));
+//               switch ($m) {
+//                    case 1:$mes=' Enero ';                  break;
+//                    case 2:$mes=' Febrero ';                  break;  
+//                    case 3:$mes=' Marzo ';                  break;  
+//                    case 4:$mes=' Abril ';                  break;  
+//                    case 5:$mes=' Mayo ';                  break;  
+//                    case 6:$mes=' Junio ';                  break;  
+//                    case 7:$mes=' Julio ';                  break;  
+//                    case 8:$mes=' Agosto ';                  break;  
+//                    case 9:$mes=' Septiembre ';                  break;  
+//                    case 10:$mes=' Octubre ';                  break;  
+//                    case 11:$mes=' Noviembre ';                  break;  
+//                    case 12:$mes=' Diciembre ';                  break;  
+//                   default:
+//                       break;
+//               }
+//               
+//               $dia=date("d",strtotime($recibo[0]['fecha']));
+//               $anio=date("Y",strtotime($recibo[0]['fecha']));
+//               $monto_letras= $this->transforma($recibo[0]['monto']);
+//               $texto=utf8_decode('Recibí de ').trim($recibo[0]['recibi_de']).' la suma de pesos '. utf8_decode($monto_letras).' en concepto de '.$recibo[0]['concepto'];
+//               $texto2=utf8_decode('Neuquén, ').$dia.' de'.$mes.$anio;
+//               
+//               $datos[0]=array('col1'=>'');
+//               $datos[1]=array('col1'=>$texto);
+//               $datos[2]=array('col1'=>$texto2);
+//               //number_format($recibo['0']['monto'],2,'.','')
+//               //para que muestre el monto con 2 decimales
+//               $datos[3]=array('col1'=>'SON $ '.number_format($recibo[0]['monto'],2,',','.'));
+//               
+//               $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
+//
+//               //colocamos el cursor en la mitad
+//               $pdf->ezSetY($this->puntos_cm(14));
+//               $pdf->ezTable($datos2,array('col1'=>'','col2'=>''),'',$opc);
+//               $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
+//               $imagen = toba::proyecto()->get_path().'/www/img/logo-unc.jpg';
+//               //$pdf->addJpegFromFile($imagen, 55, 690, 70, 65);//funciona
+//               //donde 'x' e 'y' son las coordenadas de la esquina inferior izquierda de la imagen.
+//               $pdf->addJpegFromFile($imagen, $this->puntos_cm(2), $this->puntos_cm(24.5), 70, 65);
+//               $pdf->addJpegFromFile($imagen, $this->puntos_cm(2), $this->puntos_cm(11.5), 70, 65);
+//
+//              }
+//        }
+//        }
             
 	function conf()
 	{

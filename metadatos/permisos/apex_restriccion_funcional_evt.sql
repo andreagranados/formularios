@@ -46,6 +46,13 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 );
 INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
 	'formularios', --proyecto
+	'49', --restriccion_funcional
+	'3814', --item
+	'3704', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
 	'50', --restriccion_funcional
 	'3814', --item
 	'3463', --evento_id
@@ -140,6 +147,13 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 	'50', --restriccion_funcional
 	'3814', --item
 	'3620', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'50', --restriccion_funcional
+	'3814', --item
+	'3704', --evento_id
 	'1'  --no_visible
 );
 INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
@@ -364,6 +378,13 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 	'52', --restriccion_funcional
 	'3814', --item
 	'3620', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'52', --restriccion_funcional
+	'3814', --item
+	'3704', --evento_id
 	'1'  --no_visible
 );
 INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
@@ -553,5 +574,12 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 	'54', --restriccion_funcional
 	'3814', --item
 	'3672', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'54', --restriccion_funcional
+	'3814', --item
+	'3704', --evento_id
 	'1'  --no_visible
 );
