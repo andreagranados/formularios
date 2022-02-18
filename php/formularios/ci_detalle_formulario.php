@@ -379,6 +379,7 @@ class ci_detalle_formulario extends formularios_abm_ci
                         $datos['monto']=$total;
                     }
                 }
+                $datos['detalle']=str_replace('#', ' ', $datos['detalle']);
                 $this->controlador()->dep('datos')->tabla('item')->set($datos);
                 $this->controlador()->dep('datos')->tabla('item')->sincronizar();
                 $this->controlador()->dep('datos')->tabla('item')->resetear();
@@ -428,6 +429,7 @@ class ci_detalle_formulario extends formularios_abm_ci
                         $datos['monto']=$total;
                     }
                 }
+                $datos['detalle']=str_replace('#', ' ', $datos['detalle']);
                 $this->controlador()->dep('datos')->tabla('item')->set($datos);
                 $this->controlador()->dep('datos')->tabla('item')->sincronizar();
                 toba::notificacion()->agregar('El item se ha modificado correctamente', 'info'); 

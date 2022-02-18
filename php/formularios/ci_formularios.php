@@ -122,28 +122,46 @@ class ci_formularios extends toba_ci
                 }
             }
         }
+
         function evt__form_adjuntos__modificacion_teso($datos)
         {
              if($this->dep('datos')->tabla('formulario')->esta_cargada()){
                 $formu=$this->dep('datos')->tabla('formulario')->get();
                 $anio=$formu['ano_cobro'];
                 //ya esta chequeado que tiene numero de ingreso
-                if (isset($datos['archivo_recibo']) ) {
-                    if(isset($formu['id_recibo'])){//tiene recibo
-                        $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_recibo.pdf";
-                        $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$nombre_ca;
-                        if(move_uploaded_file($datos['archivo_recibo']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
-                            $datos2['archivo_recibo']=strval($nombre_ca);
+                if(isset($formu['id_recibo'])){//tiene recibo
+                    if ($datos['eliminar_recibo']==1) {
+                        if (isset($formu['archivo_recibo'])){
+                            $datos2['archivo_recibo']=null;
+                            $nombre_ca=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$formu['archivo_recibo'];
+                            //$nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_recibo.pdf";
+                            if (file_exists($nombre_ca)) {
+                                unlink($nombre_ca);//borra el archivo
+                             }
                             $this->dep('datos')->tabla('formulario')->set($datos2);
-                            $this->dep('datos')->tabla('formulario')->sincronizar();    
-                            toba::notificacion()->agregar('Recibo guardado exitosamente', 'info');    
-                            clearstatcache();
+                            $this->dep('datos')->tabla('formulario')->sincronizar();   
+                            toba::notificacion()->agregar('Recibo eliminado exitosamente', 'info');
+                        }else{
+                            toba::notificacion()->agregar('El formulario no tiene adjunto el recibo', 'info');
                         }
+                            
                     }else{
+                        if (isset($datos['archivo_recibo']) ) {//selecciono un archivo
+                            $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_recibo.pdf";
+                            $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$nombre_ca;
+                            if(move_uploaded_file($datos['archivo_recibo']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                                $datos2['archivo_recibo']=strval($nombre_ca);
+                                $this->dep('datos')->tabla('formulario')->set($datos2);
+                                $this->dep('datos')->tabla('formulario')->sincronizar();    
+                                toba::notificacion()->agregar('Recibo guardado exitosamente', 'info');      
+                            }
+                        } 
+                    }  
+                 clearstatcache();
+                }else{
                         toba::notificacion()->agregar('El formulario no tiene recibo asociado', 'info');    
                     }
-                }
-             }  
+             }//cargado  
         }
         function conf__form_adjuntos(toba_ei_formulario $form)
 	{
