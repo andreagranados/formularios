@@ -28,13 +28,16 @@ class dt_modalidad_pago extends toba_datos_tabla
         }
     }
    
-    function no_repite_transferencia($nro_transf){//retorna true sino se repite
+    function no_repite_transferencia($nro_transf){//retorna array vacio sino se repite
+        $resul=array();
         $sql="select * from modalidad_pago where nro_transferencia=".$nro_transf;
         $resul = toba::db('formularios')->consultar($sql);
-        if(count($resul)>0){
-            return false;
-        }else{
-            return true;
-        }
+        return $resul;
+    }
+    function no_repite_transferencia_modif($nro_transf,$id_mod){//retorna true sino se repite
+        $resul=array();
+        $sql="select * from modalidad_pago where nro_transferencia=".$nro_transf." and id_mod<>".$id_mod;
+        $resul = toba::db('formularios')->consultar($sql);
+        return $resul;
     }
 }?>
