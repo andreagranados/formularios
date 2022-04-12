@@ -672,11 +672,14 @@ class ci_detalle_formulario extends formularios_abm_ci
                 if(isset($datos['nro_transferencia']) and $modalidad['nro_transferencia']<>$datos['nro_transferencia']){
                     $repetido=$this->controlador()->dep('datos')->tabla('modalidad_pago')->no_repite_transferencia_modif($datos['nro_transferencia'],$modalidad['id_mod']);
                 }
+                
                 if(count($repetido)==0){//no se repite
+                    
                     $nombre_ca=$modalidad['archivo_trans'];
+                    
                     //$nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
                     if (isset($datos['archivo_trans'])) {//esta modificando el comprobante
-                            //$nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
+                            $nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
                             $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$nombre_ca;
                             move_uploaded_file($datos['archivo_trans']['tmp_name'], $destino_ca);//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no                       
                     }
