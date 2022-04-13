@@ -81,16 +81,16 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 );
 INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, etiqueta, maneja_datos, sobre_fila, confirmacion, estilo, imagen_recurso_origen, imagen, en_botonera, ayuda, orden, ci_predep, implicito, defecto, display_datos_cargados, grupo, accion, accion_imphtml_debug, accion_vinculo_carpeta, accion_vinculo_item, accion_vinculo_objeto, accion_vinculo_popup, accion_vinculo_popup_param, accion_vinculo_target, accion_vinculo_celda, accion_vinculo_servicio, es_seleccion_multiple, es_autovinculo) VALUES (
 	'formularios', --proyecto
-	'3483', --evento_id
+	'3620', --evento_id
 	'4266', --objeto
-	'enviar', --identificador
-	'Enviar Formulario', --etiqueta
+	'rango', --identificador
+	'Rango', --etiqueta
 	'0', --maneja_datos
 	NULL, --sobre_fila
-	'¿Esta seguro que desea enviar?', --confirmacion
+	NULL, --confirmacion
 	NULL, --estilo
 	'apex', --imagen_recurso_origen
-	'instanciar.gif', --imagen
+	'colapsado.gif', --imagen
 	'1', --en_botonera
 	NULL, --ayuda
 	'2', --orden
@@ -100,11 +100,11 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	NULL, --display_datos_cargados
 	NULL, --grupo
 	NULL, --accion
-	'0', --accion_imphtml_debug
+	NULL, --accion_imphtml_debug
 	NULL, --accion_vinculo_carpeta
 	NULL, --accion_vinculo_item
 	NULL, --accion_vinculo_objeto
-	'0', --accion_vinculo_popup
+	NULL, --accion_vinculo_popup
 	NULL, --accion_vinculo_popup_param
 	NULL, --accion_vinculo_target
 	NULL, --accion_vinculo_celda
@@ -180,16 +180,16 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 );
 INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, etiqueta, maneja_datos, sobre_fila, confirmacion, estilo, imagen_recurso_origen, imagen, en_botonera, ayuda, orden, ci_predep, implicito, defecto, display_datos_cargados, grupo, accion, accion_imphtml_debug, accion_vinculo_carpeta, accion_vinculo_item, accion_vinculo_objeto, accion_vinculo_popup, accion_vinculo_popup_param, accion_vinculo_target, accion_vinculo_celda, accion_vinculo_servicio, es_seleccion_multiple, es_autovinculo) VALUES (
 	'formularios', --proyecto
-	'3620', --evento_id
+	'3483', --evento_id
 	'4266', --objeto
-	'rango', --identificador
-	'Rango', --etiqueta
+	'enviar', --identificador
+	'Enviar Formulario', --etiqueta
 	'0', --maneja_datos
 	NULL, --sobre_fila
-	NULL, --confirmacion
+	'¿Esta seguro que desea enviar?', --confirmacion
 	NULL, --estilo
 	'apex', --imagen_recurso_origen
-	'colapsado.gif', --imagen
+	'instanciar.gif', --imagen
 	'1', --en_botonera
 	NULL, --ayuda
 	'5', --orden
@@ -199,11 +199,11 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	NULL, --display_datos_cargados
 	NULL, --grupo
 	NULL, --accion
-	NULL, --accion_imphtml_debug
+	'0', --accion_imphtml_debug
 	NULL, --accion_vinculo_carpeta
 	NULL, --accion_vinculo_item
 	NULL, --accion_vinculo_objeto
-	NULL, --accion_vinculo_popup
+	'0', --accion_vinculo_popup
 	NULL, --accion_vinculo_popup_param
 	NULL, --accion_vinculo_target
 	NULL, --accion_vinculo_celda

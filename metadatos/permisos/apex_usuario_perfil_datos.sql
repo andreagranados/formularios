@@ -256,4 +256,11 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'SUBSECRETARIA DE OBRAS Y SERVICIOS', --descripcion
 	NULL  --listar
 );
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'121', --usuario_perfil_datos
+	'IMPR', --nombre
+	'Imprenta (SEXU)', --descripcion
+	NULL  --listar
+);
 --- FIN Grupo de desarrollo 0

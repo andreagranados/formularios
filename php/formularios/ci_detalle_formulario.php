@@ -580,7 +580,7 @@ class ci_detalle_formulario extends formularios_abm_ci
                $this->dep('form_modalidad')->descolapsar();
                if($this->controlador()->dep('datos')->tabla('modalidad_pago')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
-                   if(isset($datos['archivo_trans'])){
+                   if(!empty($datos['archivo_trans'])){//no esta vacia
                         $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$datos['archivo_trans'];
                         $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
                     }
@@ -674,10 +674,40 @@ class ci_detalle_formulario extends formularios_abm_ci
                 }
                 
                 if(count($repetido)==0){//no se repite
-                    
-                    $nombre_ca=$modalidad['archivo_trans'];
-                    
-                    //$nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
+                    switch ($datos['id_condicion_venta']) {
+                        case 1://efectivo
+                            $datos['nro_cheque']=null;    
+                            $datos['id_banco']=null;    
+                            $datos['fecha_emision_cheque']=null;    
+                            $datos['cuenta_a_acreditar']=null;    
+                            $datos['nro_transferencia']=null;    
+                            $datos['nro_cuil']=null;    
+                            $datos['archivo_trans']=null; 
+                            $nombre_ca=null;
+                            break;
+                        case 2://cheque
+                            $datos['nro_cheque']=null;    
+                            $datos['id_banco']=null;    
+                            $datos['fecha_emision_cheque']=null;    
+                            $nombre_ca=null;
+                            break;
+                        case 3://transferencia
+                            $datos['nro_cheque']=null;    
+                            $datos['id_banco']=null;    
+                            $datos['fecha_emision_cheque']=null;
+                            $nombre_ca=$modalidad['archivo_trans'];
+                            break;
+                        default:
+                            break;
+                    }
+                    //borra el archivo de transferencia cuando cambia la condicion
+                    if(($datos['id_condicion_venta']==1 or $datos['id_condicion_venta']==2) and isset($modalidad['archivo_trans'])){
+                        if(isset($modalidad['archivo_trans'])){//si tiene archivo lo borra
+                            $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$modalidad['archivo_trans'];
+                            unlink($nomb_ft);
+                        }
+                    }
+                   
                     if (isset($datos['archivo_trans'])) {//esta modificando el comprobante
                             $nombre_ca=$modalidad['id_form']."_comprob_transf_".$modalidad['id_mod'].".pdf";
                             $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$nombre_ca;
