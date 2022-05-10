@@ -263,4 +263,11 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'Imprenta (SEXU)', --descripcion
 	NULL  --listar
 );
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'122', --usuario_perfil_datos
+	'295', --nombre
+	'Adultos Mayores', --descripcion
+	NULL  --listar
+);
 --- FIN Grupo de desarrollo 0
