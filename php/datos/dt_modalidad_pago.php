@@ -30,7 +30,7 @@ class dt_modalidad_pago extends toba_datos_tabla
    
     function no_repite_transferencia($nro_transf){//retorna array vacio sino se repite
         $resul=array();
-        $sql="select * from modalidad_pago, formulario f
+        $sql="select * from modalidad_pago m, formulario f
               where m.id_form=f.id_form 
               and f.estado<>'N'
               and nro_transferencia=".$nro_transf;
@@ -39,7 +39,7 @@ class dt_modalidad_pago extends toba_datos_tabla
     }
     function no_repite_transferencia_modif($nro_transf,$id_mod){//retorna true sino se repite
         $resul=array();
-        $sql="select * from modalidad_pago , formulario f "
+        $sql="select * from modalidad_pago m, formulario f "
                 . " where m.id_form=f.id_form 
                     and f.estado<>'N' and nro_transferencia=".$nro_transf." and id_mod<>".$id_mod;
         $resul = toba::db('formularios')->consultar($sql);
