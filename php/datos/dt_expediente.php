@@ -1,14 +1,14 @@
 <?php
 class dt_expediente extends toba_datos_tabla
 {
-    function puedo_borrar($exp){
-        $sql = "select * from formulario where nro_expediente='".$exp."'";   
-        $res = toba::db('formularios')->consultar($sql);
-        if(count($res)>0){//el expediente tiene formularios asociados
-            return false;
-        }else{
-            return true;
-        }
+    function tiene_formularios($exp){
+          $sql="select * from formulario where nro_expediente='".$exp."'";
+          $resul=toba::db('formularios')->consultar($sql);  
+          if(count($resul)>0){//el expediente tiene formularios asociados
+              return true;
+          }else{
+              return false;
+          }
     }
     function existe($exp){
         $sql = "select * from expediente where nro_expediente='".$exp."'";   
@@ -70,25 +70,18 @@ class dt_expediente extends toba_datos_tabla
     function modificar($datos=array(),$exped){//cuando quiere modificar el numero de expediente
         $sql="select * from expediente where nro_expediente='".$datos['nro_expediente']."'";
         $resul=toba::db('formularios')->consultar($sql);
-        if(count($resul)>0){
+        
+        if(count($resul)>0){//si existe otro con el mismo numero entonces no puede modificar
             $band=false;
             
         }else{
-            $sql="update expediente set nro_expediente='".$datos['nro_expediente']."' where nro_expediente='".$exped."'";
-            toba::db('formularios')->consultar($sql);
+            //$sql="update expediente set nro_expediente='".$datos['nro_expediente']."' where nro_expediente='".$exped."'";
+            //toba::db('formularios')->consultar($sql);
             $band=true;
         }
         return $band;
     }
-    function tiene_formularios($exp){
-          $sql="select * from formulario where nro_expediente='".$exp."'";
-          $resul=toba::db('formularios')->consultar($sql);  
-          if(count($resul)>0){
-              return true;
-          }else{
-              return false;
-          }
-    }
+
 
 }
 ?>

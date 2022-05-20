@@ -103,8 +103,9 @@ class ci_alta_expediente extends toba_ci
 	function evt__form_exped__baja()
 	{
             $exp=$this->dep('datos')->tabla('expediente')->get();
-            $bandera=$this->dep('datos')->tabla('expediente')->puedo_borrar($exp['nro_expediente']);
-            if($bandera){
+            //no puede borrar cuando el expediente tiene formularios asociados
+            $bandera=$this->dep('datos')->tabla('expediente')->tiene_formularios($exp['nro_expediente']);
+            if(!$bandera){//sino tiene formularios asociados entonces puedo eliminar
                 $this->dep('datos')->tabla('expediente')->eliminar_todo();
                 $this->dep('datos')->tabla('expediente')->resetear();
                 toba::notificacion()->agregar('El expediente ha sido eliminado correctamente', 'info'); 
@@ -118,26 +119,41 @@ class ci_alta_expediente extends toba_ci
 	function evt__form_exped__modificacion($datos)
 	{
             $form=$this->dep('datos')->tabla('expediente')->get();
-            if($form['nro_expediente']<>$datos['nro_expediente'] or $form['descripcion']<>$datos['descripcion']){
-                $mensaje='';
-                $band2=true;
-                if($form['nro_expediente']<>$datos['nro_expediente']){//modifica expediente
-                     $band=$this->dep('datos')->tabla('expediente')->tiene_formularios($form['nro_expediente']);
-                     if($band){
-                         $mensaje='El expediente tenia formularios asociados.';
-                     }
-                     $band2=$this->dep('datos')->tabla('expediente')->modificar($datos,$form['nro_expediente']);
-                    
-                }
-                if($band2){
-                    $this->dep('datos')->tabla('expediente')->set($datos);
-                    $this->dep('datos')->tabla('expediente')->sincronizar();
-                    toba::notificacion()->agregar('El expediente se ha modificado correctamente '.$mensaje, 'info');  
-                }else{
-                    toba::notificacion()->agregar('Ya existe un expediente con ese numero', 'info');
-                }
-              
-             }
+            if($form['nro_expediente']<>$datos['nro_expediente'] ){//modifica nro expediente
+               $band=$this->dep('datos')->tabla('expediente')->tiene_formularios($form['nro_expediente']);
+               if($band){
+                   toba::notificacion()->agregar('El expediente tenia formularios asociados.', 'info');
+               }else{//no tiene formularios asociados
+                   $band2=$this->dep('datos')->tabla('expediente')->modificar($datos,$form['nro_expediente']);
+                   if($band2){//es true cuando puede modificar porque no existe otro expediente con el mismo nro
+                        $this->dep('datos')->tabla('expediente')->set($datos);
+                        $this->dep('datos')->tabla('expediente')->sincronizar();
+                        toba::notificacion()->agregar('El expediente se ha modificado correctamente '.$mensaje, 'info');  
+                   }else{
+                       toba::notificacion()->agregar('Ya existe un expediente con ese numero', 'info');
+                   }
+               }
+              }
+//            if($form['nro_expediente']<>$datos['nro_expediente'] or $form['descripcion']<>$datos['descripcion']){
+//                $mensaje='';
+//                $band2=true;
+//                if($form['nro_expediente']<>$datos['nro_expediente']){//modifica expediente
+//                     $band=$this->dep('datos')->tabla('expediente')->tiene_formularios($form['nro_expediente']);
+//                     if($band){
+//                         $mensaje='El expediente tenia formularios asociados.';
+//                     }
+//                     $band2=$this->dep('datos')->tabla('expediente')->modificar($datos,$form['nro_expediente']);
+//                    
+//                }
+//                if($band2){
+//                    $this->dep('datos')->tabla('expediente')->set($datos);
+//                    $this->dep('datos')->tabla('expediente')->sincronizar();
+//                    toba::notificacion()->agregar('El expediente se ha modificado correctamente '.$mensaje, 'info');  
+//                }else{
+//                    toba::notificacion()->agregar('Ya existe un expediente con ese numero', 'info');
+//                }
+//              
+//             }
 	}
 
 	function evt__form_exped__cancelar()
