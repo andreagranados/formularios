@@ -16,7 +16,11 @@ class dt_comprobante extends toba_datos_tabla
                     ." and tipo=$tipo_comp
                     and id_punto_venta in (select id_punto_venta from formulario where id_form=$id_form)
                     and nro_comprobante>=(select nro_comprobante from comprobante where id_comprob=$desde)
-                    and nro_comprobante<=(select nro_comprobante from comprobante where id_comprob=$hasta)";
+                    and nro_comprobante<=(select nro_comprobante from comprobante where id_comprob=$hasta)
+                    and t_c.id_comprob not in  (select id_comprobante from item b, formulario f
+                                                where f.estado<>'N'
+                                                and b.id_form=f.id_form
+                                                and b.id_comprobante is not null)";
            
             return toba::db('formularios')->consultar($sql);
 
@@ -158,6 +162,32 @@ class dt_comprobante extends toba_datos_tabla
                     . " order by rendido,dependencia,id_punto,tipo_comprob,nro_comprobante,anio,mes,dia ";
             
             return toba::db('formularios')->consultar($sql);
+        }
+        function tiene_comprob_repetidos($id_form){
+            //verifico que todos los items del formulario no se repitan en el mismo o en otro formulario
+            $sql="select * from item a
+                where id_comprobante is not null
+                and id_form=$id_form"
+                //no si existe el mismo comprobante en otro formulario (no anulado)
+                ." and not exists (select * from item b, formulario f
+                                where b.id_form=f.id_form
+                                and a.id_comprobante=b.id_comprobante
+                                and a.id_form<>b.id_form
+                                and f.estado<>'N'
+                                 )"
+                  //no existe el mismo comprobante en el mismo formulario           
+                ."   and not exists(select *
+                                from item c
+                                where c.id_form=a.id_form
+                                and c.id_comprobante=a.id_comprobante
+                                and c.id_item<>a.id_item
+                                )";
+            $resul= toba::db('formularios')->consultar($sql);
+            if(count($resul)>0){
+                    return true;
+                }else{
+                    return false;
+                }
         }
 
 }

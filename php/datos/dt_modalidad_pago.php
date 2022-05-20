@@ -45,4 +45,15 @@ class dt_modalidad_pago extends toba_datos_tabla
         $resul = toba::db('formularios')->consultar($sql);
         return $resul;
     }
+    function puede_enviar($id_form){//verifica si subio transferencia y no le pidio comprobante
+        $sql="select * from modalidad_pago m "
+                . " where m.id_form=$id_form
+                    and id_condicion_venta=3 and (archivo_trans is null or archivo_trans='')";
+        $resul = toba::db('formularios')->consultar($sql);
+        if(count($resul)>0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }?>

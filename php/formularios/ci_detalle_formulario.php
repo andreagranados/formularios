@@ -796,10 +796,6 @@ class ci_detalle_formulario extends formularios_abm_ci
         
         function evt__enviar()
 	{
-//            $x=13550.40;
-//             $monto_letras= $this->transforma($x);
-//             print_r($monto_letras);
-//            exit;
             $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
             if($form['estado']=='I' or $form['estado']=='R' ){
                 $band=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
@@ -808,20 +804,30 @@ class ci_detalle_formulario extends formularios_abm_ci
                     if($cerrado==1){//si el libro al que corresponde el formulario esta cerrado
                         toba::notificacion()->agregar('No es posible enviar, el libro esta cerrado', 'info');   
                     }else{
-                        $band=$this->controlador()->dep('datos')->tabla('formulario')->puede_enviar($form['id_form']);
-                        if($band){
-                            $datos['estado']='E';
-                            $datos['fecha_envio']=date('d/m/Y');
-                            $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
-                            $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
-                            $this->controlador()->dep('datos')->tabla('formulario')->resetear();
-                            $this->controlador()->set_pantalla('pant_seleccion');
-                            toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
+                        $band=$this->controlador()->dep('datos')->tabla('comprobante')->tiene_comprob_repetidos($form['id_form']);
+                        if(!$band){
+                            $band=$this->controlador()->dep('datos')->tabla('modalidad_pago')->puede_enviar($form['id_form']);
+                            if($band){
+                                $band=$this->controlador()->dep('datos')->tabla('formulario')->puede_enviar($form['id_form']);
+                                if($band){
+                                    $datos['estado']='E';
+                                    $datos['fecha_envio']=date('d/m/Y');
+                                    $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
+                                    $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+                                    $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+                                    $this->controlador()->set_pantalla('pant_seleccion');
+                                    toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
+                                }else{
+                                    toba::notificacion()->agregar('No es posible enviar, verifique la Modalidad de Ingreso', 'info');   
+                                } 
+                            }else{
+                                  toba::notificacion()->agregar('No es posible enviar, falta comprobante en Modalidad de Ingreso', 'info');   
+                            } 
                         }else{
-                            toba::notificacion()->agregar('No es posible enviar, verifique la Modalidad de Ingreso', 'info');   
-                        } 
+                            toba::notificacion()->agregar('No es posible enviar, tiene comprobantes repetidos', 'info');   
+                        }
+                        
                     }
-                    
                 }else{
                     toba::notificacion()->agregar('El formulario no tiene items cargados', 'info'); 
                 }
