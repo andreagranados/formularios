@@ -184,9 +184,9 @@ class dt_comprobante extends toba_datos_tabla
                                 )";
             $resul= toba::db('formularios')->consultar($sql);
             if(count($resul)>0){
-                    return true;
-                }else{
                     return false;
+                }else{
+                    return true;
                 }
         }
 
