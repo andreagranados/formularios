@@ -155,12 +155,13 @@ class dt_comprobante extends toba_datos_tabla
                                      from item t_i 
                                      inner join formulario f on (f.id_form=t_i.id_form)
                                      inner join comprobante c on (c.id_comprob=t_i.id_comprobante)
+                                     where f.estado<>'N'
                                      ) sub on (sub.id_comprob=t_c.id_comprob)
                                    
                                        )sub2
                                        $condicion"
                     . " order by rendido,dependencia,id_punto,tipo_comprob,nro_comprobante,anio,mes,dia ";
-            
+           
             return toba::db('formularios')->consultar($sql);
         }
         function tiene_comprob_repetidos($id_form){
