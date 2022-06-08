@@ -581,7 +581,7 @@ class ci_detalle_formulario extends formularios_abm_ci
                if($this->controlador()->dep('datos')->tabla('modalidad_pago')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
                    if(!empty($datos['archivo_trans'])){//no esta vacia
-                        $nomb_ft=toba::proyecto()->get_path()."/www/adjuntos/".$datos['archivo_trans'];
+                        $nomb_ft="/formularios/1.0/adjuntos/".$datos['archivo_trans'];
                         $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
                     }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
