@@ -481,34 +481,6 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
 	'formularios', --proyecto
 	'54', --restriccion_funcional
-	'3816', --item
-	'3492', --evento_id
-	'1'  --no_visible
-);
-INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
-	'formularios', --proyecto
-	'54', --restriccion_funcional
-	'3816', --item
-	'3497', --evento_id
-	'1'  --no_visible
-);
-INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
-	'formularios', --proyecto
-	'54', --restriccion_funcional
-	'3816', --item
-	'3506', --evento_id
-	'1'  --no_visible
-);
-INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
-	'formularios', --proyecto
-	'54', --restriccion_funcional
-	'3816', --item
-	'3520', --evento_id
-	'1'  --no_visible
-);
-INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
-	'formularios', --proyecto
-	'54', --restriccion_funcional
 	'3814', --item
 	'3526', --evento_id
 	'1'  --no_visible
@@ -581,5 +553,26 @@ INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, ite
 	'54', --restriccion_funcional
 	'3814', --item
 	'3704', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'60', --restriccion_funcional
+	'3816', --item
+	'3492', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'60', --restriccion_funcional
+	'3816', --item
+	'3497', --evento_id
+	'1'  --no_visible
+);
+INSERT INTO apex_restriccion_funcional_evt (proyecto, restriccion_funcional, item, evento_id, no_visible) VALUES (
+	'formularios', --proyecto
+	'60', --restriccion_funcional
+	'3816', --item
+	'3506', --evento_id
 	'1'  --no_visible
 );

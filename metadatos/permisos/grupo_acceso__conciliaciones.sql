@@ -92,3 +92,8 @@ INSERT INTO apex_grupo_acc_restriccion_funcional (proyecto, usuario_grupo_acc, r
 	'conciliaciones', --usuario_grupo_acc
 	'54'  --restriccion_funcional
 );
+INSERT INTO apex_grupo_acc_restriccion_funcional (proyecto, usuario_grupo_acc, restriccion_funcional) VALUES (
+	'formularios', --proyecto
+	'conciliaciones', --usuario_grupo_acc
+	'60'  --restriccion_funcional
+);

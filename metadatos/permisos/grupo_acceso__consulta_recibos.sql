@@ -4,10 +4,10 @@
 ------------------------------------------------------------
 INSERT INTO apex_usuario_grupo_acc (proyecto, usuario_grupo_acc, nombre, nivel_acceso, descripcion, vencimiento, dias, hora_entrada, hora_salida, listar, permite_edicion, menu_usuario) VALUES (
 	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	'Consulta', --nombre
+	'consulta_recibos', --usuario_grupo_acc
+	'Consulta Recibos', --nombre
 	NULL, --nivel_acceso
-	'Solo Consulta - No ve recibos', --descripcion
+	'Consulta los recibos', --descripcion
 	NULL, --vencimiento
 	NULL, --dias
 	NULL, --hora_entrada
@@ -24,51 +24,21 @@ INSERT INTO apex_usuario_grupo_acc (proyecto, usuario_grupo_acc, nombre, nivel_a
 --- INICIO Grupo de desarrollo 0
 INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
 	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
+	'consulta_recibos', --usuario_grupo_acc
 	NULL, --item_id
 	'1'  --item
 );
 INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
 	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
+	'consulta_recibos', --usuario_grupo_acc
 	NULL, --item_id
-	'2'  --item
+	'3815'  --item
 );
 INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
 	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
+	'consulta_recibos', --usuario_grupo_acc
 	NULL, --item_id
-	'3813'  --item
-);
-INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
-	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	NULL, --item_id
-	'3814'  --item
-);
-INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
-	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	NULL, --item_id
-	'3825'  --item
-);
-INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
-	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	NULL, --item_id
-	'3826'  --item
-);
-INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
-	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	NULL, --item_id
-	'3827'  --item
-);
-INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
-	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	NULL, --item_id
-	'3840'  --item
+	'3816'  --item
 );
 --- FIN Grupo de desarrollo 0
 
@@ -77,6 +47,6 @@ INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, i
 ------------------------------------------------------------
 INSERT INTO apex_grupo_acc_restriccion_funcional (proyecto, usuario_grupo_acc, restriccion_funcional) VALUES (
 	'formularios', --proyecto
-	'consulta', --usuario_grupo_acc
-	'54'  --restriccion_funcional
+	'consulta_recibos', --usuario_grupo_acc
+	'60'  --restriccion_funcional
 );
