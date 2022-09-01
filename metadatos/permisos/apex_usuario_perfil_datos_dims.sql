@@ -424,4 +424,25 @@ INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dime
 	'191', --elemento
 	'SEXU '  --clave
 );
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'123', --usuario_perfil_datos
+	'22', --dimension
+	'192', --elemento
+	'-6'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'123', --usuario_perfil_datos
+	'22', --dimension
+	'193', --elemento
+	'2152'  --clave
+);
+INSERT INTO apex_usuario_perfil_datos_dims (proyecto, usuario_perfil_datos, dimension, elemento, clave) VALUES (
+	'formularios', --proyecto
+	'123', --usuario_perfil_datos
+	'21', --dimension
+	'194', --elemento
+	'SEXU '  --clave
+);
 --- FIN Grupo de desarrollo 0
