@@ -277,4 +277,11 @@ INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, d
 	'Cultura (SEXU)', --descripcion
 	NULL  --listar
 );
+INSERT INTO apex_usuario_perfil_datos (proyecto, usuario_perfil_datos, nombre, descripcion, listar) VALUES (
+	'formularios', --proyecto
+	'124', --usuario_perfil_datos
+	'SEGE', --nombre
+	'Secretaría General', --descripcion
+	NULL  --listar
+);
 --- FIN Grupo de desarrollo 0
