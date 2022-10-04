@@ -48,7 +48,7 @@ class formularios_abm_ci extends toba_ci
                     );		
                 //Pie de p�gina
                $formato = 'P�gina {PAGENUM} de {TOTALPAGENUM}';
-
+               
                $datos2=array();
                $num=utf8_decode('RECIBO N°: '.$recibo['id_recibo']);
                $datos2[0]=array('col1'=>'','col2'=>'');
@@ -57,9 +57,16 @@ class formularios_abm_ci extends toba_ci
                $datos2[3]=array('col1'=>'','col2'=>'');
                $datos2[4]=array('col1'=>'','col2'=>'');
                $opc=array('showHeadings' => 0,'showLines'=>1,'shaded'=>0,'width'=>500,'colGap' => 10,'cols' =>array('col1'=>array('width'=>300,'justification'=>'right'),'col2'=>array('width'=>200,'justification'=>'right')));
-
-
-               //colocamos el cursor a unos 27 cm del final de la pagina
+                    
+               $usuario = toba::usuario()->get_id();
+               if($usuario=='prodriguez'){//'agranados'
+                   $firma = toba::proyecto()->get_path().'/www/img/firma.jpg';
+                    //y,x,largo, ancho
+                   $pdf->addJpegFromFile($firma, $this->puntos_cm(15), $this->puntos_cm(6.5), 95, 50);     
+                   $pdf->addJpegFromFile($firma, $this->puntos_cm(15), $this->puntos_cm(19.5), 95, 50);     
+               }
+               
+                //colocamos el cursor a unos 27 cm del final de la pagina
                $pdf->ezSetY($this->puntos_cm(27));
                $pdf->ezTable($datos2,array('col1'=>'','col2'=>''),'',$opc);
 
@@ -96,7 +103,7 @@ class formularios_abm_ci extends toba_ci
                $datos[3]=array('col1'=>'SON $ '.number_format($recibo['monto'],2,',','.'));
 
                $pdf->ezTable($datos,array('col1'=>''),'',$opciones);
-
+               
                //colocamos el cursor en la mitad
                $pdf->ezSetY($this->puntos_cm(14));
                $pdf->ezTable($datos2,array('col1'=>'','col2'=>''),'',$opc);

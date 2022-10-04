@@ -107,14 +107,55 @@ class ci_recibos extends formularios_abm_ci
         function conf__form_recibosl(toba_ei_formulario $form)
         {
             $datos=$this->dep('datos')->tabla('recibo')->get();
-            $form->set_datos($datos);
+            if(isset($datos['archivo_recibo'])and $datos['archivo_recibo']<>''){
+                $nomb_ft="/formularios/1.0/recibos/".$datos['archivo_recibo'];
+                $datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >recibo_firmado</a>";
+            }
+            $datos['archivo_recibo']='';//para que no aparezca en pantalla el nombre con el que esta guardado el archivo
+            $form->set_datos($datos);   
         }
         function evt__form_recibosl__modificacion($datos)
         {
-            $datos2['aclaracion']=$datos['aclaracion'];
-            $this->dep('datos')->tabla('recibo')->set($datos2);
-            $this->dep('datos')->tabla('recibo')->sincronizar();
+             if($this->dep('datos')->tabla('recibo')->esta_cargada()){
+                $recib=$this->dep('datos')->tabla('recibo')->get();
+                if(isset($datos['aclaracion'])){
+                    $datos2['aclaracion']=$datos['aclaracion'];
+                }
+                if ($datos['eliminar_recibo']==1) {
+                        if (isset($recib['archivo_recibo'])){
+                            $datos2['archivo_recibo']=null;
+                            $nombre_ca=toba::proyecto()->get_path()."/www/recibos/".$recib['archivo_recibo'];
+                            if (file_exists($nombre_ca)) {
+                                unlink($nombre_ca);//borra el archivo
+                             }
+                             $mensaje='Recibo eliminado exitosamente';
+                            
+                        }else{
+                            $mensaje='Este recibo no tiene adjunto';
+                            throw new toba_error($mensaje);
+                        }
+                            
+                }else{
+                    if (isset($datos['archivo_recibo'])) {//esta modificando el archivo recibo
+                        $nombre_ca=str_pad(date("Y", strtotime($recib['fecha'])), 4, "0", STR_PAD_LEFT)."_".$recib['id_recibo'].".pdf";
+                        $destino_ca=toba::proyecto()->get_path()."/www/recibos/".$nombre_ca;
+                        if(move_uploaded_file($datos['archivo_recibo']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
+                            $datos2['archivo_recibo']=strval($nombre_ca);   
+                            $mensaje='Recibo guardado exitosamente';
+                        }
+                    }
+                }
+                
+                if(isset($datos2)){
+                    $this->dep('datos')->tabla('recibo')->set($datos2);
+                    $this->dep('datos')->tabla('recibo')->sincronizar();
+                    toba::notificacion()->agregar($mensaje, 'info');
+                }
+               clearstatcache(); 
+            }
+
         }
+       
         //-----recibo
         function transforma($iNumero){
             $sTexto = NumeroALetras::convertir($iNumero);

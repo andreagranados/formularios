@@ -1,6 +1,18 @@
 <?php                                                                       
 class dt_recibo extends toba_datos_tabla                                     
-{                                                                           
+{               
+        function get_datos_recibo($id_form){//retorna el id del recibo si el formulario tiene adjunto recibo, sino tiene retorna 0
+             $sql="select r.archivo_recibo "
+                     . " from formulario f, recibo r "
+                     . " where f.id_recibo=r.id_recibo"
+                     . " and f.id_form=".$id_form;
+             $salida=toba::db('formularios')->consultar($sql);
+             if(count($salida)>0){
+                 return $salida[0]['archivo_recibo'];
+             }else{
+                 return 0;
+             }
+         }
 	 function get_listado_filtro($where=null){
             $condicion=' WHERE 1=1 ';
             if(!is_null($where)){

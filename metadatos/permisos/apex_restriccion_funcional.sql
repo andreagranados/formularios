@@ -40,4 +40,10 @@ INSERT INTO apex_restriccion_funcional (proyecto, restriccion_funcional, descrip
 	'restricciones_consulta_recibos', --descripcion
 	'0'  --permite_edicion
 );
+INSERT INTO apex_restriccion_funcional (proyecto, restriccion_funcional, descripcion, permite_edicion) VALUES (
+	'formularios', --proyecto
+	'63', --restriccion_funcional
+	'restricciones_conciliaciones', --descripcion
+	'0'  --permite_edicion
+);
 --- FIN Grupo de desarrollo 0

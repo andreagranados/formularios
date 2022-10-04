@@ -123,7 +123,7 @@ end as puede"
                 
             }else{
                 $concatenar="'true'";
-                $mensaje="Tildado";
+                $mensaje=" Tildado ";
             }
             
             $sql=" update formulario set pasado_pilaga=".$concatenar." where id_form= ".$id_form;  
@@ -194,15 +194,16 @@ end as puede"
                        //print_r($condicion);
                     }
                 }//sino es usuario de la central no filtro a menos que haya elegido
-         
+          
              $sql="select distinct * from (select sub.*, case when check_presupuesto then 'SI' else 'NO' end as check_pres,md.modalidad,us.usuario from 
-                (select distinct t_f.id_form,t_b.nombre||' Nro Cuenta: '||t_cu.nro_cuenta as disponibilidad,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,lpad(cast(t_f.id_programa as text),2,'0') as prog,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pilaga,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 1 else 0 end else case when t_f.pasado_pilaga then 1 else 0 end end  as pas_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_p.descripcion as desc_pv,t_f.estado,t_c.titulo as origen ,t_t.total as monto,case when archivo_form is null then 0 else 1 end as archivo, case when id_recibo is null then 0 else case when archivo_recibo is null then 1 else 0 end end as archivo_recib "
+                (select distinct t_f.id_form,t_b.nombre||' Nro Cuenta: '||t_cu.nro_cuenta as disponibilidad,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,lpad(cast(t_f.id_programa as text),2,'0') as prog,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pilaga,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 1 else 0 end else case when t_f.pasado_pilaga then 1 else 0 end end  as pas_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_p.descripcion as desc_pv,t_f.estado,t_c.titulo as origen ,t_t.total as monto,case when archivo_form is null then 0 else 1 end as archivo, case when t_f.id_recibo is null then 0 else case when t_r.archivo_recibo is null then 1 else 0 end end as archivo_recib "
                       ." from formulario t_f 
                          INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
                          INNER JOIN punto_venta t_p ON (t_p.id_punto=t_f.id_punto_venta)
                          LEFT OUTER JOIN cuenta_bancaria t_cu on (t_f.disponibilidad=t_cu.id_cuenta) 
                          LEFT OUTER JOIN banco t_b on (t_cu.id_banco=t_b.id_banco) 
-                         LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) "
+                         LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) 
+                         LEFT OUTER JOIN recibo t_r on (t_r.id_recibo=t_f.id_recibo) "
                       ." LEFT OUTER JOIN (select t_it.id_form,sum(monto) as total from item t_it
                                             group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form) "
                         // " GROUP BY t_f.id_form,fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.mes_cobro,t_f.ano_cobro,anio_ingreso,nro_ingreso,nro_expediente,fecha_creacion, t_f.id_dependencia,id_recibo,t_f.check_presupuesto,observacionpresupuesto,observacionfinanzas,pasado_pilaga,id_punto_venta,pv,estado,titulo

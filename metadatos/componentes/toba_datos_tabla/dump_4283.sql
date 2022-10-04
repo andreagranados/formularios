@@ -167,4 +167,18 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'0', --externa
 	'recibo'  --tabla
 );
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'formularios', --objeto_proyecto
+	'4283', --objeto
+	'2502', --col_id
+	'archivo_recibo', --columna
+	'X', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	'0', --externa
+	'recibo'  --tabla
+);
 --- FIN Grupo de desarrollo 0
