@@ -105,22 +105,10 @@ class dt_comprobante extends toba_datos_tabla
                 return false;
             }
         }
-        
-        
-//        function get_monto($id_comprobante){
-//            $sql = "SELECT total "
-//                    . " FROM comprobante "
-//                    . " WHERE id_comprob=$id_comprobante ";
-//            $resul= toba::db('formularios')->consultar($sql);
-//            if(count($resul)>0){
-//                return $resul[0]['total'];
-//            }else{
-//                return 0;
-//            }
-//        }
+  
         function get_monto($id_comprobante){
-           
-            if(isset($id_comprobante)){
+           if(is_numeric($id_comprobante)){
+            //if(isset($id_comprobante)){print_r('hola');print_r($id_comprobante);exit;
                 $sql = "SELECT total "
                     . " FROM comprobante "
                     . " WHERE id_comprob=$id_comprobante ";
