@@ -59,7 +59,7 @@ class formularios_abm_ci extends toba_ci
                $opc=array('showHeadings' => 0,'showLines'=>1,'shaded'=>0,'width'=>500,'colGap' => 10,'cols' =>array('col1'=>array('width'=>300,'justification'=>'right'),'col2'=>array('width'=>200,'justification'=>'right')));
                     
                $usuario = toba::usuario()->get_id();
-               if($usuario=='prodriguez'){//'agranados'
+               if($usuario=='prodriguez'){
                    $firma = toba::proyecto()->get_path().'/www/img/firma.jpg';
                     //y,x,largo, ancho
                    $pdf->addJpegFromFile($firma, $this->puntos_cm(15), $this->puntos_cm(6.5), 95, 50);     
