@@ -487,10 +487,9 @@ class ci_formularios extends toba_ci
                     foreach ($pdf->ezPages as $pageNum=>$id){ 
                         $pdf->reopenObject($id); //definimos el path a la imagen de logo de la organizacion 
                         //agregamos al documento la imagen y definimos su posición a través de las coordenadas (x,y) y el ancho y el alto.
-                        //$imagen = toba::proyecto()->get_path().'/www/img/sello.jpg';
-                        //$pdf->addJpegFromFile($imagen, 700, 515, 80, 75);
-                        //$pdf->addText(730,548,8,$resul[0]['asigna_numero_ingreso']); 
-                        $pdf->addText(730,548,8,'Nro: '.$resul[0]['asigna_numero_ingreso']); 
+                        $imagen = toba::proyecto()->get_path().'/www/img/sello.jpg';
+                        $pdf->addJpegFromFile($imagen, 700, 515, 80, 75);
+                        $pdf->addText(730,548,8,$resul[0]['asigna_numero_ingreso']); 
                         $pdf->addText(500,20,8,'Generado por usuario: '.$usuario.' '.date('d/m/Y h:i:s a')); 
                         $pdf->closeObject(); 
                     } 
