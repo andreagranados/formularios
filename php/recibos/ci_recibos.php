@@ -111,7 +111,7 @@ class ci_recibos extends formularios_abm_ci
                 $nomb_ft="/formularios/1.0/recibos/".$datos['archivo_recibo'];
                 $datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >recibo_firmado</a>";
             }
-            $datos['archivo_recibo']='';//para que no aparezca en pantalla el nombre con el que esta guardado el archivo
+            $datos['archivo_recibo']=' ';//para que no aparezca en pantalla el nombre con el que esta guardado el archivo
             $form->set_datos($datos);   
         }
         function evt__form_recibosl__modificacion($datos)
