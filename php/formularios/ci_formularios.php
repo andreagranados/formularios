@@ -74,28 +74,30 @@ class ci_formularios extends toba_ci
 	}
         function evt__cuadro__check($datos)
 	{
-            $asunto =utf8_decode('Pasado a Pilaga - Formulario de Ingresos');
+            $asunto =utf8_decode('Formulario de Ingresos - Pasado a Pilaga ');
             $mensaje=$this->dep('datos')->tabla('formulario')->pasado_pilaga($datos['id_form']);
             toba::notificacion()->agregar($mensaje, 'info');  
-//            if($mensaje==' Tildado '){
-//                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado como pasado a Pilaga');                        
-//            }else{//Destildado
-//                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado como NO pasado a Pilaga');                        
-//            }
-//            
-//            toba::instancia()->get_db()->abrir_transaccion();
-//                
-//            try {
-//                    $mail = new toba_mail('andrea.granados@dti.uncoma.edu.ar', $asunto, $cuerpo_mail);
-//                    $mail->set_html(true);
-//                    $mail->enviar();
-//                    toba::instancia()->get_db()->cerrar_transaccion();
-//            } catch (toba_error $e) {
-//                    toba::instancia()->get_db()->abortar_transaccion();
-//                    toba::logger()->debug('Proceso de envio de random a cuenta: '. $e->getMessage());
-//                    throw new toba_error($e->getMessage());
-//                    //throw new toba_error('Se produjo un error en el envio de correo, contactese con un administrador del sistema.');
-//            }
+            if($mensaje==' Tildado '){
+                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado como pasado a Pilaga');                        
+            }else{//Destildado
+                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado como NO pasado a Pilaga');                        
+            }
+            toba::instancia()->get_db()->abrir_transaccion();
+
+            try {
+                    $mail = new toba_mail('andrea.granados@dti.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                    $mail->set_html(true);
+                    $mail->enviar();
+                    toba::notificacion()->agregar(utf8_decode('Se ha enviado un mail a ...'), 'info');
+                    toba::instancia()->get_db()->cerrar_transaccion();
+                    
+            } catch (toba_error $e) {
+                    toba::instancia()->get_db()->abortar_transaccion();
+                    toba::logger()->debug('Proceso de envio de random a cuenta: '. $e->getMessage());
+                    throw new toba_error($e->getMessage());
+                    throw new toba_error('Se produjo un error en el proceso de envio del correo, por favor contactese con un administrador del sistema.');
+            }
+            
 	}
         function evt__cuadro__adjuntos($datos)
 	{
