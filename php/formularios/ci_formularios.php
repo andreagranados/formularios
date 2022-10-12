@@ -85,7 +85,7 @@ class ci_formularios extends toba_ci
             toba::instancia()->get_db()->abrir_transaccion();
 
             try {
-                    $mail = new toba_mail('andrea.granados@dti.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                    $mail = new toba_mail('paula.rodriguez@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
                     $mail->set_html(true);
                     $mail->enviar();
 //                    toba::notificacion()->agregar(utf8_decode('Se ha enviado un mail notificando el cambio'), 'info');
