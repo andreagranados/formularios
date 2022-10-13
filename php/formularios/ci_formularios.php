@@ -78,9 +78,9 @@ class ci_formularios extends toba_ci
             $mensaje=$this->dep('datos')->tabla('formulario')->pasado_pilaga($datos['id_form']);
             toba::notificacion()->agregar($mensaje, 'info');  
             if($mensaje==' Tildado '){
-                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado como pasado a Pilaga');                        
+                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado en el sistema "Formulario de Ingresos" como PASADO A PILAGA');                        
             }else{//Destildado
-                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado como NO pasado a Pilaga');                        
+                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado en el sistema "Formulario de Ingresos" como NO PASADO A PILAGA');                        
             }
             toba::instancia()->get_db()->abrir_transaccion();
 
