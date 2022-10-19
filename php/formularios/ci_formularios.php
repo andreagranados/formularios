@@ -508,6 +508,7 @@ class ci_formularios extends toba_ci
                     } 
             }
         }
+       
     function conf()
     {
         $id = toba::memoria()->get_parametro('id_form');

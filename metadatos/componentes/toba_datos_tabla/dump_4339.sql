@@ -172,7 +172,7 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'4339', --objeto
 	'2316', --col_id
 	'nro_transferencia', --columna
-	'E', --tipo
+	'X', --tipo
 	'0', --pk
 	'', --secuencia
 	NULL, --largo

@@ -33,7 +33,7 @@ class dt_modalidad_pago extends toba_datos_tabla
         $sql="select * from modalidad_pago m, formulario f
               where m.id_form=f.id_form 
               and f.estado<>'N'
-              and nro_transferencia=".$nro_transf;
+              and nro_transferencia=trim('".$nro_transf."')";
         $resul = toba::db('formularios')->consultar($sql);
         return $resul;
     }
@@ -41,7 +41,7 @@ class dt_modalidad_pago extends toba_datos_tabla
         $resul=array();
         $sql="select * from modalidad_pago m, formulario f "
                 . " where m.id_form=f.id_form 
-                    and f.estado<>'N' and nro_transferencia=".$nro_transf." and id_mod<>".$id_mod;
+                    and f.estado<>'N' and nro_transferencia=trim('".$nro_transf."') and id_mod<>".$id_mod;
         $resul = toba::db('formularios')->consultar($sql);
         return $resul;
     }
