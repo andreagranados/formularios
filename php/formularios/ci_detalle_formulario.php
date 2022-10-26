@@ -215,20 +215,20 @@ class ci_detalle_formulario extends formularios_abm_ci
             if($datos['estado']<>$form['estado']){//si cambia el estado
                
                 if($datos['estado']=='A' or $datos['estado']=='R' or $datos['estado']=='N'){
-                    if($datos['estado']=='A'){//si lo aprueba
-                       if(trim($form['id_dependencia'])!='FAIN'){//si es FAIN no necesita el check_presupuesto 
+                    if($datos['estado']=='A'){//si lo aprueba                        
+                        if(trim($form['id_dependencia'])=='FAIN' and ($form['id_origen_recurso']==1 or $form['id_origen_recurso']==3)){//si es FAIN F12 o F14 no necesita el check_presupuesto 
+                            $datos2['estado']=$datos['estado'];
+                            $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
+                            $mensaje=' Datos guardados correctamente';
+                             
+                       } else{
                             if($form['check_presupuesto']==1){
                                 $datos2['estado']=$datos['estado'];
                                 $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
                                 $mensaje=' Datos guardados correctamente';
                             }else{
                                 $mensaje=' Debe tener el check de presupuesto para aprobar';
-                            }   
-                       } else{
-                            $datos2['estado']=$datos['estado'];
-                            $datos2['observacionfinanzas']=$datos['observacionfinanzas'];
-                            $mensaje=' Datos guardados correctamente';
-                           
+                            }  
                        }
                         
                     }else{//para estados R o N no hace falta chequear el check presupuesto
