@@ -1,9 +1,9 @@
 <?php
 class ci_formularios extends toba_ci
 {
-        protected $s__datos_filtro;
-        protected $s__where;
-        protected $s__columnas;
+    protected $s__datos_filtro;
+    protected $s__where;
+    protected $s__columnas;
     
         //-----------------------------------------------------------------------------------
 	//---- filtros ----------------------------------------------------------------------
@@ -40,12 +40,11 @@ class ci_formularios extends toba_ci
         {
             $this->s__columnas = $datos;
         }
-	//-----------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------
 	//---- cuadro -----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
-
-	function conf__cuadro(toba_ei_cuadro $cuadro)
-	{
+        function conf__cuadro(toba_ei_cuadro $cuadro)
+        {
             if (isset($this->s__where)) {
                 if($this->s__columnas['disponibilidad']==0){
                         $c=array('disponibilidad');
@@ -59,11 +58,12 @@ class ci_formularios extends toba_ci
                         $c=array('desc_pv');
                         $this->dep('cuadro')->eliminar_columnas($c); 
                 }
-                  if($this->s__columnas['usuario']==0){
+                if($this->s__columnas['usuario']==0){
                         $c=array('usuario');
                         $this->dep('cuadro')->eliminar_columnas($c); 
                 }
-                $cuadro->set_datos($this->dep('datos')->tabla('formulario')->get_listado_filtro($this->s__where));
+                $salida=$this->dep('datos')->tabla('formulario')->get_listado_filtro($this->s__where);
+                $cuadro->set_datos($salida);
             }
 	}
 
@@ -76,14 +76,13 @@ class ci_formularios extends toba_ci
 	{
             $asunto =utf8_decode('Formulario de Ingresos - Pasado a Pilaga ');
             $mensaje=$this->dep('datos')->tabla('formulario')->pasado_pilaga($datos['id_form']);
-            toba::notificacion()->agregar($mensaje, 'info');  
+            toba::notificacion()->agregar($mensaje, 'info');
             if($mensaje==' Tildado '){
-                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado en el sistema "Formulario de Ingresos" como PASADO A PILAGA');                        
+                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado en el sistema "Formulario de Ingresos" como PASADO A PILAGA');
             }else{//Destildado
-                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado en el sistema "Formulario de Ingresos" como NO PASADO A PILAGA');                        
+                $cuerpo_mail = utf8_decode('El formulario id '.$datos['id_form'].' ha sido registrado en el sistema "Formulario de Ingresos" como NO PASADO A PILAGA');
             }
             toba::instancia()->get_db()->abrir_transaccion();
-
             try {
                     $mail = new toba_mail('paula.rodriguez@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
                     $mail->set_html(true);
@@ -100,29 +99,24 @@ class ci_formularios extends toba_ci
                     $mail->enviar();
                     toba::notificacion()->agregar(utf8_decode('Se ha enviado mail notificando el cambio'), 'info');
                     toba::instancia()->get_db()->cerrar_transaccion();                    
-                    
             } catch (toba_error $e) {
                     toba::instancia()->get_db()->abortar_transaccion();
                     toba::logger()->debug('Proceso de envio de random a cuenta: '. $e->getMessage());
                     throw new toba_error($e->getMessage());
                     throw new toba_error('Se produjo un error en el proceso de envio del correo, por favor contactese con un administrador del sistema.');
-            }
-            
+            }    
 	}
         function evt__cuadro__adjuntos($datos)
 	{
             $this->dep('datos')->tabla('formulario')->cargar($datos);
-            
             $datos=$this->dep('datos')->tabla('formulario')->get();          
             if(isset($datos['nro_ingreso'])){
                 $this->set_pantalla('pant_adjuntos');
              }else{
                 toba::notificacion()->agregar('El formulario aun no tiene numero', 'info');    
             }
-            
 	}
-	function evt__agregar()
-	{
+	function evt__agregar(){
              $this->set_pantalla('pant_edicion');
 	}
         function evt__form_adjuntos__modificacion($datos)
@@ -136,7 +130,7 @@ class ci_formularios extends toba_ci
                         $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro'].".pdf";
                         $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$nombre_ca;
                         if(move_uploaded_file($datos['archivo_form']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
-                            $datos2['archivo_form']=strval($nombre_ca);                                   
+                            $datos2['archivo_form']=strval($nombre_ca);
                         }
                     }
                 if (isset($datos['archivo_finanzas'])) {//esta modificando el archivo formulario
@@ -154,47 +148,6 @@ class ci_formularios extends toba_ci
                 }
             }
         }
-
-//        function evt__form_adjuntos__modificacion_teso($datos)
-//        {
-//             if($this->dep('datos')->tabla('formulario')->esta_cargada()){
-//                $formu=$this->dep('datos')->tabla('formulario')->get();
-//                $anio=$formu['ano_cobro'];
-//                //ya esta chequeado que tiene numero de ingreso
-//                if(isset($formu['id_recibo'])){//tiene recibo
-//                    if ($datos['eliminar_recibo']==1) {
-//                        if (isset($formu['archivo_recibo'])){
-//                            $datos2['archivo_recibo']=null;
-//                            $nombre_ca=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$formu['archivo_recibo'];
-//                            //$nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_recibo.pdf";
-//                            if (file_exists($nombre_ca)) {
-//                                unlink($nombre_ca);//borra el archivo
-//                             }
-//                            $this->dep('datos')->tabla('formulario')->set($datos2);
-//                            $this->dep('datos')->tabla('formulario')->sincronizar();   
-//                            toba::notificacion()->agregar('Recibo eliminado exitosamente', 'info');
-//                        }else{
-//                            toba::notificacion()->agregar('El formulario no tiene adjunto el recibo', 'info');
-//                        }
-//                            
-//                    }else{
-//                        if (isset($datos['archivo_recibo']) ) {//selecciono un archivo
-//                            $nombre_ca=str_pad($formu['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$formu['ano_cobro']."_recibo.pdf";
-//                            $destino_ca=toba::proyecto()->get_path()."/www/adjuntos/".$anio."/".$nombre_ca;
-//                            if(move_uploaded_file($datos['archivo_recibo']['tmp_name'], $destino_ca)){//mueve un archivo a una nueva direccion, retorna true cuando lo hace y falso en caso de que no
-//                                $datos2['archivo_recibo']=strval($nombre_ca);
-//                                $this->dep('datos')->tabla('formulario')->set($datos2);
-//                                $this->dep('datos')->tabla('formulario')->sincronizar();    
-//                                toba::notificacion()->agregar('Recibo guardado exitosamente', 'info');      
-//                            }
-//                        } 
-//                    }  
-//                 clearstatcache();
-//                }else{
-//                        toba::notificacion()->agregar('El formulario no tiene recibo asociado', 'info');    
-//                    }
-//             }//cargado  
-//        }
         function conf__form_adjuntos(toba_ei_formulario $form)
 	{
            if($this->dep('datos')->tabla('formulario')->esta_cargada()){
@@ -215,26 +168,24 @@ class ci_formularios extends toba_ci
                     if($datos_recibo!=0){//tiene adjunto el recibo
                         $nomb_ft="/formularios/1.0/recibos/".$datos_recibo;
                         $datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >archivo_recibo</a>";
-                    }
+                        }
                    $form->set_titulo($nombre);
                    $form->set_datos($datos);
                }
               clearstatcache(); 
-           }           
+              }          
 	}
         //-----------------------------------------------------------------------------------
 	//---- Eventos ----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
-
 	function evt__volver()
-	{
+        {
             $this->set_pantalla('pant_seleccion');
             $this->dep('datos')->tabla('formulario')->resetear();
-	}
+        }
 	//-----------------------------------------------------------------------------------
 	//---- JAVASCRIPT -------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
-
 	function extender_objeto_js()
 	{
 		echo "
@@ -245,7 +196,6 @@ class ci_formularios extends toba_ci
 		}
 		";
 	}
-          
         function vista_pdf(toba_vista_pdf $salida){
             $form=$this->dep('datos')->tabla('formulario')->get();
             $resp=$this->dep('datos')->tabla('libro_ingreso')->esta_cerrado($form['ano_cobro']);
@@ -460,7 +410,6 @@ class ci_formularios extends toba_ci
                         default:
                             break;
                     }
-
                    if($band){
                       $pdf->ezText( '<b>'.$cat.': '.'</b>'.$c.'  '.'<b>'.$vinc.': '.'</b>'.$v, 10);  
                    } 
@@ -505,10 +454,9 @@ class ci_formularios extends toba_ci
                         $pdf->addText(730,548,8,'Nro: '.$resul[0]['asigna_numero_ingreso']); 
                         $pdf->addText(500,20,8,'Generado por usuario: '.$usuario.' '.date('d/m/Y h:i:s a')); 
                         $pdf->closeObject(); 
-                    } 
+                     } 
             }
         }
-       
     function conf()
     {
         $id = toba::memoria()->get_parametro('id_form');
@@ -519,10 +467,7 @@ class ci_formularios extends toba_ci
              toba::notificacion()->agregar(utf8_decode('Importación exitosa!'), 'info');
            // $this->dep('ci_detalle_formulario')->set_pantalla('pant_inicial');//este no funciona
         }
-    }
-
-	
-
-
+        
+        }
 }
-?>
+    ?>

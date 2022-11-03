@@ -1,11 +1,10 @@
 <?php
 class dt_formulario extends toba_datos_tabla
-{      
+{
     function tiene_recibo($id_form){
         $sql="select id_recibo from formulario"
                 . " where id_form=$id_form";
         $resul=toba::db('formularios')->consultar($sql);
-        
         if(isset($resul[0]['id_recibo'])){
             return true;
         }else{
@@ -45,23 +44,19 @@ class dt_formulario extends toba_datos_tabla
     }
     function get_formularios(){//utilizada desde Importar rango de facturacion
         $condicion=" WHERE (estado='I' or estado='R') and id_punto_venta>0";
-        $pd = toba::manejador_sesiones()->get_perfil_datos(); 
+        $pd = toba::manejador_sesiones()->get_perfil_datos();
         $con="select sigla from dependencia ";
         $con = toba::perfil_de_datos()->filtrar($con);
         $resul=toba::db('formularios')->consultar($con);
-       
         if(isset($pd)){//pd solo tiene valor cuando el usuario esta asociado a un perfil de datos
                     $condicion.=" and id_dependencia = ".quote($resul[0]['sigla']);
                 }//sino es usuario de la central no filtro a menos que haya elegido
-          
         $sql="select distinct id_form,'('||id_form||')'||nro_expediente||' PV: '||id_punto_venta||'('||p.nombre||')' as descripcion"
                 . " from formulario f"
                 . " left outer join programa p on (f.id_programa=p.id_programa)"
                 . "$condicion";
         return toba::db('formularios')->consultar($sql);
     }
-    
-    
     function puede_enviar($id_form){
             $sql=" select ".
                     "case when ingresa_fondo_central then case when tipo_dep=1 then 
@@ -106,7 +101,6 @@ end as puede"
         function anular_recibo($id_form){
             $sql="update recibo set estado='A' where id_recibo in(select id_recibo from formulario where id_form=".
                     $id_form. ")";
-            
             $resul=toba::db('formularios')->consultar($sql);
         }
         function pasado_pilaga($id_form){
@@ -120,13 +114,11 @@ end as puede"
                 }else{
                     $mensaje=" Tildado ";
                 }
-                
             }else{
                 $concatenar="'true'";
                 $mensaje=" Tildado ";
             }
-            
-            $sql=" update formulario set pasado_pilaga=".$concatenar." where id_form= ".$id_form;  
+            $sql=" update formulario set pasado_pilaga=".$concatenar." where id_form= ".$id_form;
             toba::db('formularios')->consultar($sql);
             return $mensaje;
         }
@@ -154,9 +146,7 @@ end as puede"
             }else{
                 return true;
             }
-             
         }
-     
         function tiene_items($id_f){//retorna true si tiene items y false en caso contrario
             $sql="select * from item where id_form=$id_f";
             $resul=toba::db('formularios')->consultar($sql);
@@ -166,7 +156,6 @@ end as puede"
                 return false;
             }
         }
-
         function get_listado_filtro($where=null){
             $condicion=' WHERE 1=1 ';
             if(!is_null($where)){
@@ -174,10 +163,10 @@ end as puede"
                 }
             $pd = toba::manejador_sesiones()->get_perfil_datos(); 
             $con="select sigla from dependencia ";
-            $con = toba::perfil_de_datos()->filtrar($con);
+            $con=toba::perfil_de_datos()->filtrar($con);
             $resul=toba::db('formularios')->consultar($con);
             $con2="select id_punto from punto_venta ";
-            $con2 = toba::perfil_de_datos()->filtrar($con2);
+            $con2=toba::perfil_de_datos()->filtrar($con2);
             $pos=strripos($con2,'WHERE');//devuelve falso sino encuentra
 
             $resul2=toba::db('formularios')->consultar($con2);
@@ -195,15 +184,15 @@ end as puede"
                     }
                 }//sino es usuario de la central no filtro a menos que haya elegido
           
-             $sql="select distinct * from (select sub.*, case when check_presupuesto then 'SI' else 'NO' end as check_pres,md.modalidad,us.usuario from 
-                (select distinct t_f.id_form,t_b.nombre||' Nro Cuenta: '||t_cu.nro_cuenta as disponibilidad,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,lpad(cast(t_f.id_programa as text),2,'0') as prog,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,case when (t_f.id_dependencia='FAIN' and t_f.id_origen_recurso in (1,3)) then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pilaga,case when (t_f.id_dependencia='FAIN' and t_f.id_origen_recurso in (1,3)) then case when t_f.nro_ingreso is not null then 1 else 0 end else case when t_f.pasado_pilaga then 1 else 0 end end  as pas_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_p.descripcion as desc_pv,t_f.estado,t_c.titulo as origen ,t_t.total as monto,case when archivo_form is null then 0 else 1 end as archivo, case when t_f.id_recibo is null then 0 else case when t_r.archivo_recibo is null then 1 else 0 end end as archivo_recib "
+             $sql="select distinct * from (select sub.*, case when check_presupuesto then 'SI' else 'NO' end as check_pres,md.modalidad,us.usuario from ".
+             " (select distinct t_f.id_form,t_b.nombre||' Nro Cuenta: '||t_cu.nro_cuenta as disponibilidad,t_f.fecha_envio,t_f.id_origen_recurso,t_f.id_programa,lpad(cast(t_f.id_programa as text),2,'0') as prog,t_f.ano_cobro,t_f.anio_ingreso,extract(year from t_f.fecha_creacion) as anio_creacion,t_f.nro_ingreso,t_f.nro_expediente,t_f.fecha_creacion,t_f.id_dependencia,t_f.id_recibo,t_f.check_presupuesto,t_f.observacionpresupuesto,observacionfinanzas,case when (t_f.id_dependencia='FAIN' and t_f.id_origen_recurso in (1,3)) then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pilaga,case when (t_f.id_dependencia='FAIN' and t_f.id_origen_recurso in (1,3)) then case when t_f.nro_ingreso is not null then 1 else 0 end else case when t_f.pasado_pilaga then 1 else 0 end end  as pas_pilaga,case when t_f.id_punto_venta<=0 then true else false end as sin_facturacion, lpad(cast(t_f.nro_ingreso as text),4,'0')||'/'||t_f.anio_ingreso as numero_ingreso,t_f.id_punto_venta, case when t_f.id_punto_venta<=0 then 0 else t_f.id_punto_venta end as pv,t_p.descripcion as desc_pv,t_f.estado,t_c.titulo as origen ,t_t.total as monto,case when archivo_form is null then 0 else 1 end as archivo, case when t_f.id_recibo is null then 0 else case when t_r.archivo_recibo is null then 1 else 0 end end as archivo_recib "
                       ." from formulario t_f 
                          INNER JOIN origen_ingreso t_c ON (t_f.id_origen_recurso=t_c.id_origen)
                          INNER JOIN punto_venta t_p ON (t_p.id_punto=t_f.id_punto_venta)
                          LEFT OUTER JOIN cuenta_bancaria t_cu on (t_f.disponibilidad=t_cu.id_cuenta) 
                          LEFT OUTER JOIN banco t_b on (t_cu.id_banco=t_b.id_banco) 
-                         LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) 
-                         LEFT OUTER JOIN recibo t_r on (t_r.id_recibo=t_f.id_recibo) "
+                         LEFT OUTER JOIN item t_i on (t_i.id_form=t_f.id_form) "
+                      ." LEFT OUTER JOIN recibo t_r on (t_r.id_recibo=t_f.id_recibo) "
                       ." LEFT OUTER JOIN (select t_it.id_form,sum(monto) as total from item t_it
                                             group by t_it.id_form) t_t on (t_t.id_form=t_f.id_form) "
                         // " GROUP BY t_f.id_form,fecha_envio,t_f.id_origen_recurso,t_f.id_programa,t_f.mes_cobro,t_f.ano_cobro,anio_ingreso,nro_ingreso,nro_expediente,fecha_creacion, t_f.id_dependencia,id_recibo,t_f.check_presupuesto,observacionpresupuesto,observacionfinanzas,pasado_pilaga,id_punto_venta,pv,estado,titulo
@@ -220,11 +209,10 @@ end as puede"
                     . "                   where auditoria_operacion='I' and auditoria_usuario<>'postgres')us ON (us.id_form=sub.id_form)"                
                     . ")sub2 $condicion"
                     . " order by fecha_creacion desc";
-     
            // $sql = toba::perfil_de_datos()->filtrar($sql); no va
             return toba::db('formularios')->consultar($sql);
         }
-        
+
         function get_origen_recurso($id_form){
             $sql="select id_origen_recurso from formulario where id_form=$id_form";
             $resul= toba::db('formularios')->consultar($sql);
@@ -277,8 +265,8 @@ end as puede"
                     . " inner join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)"
                     . " where id_form=$id_form";
             $resul= toba::db('formularios')->consultar($sql);
-            return $resul[0]['punto_venta'];    
-        }
+            return $resul[0]['punto_venta'];
+            }
         function get_anios(){
             $sql="select distinct extract(year from fecha_creacion) as anio"
                     . " from formulario";
@@ -288,7 +276,4 @@ end as puede"
             $sql=" update formulario set estado='T',id_recibo=null where id_form=".$id_form;
             toba::db('formularios')->consultar($sql);
         }
-        
-}
-
-?>
+        }?>

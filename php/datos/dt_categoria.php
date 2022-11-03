@@ -17,5 +17,4 @@ class dt_categoria extends toba_datos_tabla
         }
                 
 }
-
 ?>
