@@ -165,23 +165,23 @@ class ci_formularios extends toba_ci
                    $nombre='Formulario '.str_pad($datos['nro_ingreso'], 4, "0", STR_PAD_LEFT)."_".$datos['ano_cobro'];
                    if(isset($datos['archivo_form'])and $datos['archivo_form']<>''){
                         $nomb_ft="/formularios/1.0/adjuntos/".$anio."/".$datos['archivo_form'];
-                        //$datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >form_firmado</a>";
-                        $datos['imagen_vista_previa_t'] = "<a href target='_blank' onclick='cargarDocumento()' >form_firmado</a>";
-                        $this->script($nomb_ft);
+                        $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >form_firmado</a>";
+                        //$datos['imagen_vista_previa_t'] = "<a href target='_blank' onclick='cargarDocumento()' >form_firmado</a>";
+                        //$this->script($nomb_ft);
                     }
                    if((isset($datos['archivo_finanzas']) and $datos['archivo_finanzas']<>'')){
                         $nomb_ft="/formularios/1.0/adjuntos/".$anio."/".$datos['archivo_finanzas'];
-                        //$datos['imagen_vista_previa_f'] = "<a target='_blank' href='{$nomb_ft}' >archivo_finanzas</a>";
-                        $datos['imagen_vista_previa_f'] = "<a href target='_blank' onclick='cargarDocumento()' >archivo_finanzas</a>";
-                        $this->script($nomb_ft);
+                        $datos['imagen_vista_previa_f'] = "<a target='_blank' href='{$nomb_ft}' >archivo_finanzas</a>";
+                        //$datos['imagen_vista_previa_f'] = "<a href target='_blank' onclick='cargarDocumento()' >archivo_finanzas</a>";
+                        //$this->script($nomb_ft);
                     }
                     
                     $datos_recibo=$this->dep('datos')->tabla('recibo')->get_datos_recibo($datos['id_form']); 
                     if($datos_recibo!=0){//tiene adjunto el recibo
                         $nomb_ft="/formularios/1.0/recibos/".$datos_recibo;
-                        //$datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >archivo_recibo</a>";
-                        $datos['imagen_vista_previa_r'] = "<a href target='_blank' onclick='cargarDocumento()' >archivo_recibo</a>";
-                        $this->script($nomb_ft);
+                        $datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >archivo_recibo</a>";
+                        //$datos['imagen_vista_previa_r'] = "<a href target='_blank' onclick='cargarDocumento()' >archivo_recibo</a>";
+                        //$this->script($nomb_ft);
                         }
                    $form->set_titulo($nombre);
                    $form->set_datos($datos);
