@@ -10,6 +10,17 @@ class ci_detalle_formulario extends formularios_abm_ci
     protected $s__mostrar_m;
     protected $nombre_tabla='formulario';
     
+    function script($nombre){
+        $fechaHora = idate("Y").idate("m").idate("d").idate("H").idate("i").idate("s");
+        $version = "?v=".$fechaHora;
+        $link = $nombre.$version;
+        echo "<script>
+                            function cargarDocumento(){
+                                    window.open('".$link."');
+                                    window.location.reload(true);
+                            }
+                     </script>";
+    }
     function get_condiciones(){//dependiendo si es una secretaria o no trae las condiciones
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('condicion_venta')->get_condiciones($form['id_form']);
@@ -582,7 +593,9 @@ class ci_detalle_formulario extends formularios_abm_ci
                    $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
                    if(!empty($datos['archivo_trans'])){//no esta vacia
                         $nomb_ft="/formularios/1.0/adjuntos/".$datos['archivo_trans'];
-                        $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
+                        //$datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
+                        $datos['imagen_vista_previa_t'] = "<a href target='_blank' onclick='cargarDocumento()' >comprob transf</a>";
+                        $this->script($nomb_ft);
                     }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
                    $form->set_datos($datos);
