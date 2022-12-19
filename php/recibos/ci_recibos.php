@@ -10,17 +10,6 @@ class ci_recibos extends formularios_abm_ci
         protected $s__recibo;
         protected $nombre_tabla='recibo';
        
-        function script($nombre){
-            $fechaHora = idate("Y").idate("m").idate("d").idate("H").idate("i").idate("s");
-            $version = "?v=".$fechaHora;
-            $link = $nombre.$version;
-            echo "<script>
-				function cargarDocumento(){
-					window.open('".$link."');
-					window.location.reload(true);
-				}
-			 </script>";
-        }
         //-----------------------------------------------------------------------------------
 	//---- filtros ----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
@@ -119,10 +108,10 @@ class ci_recibos extends formularios_abm_ci
         {
             $datos=$this->dep('datos')->tabla('recibo')->get();
             if(isset($datos['archivo_recibo'])and $datos['archivo_recibo']<>''){
+                $fechaHora = idate("Y").idate("m").idate("d").idate("H").idate("i").idate("s");
                 $nomb_ft="/formularios/1.0/recibos/".$datos['archivo_recibo'];
-                //$datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >recibo_firmado</a>";
-                $datos['imagen_vista_previa_r'] = "<a href target='_blank' onclick='cargarDocumento()' >recibo_firmado</a>";
-                $this->script($nomb_ft);
+                $nomb_ft.="?v=".$fechaHora;
+                $datos['imagen_vista_previa_r'] = "<a target='_blank' href='{$nomb_ft}' >recibo_firmado</a>";
             }
             $datos['archivo_recibo']=' ';//para que no aparezca en pantalla el nombre con el que esta guardado el archivo
             $form->set_datos($datos);   

@@ -592,10 +592,10 @@ class ci_detalle_formulario extends formularios_abm_ci
                if($this->controlador()->dep('datos')->tabla('modalidad_pago')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('modalidad_pago')->get();
                    if(!empty($datos['archivo_trans'])){//no esta vacia
+                        $fechaHora = idate("Y").idate("m").idate("d").idate("H").idate("i").idate("s");
                         $nomb_ft="/formularios/1.0/adjuntos/".$datos['archivo_trans'];
-                        //$datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
-                        $datos['imagen_vista_previa_t'] = "<a href target='_blank' onclick='cargarDocumento()' >comprob transf</a>";
-                        $this->script($nomb_ft);
+                        $nomb_ft.="?v=".$fechaHora;
+                        $datos['imagen_vista_previa_t'] = "<a target='_blank' href='{$nomb_ft}' >comprob transf</a>";
                     }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
                    $form->set_datos($datos);
