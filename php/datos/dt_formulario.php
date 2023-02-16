@@ -276,4 +276,15 @@ end as puede"
             $sql=" update formulario set estado='T',id_recibo=null where id_form=".$id_form;
             toba::db('formularios')->consultar($sql);
         }
-        }?>
+        function total_negativo($id_form){
+            $sql=" select case when total<=0 then true else false end as negativo
+                    from formulario t_f
+                    LEFT OUTER JOIN (select t_it.id_form,sum(monto) as total 
+                                    from item t_it
+                                    group by t_it.id_form) t_t ON (t_t.id_form=t_f.id_form)    
+                    WHERE t_f.id_form=$id_form";
+            $resul=toba::db('formularios')->consultar($sql);
+            return $resul[0]['negativo'];
+        }
+    }
+?>

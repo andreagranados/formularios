@@ -10,17 +10,7 @@ class ci_detalle_formulario extends formularios_abm_ci
     protected $s__mostrar_m;
     protected $nombre_tabla='formulario';
     
-    function script($nombre){
-        $fechaHora = idate("Y").idate("m").idate("d").idate("H").idate("i").idate("s");
-        $version = "?v=".$fechaHora;
-        $link = $nombre.$version;
-        echo "<script>
-                            function cargarDocumento(){
-                                    window.open('".$link."');
-                                    window.location.reload(true);
-                            }
-                     </script>";
-    }
+   
     function get_condiciones(){//dependiendo si es una secretaria o no trae las condiciones
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('condicion_venta')->get_condiciones($form['id_form']);
@@ -813,34 +803,39 @@ class ci_detalle_formulario extends formularios_abm_ci
             if($form['estado']=='I' or $form['estado']=='R' ){
                 $band=$this->controlador()->dep('datos')->tabla('formulario')->tiene_items($form['id_form']);
                 if($band){
-                    $cerrado=$this->controlador()->dep('datos')->tabla('formulario')->esta_en_libro_cerrado($form['id_form']);
-                    if($cerrado==1){//si el libro al que corresponde el formulario esta cerrado
-                        toba::notificacion()->agregar('No es posible enviar, el libro esta cerrado', 'info');   
-                    }else{
-                        $band=$this->controlador()->dep('datos')->tabla('comprobante')->tiene_comprob_repetidos($form['id_form']);
-                        if(!$band){
-                            $band=$this->controlador()->dep('datos')->tabla('modalidad_pago')->puede_enviar($form['id_form']);
-                            if($band){
-                                $band=$this->controlador()->dep('datos')->tabla('formulario')->puede_enviar($form['id_form']);
+                    $negativo=$this->controlador()->dep('datos')->tabla('formulario')->total_negativo($form['id_form']);
+                    if(!$negativo){
+                        $cerrado=$this->controlador()->dep('datos')->tabla('formulario')->esta_en_libro_cerrado($form['id_form']);
+                        if($cerrado==1){//si el libro al que corresponde el formulario esta cerrado
+                            toba::notificacion()->agregar('No es posible enviar, el libro esta cerrado', 'info');   
+                        }else{
+                            $band=$this->controlador()->dep('datos')->tabla('comprobante')->tiene_comprob_repetidos($form['id_form']);
+                            if(!$band){
+                                $band=$this->controlador()->dep('datos')->tabla('modalidad_pago')->puede_enviar($form['id_form']);
                                 if($band){
-                                    $datos['estado']='E';
-                                    $datos['fecha_envio']=date('d/m/Y');
-                                    $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
-                                    $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
-                                    $this->controlador()->dep('datos')->tabla('formulario')->resetear();
-                                    $this->controlador()->set_pantalla('pant_seleccion');
-                                    toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
+                                    $band=$this->controlador()->dep('datos')->tabla('formulario')->puede_enviar($form['id_form']);
+                                    if($band){
+                                        $datos['estado']='E';
+                                        $datos['fecha_envio']=date('d/m/Y');
+                                        $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
+                                        $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
+                                        $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+                                        $this->controlador()->set_pantalla('pant_seleccion');
+                                        toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
+                                    }else{
+                                        toba::notificacion()->agregar('No es posible enviar, verifique la Modalidad de Ingreso', 'info');   
+                                    } 
                                 }else{
-                                    toba::notificacion()->agregar('No es posible enviar, verifique la Modalidad de Ingreso', 'info');   
+                                      toba::notificacion()->agregar('No es posible enviar, falta comprobante en Modalidad de Ingreso', 'info');   
                                 } 
                             }else{
-                                  toba::notificacion()->agregar('No es posible enviar, falta comprobante en Modalidad de Ingreso', 'info');   
-                            } 
-                        }else{
-                            toba::notificacion()->agregar('No es posible enviar, tiene comprobantes repetidos', 'info');   
-                        }
-                        
+                                toba::notificacion()->agregar('No es posible enviar, tiene comprobantes repetidos', 'info');   
+                            }
+                          }
+                    }else{
+                        toba::notificacion()->agregar('No es posible enviar. No se puede declarar formularios en negativo. Los mismos son declarativos de ingresos.', 'info');   
                     }
+                    
                 }else{
                     toba::notificacion()->agregar('El formulario no tiene items cargados', 'info'); 
                 }

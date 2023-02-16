@@ -84,15 +84,17 @@ class ci_formularios extends toba_ci
             }
             toba::instancia()->get_db()->abrir_transaccion();
             try {
-                    $mail = new toba_mail('paula.rodriguez@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                   // $mail = new toba_mail('paula.rodriguez@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                    $mail->set_html(true);
+                    //$mail->enviar();
+                    $mail = new toba_mail('pauliarodriguez@gmail.com', $asunto, $cuerpo_mail);
                     $mail->set_html(true);
                     $mail->enviar();
-                    $mail = new toba_mail('pauliarodriguez@gmail.com', $asunto, $cuerpo_mail);
-                    $mail->enviar();
                     $mail = new toba_mail('mariaeugenia.corva@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
-                    //$mail->set_html(true);
+                    $mail->set_html(true);
                     $mail->enviar();
                     $mail = new toba_mail('sergio.deshommes@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                    $mail->set_html(true);
                     $mail->enviar();
                     toba::notificacion()->agregar(utf8_decode('Se ha enviado mail notificando el cambio'), 'info');
                     toba::instancia()->get_db()->cerrar_transaccion();                    
@@ -446,18 +448,18 @@ class ci_formularios extends toba_ci
                       $pdf->addText(100,70,8,$firma); 
                       $pdf->addText(100,60,8,utf8_decode('     El presente tiene carácter de Declaración Jurada '));   
                    }
-                  
                    //Recorremos cada una de las hojas del documento para agregar el encabezado
                     foreach ($pdf->ezPages as $pageNum=>$id){ 
                         $pdf->reopenObject($id); //definimos el path a la imagen de logo de la organizacion 
                         //agregamos al documento la imagen y definimos su posición a través de las coordenadas (x,y) y el ancho y el alto.
-                        //$imagen = toba::proyecto()->get_path().'/www/img/sello.jpg';
-                        //$pdf->addJpegFromFile($imagen, 700, 515, 80, 75);
-                        //$pdf->addText(730,548,8,$resul[0]['asigna_numero_ingreso']); 
-                        $pdf->addText(730,548,8,'Nro: '.$resul[0]['asigna_numero_ingreso']); 
+                        $imagen = toba::proyecto()->get_path().'/www/img/sello.jpg';
+                        $pdf->addJpegFromFile($imagen, 700, 515, 80, 75);
+                        $pdf->addText(730,548,8,$resul[0]['asigna_numero_ingreso']); 
+                        //$pdf->addText(730,548,8,'Nro: '.$resul[0]['asigna_numero_ingreso']); 
                         $pdf->addText(500,20,8,'Generado por usuario: '.$usuario.' '.date('d/m/Y h:i:s a')); 
                         $pdf->closeObject(); 
-                     } 
+                     }
+                    
             }
         }
     function conf()
