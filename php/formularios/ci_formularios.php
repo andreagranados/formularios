@@ -303,45 +303,45 @@ class ci_formularios extends toba_ci
                             case 1://f12
                                 if($band){
                                     //$c=$item['categ'];$v=$item['vinc'];
-                                    $datos[$i]=array( 'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));  
+                                    $datos[$i]=array('col1' => $item['grupo'],'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));  
                                 }else{
-                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array('col1' => $item['grupo'],'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));
                                 }
                                 //$datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['nro_factura'],'col5' => $item['detalle'],'col6' => number_format($item['monto'],2,',','.'));
                                 break;
                             case 2://f13
                                 if($band){
-                                    $datos[$i]=array( 'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array( 'col1' => $item['grupo'], 'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
                                 }else{
-                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array( 'col1' => $item['grupo'],'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
                                 }
                                 break;
                             case 3://f14
                                 if($band){
-                                    $datos[$i]=array( 'col4'=>$item['proviene_descrip'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array(  'col1' => $item['grupo'],'col4'=>$item['proviene_descrip'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
                                 }else{
-                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['proviene_descrip'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array(  'col1' => $item['grupo'],'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['proviene_descrip'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
                                 }
                                 break;
                             case 4://f21
                                 if($band){
-                                    $datos[$i]=array( 'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array( 'col1' => $item['grupo'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
                                 }else{
-                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));   
+                                    $datos[$i]=array( 'col1' => $item['grupo'],'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));   
                                 }
                                 break;
                             case 5://f22
                                 if($band){
-                                    $datos[$i]=array( 'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array( 'col1' => $item['grupo'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));
                                 }else{
-                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));   
+                                    $datos[$i]=array( 'col1' => $item['grupo'],'col2'=>$item['categ'],'col3' => $item['vinc'],'col4' => $item['organismo'],'col5' => $item['nro_factura'],'col6' => $item['detalle'],'col7' => number_format($item['monto'],2,',','.'));   
                                 }
                                 break;
                             case 6://f11
                                 if($band){
-                                    $datos[$i]=array( 'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array('col1' => $item['grupo'],'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
                                 }else{
-                                    $datos[$i]=array( 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
+                                    $datos[$i]=array('col1' => $item['grupo'], 'col2'=>$item['categ'],'col3' => $item['vinc'],'col4'=>$item['nro_resol'],'col5' => $item['organismo'],'col6' => $item['nro_factura'],'col7' => $item['detalle'],'col8' => number_format($item['monto'],2,',','.'));
                                 }
                                 break;
                         }
@@ -353,62 +353,62 @@ class ci_formularios extends toba_ci
                     switch ($form['id_origen_recurso']) {
                         case 1://f12
                             if($band){
-                                $cols=array('col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'rowGap' => 3,'width'=>800,'cols'=>array('col4'=>array('width'=>90),'col5'=>array('width'=>620),'col6'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'rowGap' => 3,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col4'=>array('width'=>90),'col5'=>array('width'=>580),'col6'=>array('width'=>90,'justification'=>'right')));
                             }else{
-                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'rowGap' => 3,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>130),'col4'=>array('width'=>90),'col5'=>array('width'=>400),'col6'=>array('width'=>90,'justification'=>'right'))); 
+                                $cols=array('col1'=>'<b>GRUP</b>','col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>NRO FACTURA</b>','col5' => '<b>DETALLE</b>','col6' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'rowGap' => 3,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col2'=>array('width'=>90),'col3'=>array('width'=>130),'col4'=>array('width'=>90),'col5'=>array('width'=>360),'col6'=>array('width'=>90,'justification'=>'right'))); 
                             }
                             break;
                         case 2://f13
                             $resol=utf8_decode('NORMA');
                             if($band){
-                                $cols=array('col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col4'=>array('width'=>90),'col5'=>array('width'=>140),'col6'=>array('width'=>90),'col7'=>array('width'=>390),'col8'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col4'=>array('width'=>90),'col5'=>array('width'=>120),'col6'=>array('width'=>90),'col7'=>array('width'=>370),'col8'=>array('width'=>90,'justification'=>'right')));
                             }
                             else{ 
-                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>90),'col7'=>array('width'=>260),'col8'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>90),'col7'=>array('width'=>220),'col8'=>array('width'=>90,'justification'=>'right')));
                             }
                             
                             break;
                         case 3://f14
                             if($band){
-                                $cols=array('col4'=>'<b>PROVIENE DE </b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col4'=>array('width'=>150),'col5'=>array('width'=>90),'col6'=>array('width'=>470),'col7'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col4'=>'<b>PROVIENE DE </b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col4'=>array('width'=>150),'col5'=>array('width'=>90),'col6'=>array('width'=>430),'col7'=>array('width'=>90,'justification'=>'right')));
                             }else{
-                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>PROVIENE DE </b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>350),'col7'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>PROVIENE DE </b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>310),'col7'=>array('width'=>90,'justification'=>'right')));
                             }
                             
                             break;
                         case 4://f21
                             if($band){
-                                $cols=array('col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col4'=>array('width'=>140),'col5'=>array('width'=>90),'col6'=>array('width'=>480),'col7'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col1'=>array('width'=>40),'col4'=>array('width'=>100),'col5'=>array('width'=>90),'col6'=>array('width'=>480),'col7'=>array('width'=>90,'justification'=>'right')));
                             }else{
-                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>350),'col7'=>array('width'=>90,'justification'=>'right')));   
+                                $cols=array('col1'=>'<b>GRUP</b>','col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col1'=>array('width'=>40),'col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>310),'col7'=>array('width'=>90,'justification'=>'right')));   
                             }
                             break;
                         case 5://f22
                             if($band){
-                                $cols=array('col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col4'=>array('width'=>140),'col5'=>array('width'=>90),'col6'=>array('width'=>480),'col7'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col1'=>array('width'=>40),'col4'=>array('width'=>100),'col5'=>array('width'=>90),'col6'=>array('width'=>480),'col7'=>array('width'=>90,'justification'=>'right')));
                             }else{
-                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>350),'col7'=>array('width'=>90,'justification'=>'right')));   
+                                $cols=array('col1'=>'<b>GRUP</b>','col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4' => '<b>ORGANISMO</b>','col5' => '<b>NRO FACTURA</b>','col6' => '<b>DETALLE</b>','col7' => '<b>MONTO</b>');
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols' =>array('col1'=>array('width'=>40),'col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>310),'col7'=>array('width'=>90,'justification'=>'right')));   
                             }                            
                             break;
                         case 6://f11
                             $resol=utf8_decode('NORMA');
                             if($band){
-                                $cols=array('col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col4'=>array('width'=>90),'col5'=>array('width'=>140),'col6'=>array('width'=>90),'col7'=>array('width'=>390),'col8'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col4'=>array('width'=>90),'col5'=>array('width'=>140),'col6'=>array('width'=>90),'col7'=>array('width'=>350),'col8'=>array('width'=>90,'justification'=>'right')));
                             }
                             else{ 
-                                $cols=array('col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
-                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>90),'col7'=>array('width'=>260),'col8'=>array('width'=>90,'justification'=>'right')));
+                                $cols=array('col1'=>'<b>GRUP</b>','col2'=>'<b>'.$cat.'</b>','col3' => '<b>'.$vinc.'</b>','col4'=>'<b>'.$resol.'</b>','col5' => '<b>ORGANISMO</b>','col6' => '<b>NRO FACTURA</b>','col7' => '<b>DETALLE</b>','col8' => '<b>MONTO</b>'); 
+                                $opc=array('showLines'=>2,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('width'=>40),'col2'=>array('width'=>90),'col3'=>array('width'=>90),'col4'=>array('width'=>90),'col5'=>array('width'=>90),'col6'=>array('width'=>90),'col7'=>array('width'=>220),'col8'=>array('width'=>90,'justification'=>'right')));
                             }
                             
                             break;

@@ -14,7 +14,10 @@ class ci_ingresar_rango_facturacion extends toba_ci
         $pv=$this->dep('datos')->tabla('formulario')->su_punto_venta($id_form);
         return $this->dep('datos')->tabla('comprobante')->get_comprobantes_rango($pv,$anio,$tipo);
     }
-
+    function get_grupos_fuente(){
+        $ff=$this->dep('datos')->tabla('formulario')->get_origen_recurso($this->s__rango['id_form']);
+        return $this->controlador()->dep('datos')->tabla('origen_ingreso')->get_grupos_fuente($ff);
+    }
     //-----------------------------------------------------------------------------------
     //---- form_inicial -----------------------------------------------------------------
     //-----------------------------------------------------------------------------------
@@ -76,8 +79,10 @@ class ci_ingresar_rango_facturacion extends toba_ci
 
     function evt__cuadro__importar($datos)
     {
-        $this->dep('datos')->tabla('item')->importar($this->s__datos_comprob,$this->s__datos);
-        $parametros['id_form']=$this->s__rango['id_form'];
+        if(count($this->s__datos_comprob)>0){
+            $this->dep('datos')->tabla('item')->importar($this->s__datos_comprob,$this->s__datos);
+            $parametros['id_form']=$this->s__rango['id_form'];
+        }
         toba::vinculador()->navegar_a('formularios',3814,$parametros);
     }
 

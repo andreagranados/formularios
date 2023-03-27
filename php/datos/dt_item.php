@@ -3,7 +3,7 @@ class dt_item extends toba_datos_tabla
 {
     function importar($datos_item=array(),$datos=array()){//$datos tiene los datos comunes a todos los items
        // print_r($datos);exit;//Array ( [id_form] => 64 [id_categ] => 8 [id_vinc] => 2 [detalle] => sas [anio] => 2019 [tipo_comprob] => 11 [desde] => 437 [hasta] => 441 ) 
-       // print_r($datos_item);exit;
+        //print_r($datos);exit;
             foreach ($datos_item as $key => $value) {
                 if(isset($datos['proviene_de'])){
                     $prov=$datos['proviene_de'];
@@ -29,19 +29,38 @@ class dt_item extends toba_datos_tabla
                id_form, id_categ, id_vinc, proviene_de, nro_resol, 
                 organismo, id_condicion_venta, nro_cheque, id_banco, fecha_emision_cheque, 
                 nro_transferencia, cuil1, cuil, cuil2, alias, detalle, monto, 
-                cuenta_a_acreditar, trans_proviene_de, id_comprobante, tipo_posg)
+                cuenta_a_acreditar, trans_proviene_de, id_comprobante, tipo_posg,id_grupo)
             VALUES ( ".$datos['id_form'].",". $datos['id_categ'].",". $datos['id_vinc'].",".$prov.",'".$resol."', 
                     '".$org."', null, null, null, null, 
                     null, null, null, null, null, '".$datos['detalle']."',".$value['total'].", 
-                    null, null,". $value['id_comprob'].",".$tp.");
-            ";
+                    null, null,". $value['id_comprob'].",".$tp.",".$datos['id_grupo'].");";
             toba::db('formularios')->consultar($sql);
         } 
     }
     function get_listado($id_form){
         //si es F12 y la categoria tiene retencion entonces calculo porcentaje
-        $sql="select sub.*,t_t.total,case when id_origen_recurso=1 and tiene_retencion then round(t_t.total*porc_retencion/100,2)  else 0 end  as retencion from "
-                . "(select lpad(cast(t_f.id_punto_venta as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') as nro_factura,trim(t_pd.descripcion) as proviene_descrip,t_i.id_form,trim(t_i.nro_resol) as nro_resol,trim(t_i.organismo)as organismo,t_c.tiene_retencion,t_p.porc_retencion,t_i.id_item,t_f.id_origen_recurso,t_i.id_condicion_venta,trim(t_i.detalle) as detalle,trim(t_c.descripcion)||coalesce(case when t_i.tipo_posg is not null then '('||t_po.descripcion||')' else '' end) as categ,trim(t_o.descripcion) as condicion_venta, case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transf.: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre||coalesce(' CUIL/T:'||cuil1||'-'||lpad(cast(cuil as text),8,'0')||'-'||cuil2,'')  else '' end end as condicion_venta2, trim(t_v.descripcion) as vinc, t_i.monto"
+//        $sql="select sub.*,t_t.total,case when id_origen_recurso=1 and tiene_retencion then round(t_t.total*porc_retencion/100,2)  else 0 end  as retencion from "
+//                . "(select lpad(id_grupo::text,4,'0') as grupo,lpad(cast(t_f.id_punto_venta as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') as nro_factura,trim(t_pd.descripcion) as proviene_descrip,t_i.id_form,trim(t_i.nro_resol) as nro_resol,trim(t_i.organismo)as organismo,t_c.tiene_retencion,t_p.porc_retencion,t_i.id_item,t_f.id_origen_recurso,t_i.id_condicion_venta,trim(t_i.detalle) as detalle,trim(t_c.descripcion)||coalesce(case when t_i.tipo_posg is not null then '('||t_po.descripcion||')' else '' end) as categ,trim(t_o.descripcion) as condicion_venta, case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transf.: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre||coalesce(' CUIL/T:'||cuil1||'-'||lpad(cast(cuil as text),8,'0')||'-'||cuil2,'')  else '' end end as condicion_venta2, trim(t_v.descripcion) as vinc, t_i.monto"
+//                . " from item t_i "
+//                . " left outer join comprobante t_co on (t_co.id_comprob=t_i.id_comprobante)"
+//                 . " left outer join tipo_proviene_de t_pd on (t_pd.id_proviene=t_i.proviene_de)"
+//                . " left outer join formulario t_f on (t_f.id_form=t_i.id_form)"
+//                . " left outer join punto_venta t_p on (t_f.id_punto_venta=t_p.id_punto)"
+//                . " left outer join categoria t_c on (t_i.id_categ =t_c.id_categoria)"
+//                . " left outer join tipo_posgrado t_po on (t_i.tipo_posg  =t_po.id_tipo)"
+//                . " left outer join vinculacion t_v on (t_i.id_vinc =t_v.id_vinc)"
+//                . " left outer join condicion_venta t_o on (t_i.id_condicion_venta =t_o.id_cond)"
+//                . " left outer join banco t_b on (t_i.id_banco =t_b.id_banco)"
+//                . " left outer join cuenta_bancaria t_cu on (t_i.cuenta_a_acreditar=t_cu.id_cuenta) "
+//                . " left outer join banco t_ba on (t_ba.id_banco=t_cu.id_banco) "
+//                . " where t_i.id_form=$id_form "
+//                . ")sub"
+//                . " left outer join (select id_form,sum(monto) as total from item "
+//                . "                  where id_form=$id_form"
+//                . "                  group by id_form) t_t on (t_t.id_form=sub.id_form)"
+//                . " order by grupo,nro_factura";
+         $sql="select sub.*,t_t.total,case when id_origen_recurso=1 and tiene_retencion then round(t_t.total*porc_retencion/100,2)  else 0 end  as retencion from "
+                . "(select lpad(id_grupo::text,4,'0') as grupo,lpad(cast(t_f.id_punto_venta as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') as nro_factura,trim(t_pd.descripcion) as proviene_descrip,t_i.id_form,trim(t_i.nro_resol) as nro_resol,trim(t_i.organismo)as organismo,t_c.tiene_retencion,t_p.porc_retencion,t_i.id_item,t_f.id_origen_recurso,t_i.id_condicion_venta,trim(t_i.detalle) as detalle,trim(t_c.descripcion)||coalesce(case when t_i.tipo_posg is not null then '('||t_po.descripcion||')' else '' end) as categ,trim(t_o.descripcion) as condicion_venta, case when t_i.id_condicion_venta=2 then 'Nro cheque: '||cast(nro_cheque as text)||' '||t_b.nombre else case when t_i.id_condicion_venta=3 then 'Nro transf.: '||cast(nro_transferencia as text)||' CBU Cuenta: '||t_cu.cbu||' '||t_ba.nombre||coalesce(' CUIL/T:'||cuil1||'-'||lpad(cast(cuil as text),8,'0')||'-'||cuil2,'')  else '' end end as condicion_venta2, trim(t_v.descripcion) as vinc, t_i.monto,case when id_origen_recurso=1 and tiene_retencion then round(t_i.monto*porc_retencion/100,2) else 0 end as reten_item,t_i.monto-case when id_origen_recurso=1 and tiene_retencion then round(t_i.monto*porc_retencion/100,2) else 0 end as neto_item"
                 . " from item t_i "
                 . " left outer join comprobante t_co on (t_co.id_comprob=t_i.id_comprobante)"
                  . " left outer join tipo_proviene_de t_pd on (t_pd.id_proviene=t_i.proviene_de)"
@@ -59,7 +78,7 @@ class dt_item extends toba_datos_tabla
                 . " left outer join (select id_form,sum(monto) as total from item "
                 . "                  where id_form=$id_form"
                 . "                  group by id_form) t_t on (t_t.id_form=sub.id_form)"
-                . " order by nro_factura";
+                . " order by grupo,nro_factura";
         return toba::db('formularios')->consultar($sql);
     }
     function get_totales($where=null){
@@ -112,7 +131,7 @@ class dt_item extends toba_datos_tabla
               $condicion.=' and  '.$where;
          }
         // print_r($condicion);
-        $sql="select *,monto-retencion as neto from (select distinct t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,lpad(cast(t_pr.id_programa as text),2,'0') as prog,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,case when t_p.id_punto<=0 then 0 else id_punto end as pv, t_p.descripcion as desc_punto,
+        $sql="select *,monto-retencion as neto from (select distinct t_i.id_grupo,lpad(cast(t_i.id_grupo as text),4,'0') as grupo,t_f.id_dependencia,t_f.nro_expediente,t_pr.id_programa,lpad(cast(t_pr.id_programa as text),2,'0') as prog,t_f.id_origen_recurso,t_o.titulo as fuente,ano_cobro as anio,t_f.id_form,t_p.id_punto,case when t_p.id_punto<=0 then 0 else id_punto end as pv, t_p.descripcion as desc_punto,
         CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN 'SI' ELSE 'NO' END as tiene_reten,CASE WHEN t_f.id_origen_recurso=1 and t_c.tiene_retencion THEN round(t_i.monto*t_p.porc_retencion/100,2) ELSE 0 END as retencion,t_f.ano_cobro,case when t_f.id_dependencia='FAIN' then case when t_f.nro_ingreso is not null then 'SI' else 'NO' end else case when t_f.pasado_pilaga then 'SI' else 'NO' end end  as pasado_pila,
     case when t_p.id_punto > 0 then lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_co.nro_comprobante as text),8,'0') else '' end as nro_comprobante,t_i.monto,lpad(cast(nro_ingreso as text),4,'0')||'/'||anio_ingreso as nro_ingreso,
     t_tc.descripcion as tipo_comprob, t_f.estado,

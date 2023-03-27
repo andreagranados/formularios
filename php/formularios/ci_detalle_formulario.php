@@ -29,6 +29,10 @@ class ci_detalle_formulario extends formularios_abm_ci
 //            return $this->controlador()->dep('datos')->tabla('categoria')->get_categoria_otra();
 //        }
 //    }
+    function get_grupos_fuente(){
+        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        return $this->controlador()->dep('datos')->tabla('origen_ingreso')->get_grupos_fuente($form['id_origen_recurso']);
+    }
     function get_categorias(){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('macheo_categ_programa')->get_categorias($form['id_programa']);
@@ -471,70 +475,64 @@ class ci_detalle_formulario extends formularios_abm_ci
            if($form['estado']<>'A' and $form['estado']<>'T' and $form['estado']<>'P'){//el boton imprimir solo aparece si el formualrio esta aprobado (T o P para que pueda reimprimir)
                 $cuadro->eliminar_evento('imprimir');
             }
-           
+
            if(count($this->datos)>0){
                switch ($this->datos[0]['id_origen_recurso']) {
                    case 1://si es F12
                        $columnas=array('organismo','nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['categ']="<b>TOTAL BRUTO:</b>";
-                       $elem['id_item']=-1;
-                       $elem['monto']=$this->datos[0]['total'];
-                       array_push($this->datos,$elem);
-                       $elem['categ']='<b>DEDUCCION '.$this->datos[0]['porc_retencion'].' %:</b>';
-                       $elem['id_item']=-2;
-                       $elem['monto']=$this->datos[0]['retencion'];
-                       array_push($this->datos,$elem);
-                       $elem['categ']='<b>TOTAL NETO :</b>';
-                       $elem['id_item']=-3;
-                       $elem['monto']=$this->datos[0]['total']-$this->datos[0]['retencion'];
-                       array_push($this->datos,$elem);
-                      
+//                       $elem['categ']="<b>TOTAL BRUTO:</b>";
+//                       $elem['id_item']=-1;
+//                       $elem['monto']=$this->datos[0]['total'];
+//                       array_push($this->datos,$elem);
+//                       $elem['categ']='<b>DEDUCCION '.$this->datos[0]['porc_retencion'].' %:</b>';
+//                       $elem['id_item']=-2;
+//                       $elem['monto']=$this->datos[0]['retencion'];
+//                       array_push($this->datos,$elem);
+//                       $elem['categ']='<b>TOTAL NETO :</b>';
+//                       $elem['id_item']=-3;
+//                       $elem['monto']=$this->datos[0]['total']-$this->datos[0]['retencion'];
+//                       array_push($this->datos,$elem);
                        break;
                    case 2://si es F13
-                       //$columnas=array('categ','vinc','proviene_descrip');
-                       $columnas=array('proviene_descrip');
+                       $columnas=array('proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['categ']="<b>TOTAL:</b>";
-                       $elem['id_item']=-1;
-                       $elem['monto']=$this->datos[0]['total'];
-                       array_push($this->datos,$elem);
+//                       $elem['grupo']="<b>TOTAL:</b>";
+//                       $elem['id_item']=-1;
+//                       $elem['monto']=$this->datos[0]['total'];
+//                       array_push($this->datos,$elem);
                        break;
                     case 3://si es F14
-                       //$columnas=array('categ','vinc','nro_resol','organismo');
-                        $columnas=array('nro_resol','organismo');
-                       $cuadro->eliminar_columnas($columnas);
-                       $elem['categ']="<b>TOTAL:</b>";
-                       $elem['id_item']=-1;
-                       $elem['monto']=$this->datos[0]['total'];
-                       array_push($this->datos,$elem);
+                        $columnas=array('nro_resol','organismo','reten_item','neto_item');
+                        $cuadro->eliminar_columnas($columnas);
+//                       $elem['grupo']="<b>TOTAL:</b>";
+//                       $elem['id_item']=-1;
+//                       $elem['monto']=$this->datos[0]['total'];
+//                       array_push($this->datos,$elem);
                        break;
                    case 4://f21
-                       //$columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
-                       $columnas=array('nro_resol','proviene_descrip');
+                       $columnas=array('nro_resol','proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['categ']="<b>TOTAL:</b>";
-                       $elem['id_item']=-1;
-                       $elem['monto']=$this->datos[0]['total'];
-                       array_push($this->datos,$elem);
+//                       $elem['grupo']="<b>TOTAL:</b>";
+//                       $elem['id_item']=-1;
+//                       $elem['monto']=$this->datos[0]['total'];
+//                       array_push($this->datos,$elem);
                        break;
                    
                    case 5: //f22
-                       //$columnas=array('categ','vinc','nro_resol','organismo','proviene_descrip');
-                       $columnas=array('nro_resol','proviene_descrip');
+                       $columnas=array('nro_resol','proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['categ']="<b>TOTAL:</b>";
-                       $elem['id_item']=-1;
-                       $elem['monto']=$this->datos[0]['total'];
-                       array_push($this->datos,$elem);break;
+//                       $elem['grupo']="<b>TOTAL:</b>";
+//                       $elem['id_item']=-1;
+//                       $elem['monto']=$this->datos[0]['total'];
+//                       array_push($this->datos,$elem);break;
                     case 6://si es F11
-                       //$columnas=array('categ','vinc','proviene_descrip');
-                       $columnas=array('proviene_descrip');
+                       $columnas=array('proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-                       $elem['categ']="<b>TOTAL:</b>";
-                       $elem['id_item']=-1;
-                       $elem['monto']=$this->datos[0]['total'];
-                       array_push($this->datos,$elem);
+//                       $elem['grupo']="<b>TOTAL:</b>";
+//                       $elem['id_item']=-1;
+//                       $elem['monto']=$this->datos[0]['total'];
+//                       array_push($this->datos,$elem);
                        break;
                    
                    default:
@@ -542,17 +540,6 @@ class ci_detalle_formulario extends formularios_abm_ci
                    //si es F12 debo colocar  total bruto, deduccion y total neto
                }
           }
-               
-//            $cuadro->limpiar_columnas();
-//            $cuadro->agregar_columnas($columnas);
-           
-//           $elem['categ']="<b>TOTAL BRUTO</b>";
-//           $elem['id_item']=-1;
-//           $elem['monto']=$datos[0]['total']; 
-//           array_push($datos,$elem);
-          
-
-          
            return $this->datos;
 	}
 
