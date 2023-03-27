@@ -161,6 +161,18 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'formularios', --proyecto
+	'3361', --dep_id
+	'4271', --objeto_consumidor
+	'4262', --objeto_proveedor
+	'origen_ingreso', --identificador
+	'1', --parametros_a
+	'1', --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	'10'  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'formularios', --proyecto
 	'3358', --dep_id
 	'4271', --objeto_consumidor
 	'4283', --objeto_proveedor
