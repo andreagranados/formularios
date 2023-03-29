@@ -46,7 +46,7 @@ class ci_importacion_comprobantes extends toba_ci
 //                 echo "<br /><br />\n\n";
                 $pos = strpos($data[1], '-');
                 $tip= intval(substr($data[1],0,$pos-1)) ;
-                if($tip==13 or $tip==213 or $tip==21){
+                if($tip==13 or $tip==213 or $tip==21 or $tip==333){
                     $monto=$data[15]*(-1);  
                 }else{
                     $monto=$data[15];

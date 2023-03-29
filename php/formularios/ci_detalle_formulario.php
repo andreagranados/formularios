@@ -481,58 +481,26 @@ class ci_detalle_formulario extends formularios_abm_ci
                    case 1://si es F12
                        $columnas=array('organismo','nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
-//                       $elem['categ']="<b>TOTAL BRUTO:</b>";
-//                       $elem['id_item']=-1;
-//                       $elem['monto']=$this->datos[0]['total'];
-//                       array_push($this->datos,$elem);
-//                       $elem['categ']='<b>DEDUCCION '.$this->datos[0]['porc_retencion'].' %:</b>';
-//                       $elem['id_item']=-2;
-//                       $elem['monto']=$this->datos[0]['retencion'];
-//                       array_push($this->datos,$elem);
-//                       $elem['categ']='<b>TOTAL NETO :</b>';
-//                       $elem['id_item']=-3;
-//                       $elem['monto']=$this->datos[0]['total']-$this->datos[0]['retencion'];
-//                       array_push($this->datos,$elem);
                        break;
                    case 2://si es F13
                        $columnas=array('proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-//                       $elem['grupo']="<b>TOTAL:</b>";
-//                       $elem['id_item']=-1;
-//                       $elem['monto']=$this->datos[0]['total'];
-//                       array_push($this->datos,$elem);
                        break;
                     case 3://si es F14
                         $columnas=array('nro_resol','organismo','reten_item','neto_item');
                         $cuadro->eliminar_columnas($columnas);
-//                       $elem['grupo']="<b>TOTAL:</b>";
-//                       $elem['id_item']=-1;
-//                       $elem['monto']=$this->datos[0]['total'];
-//                       array_push($this->datos,$elem);
                        break;
                    case 4://f21
                        $columnas=array('nro_resol','proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-//                       $elem['grupo']="<b>TOTAL:</b>";
-//                       $elem['id_item']=-1;
-//                       $elem['monto']=$this->datos[0]['total'];
-//                       array_push($this->datos,$elem);
                        break;
                    
                    case 5: //f22
                        $columnas=array('nro_resol','proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-//                       $elem['grupo']="<b>TOTAL:</b>";
-//                       $elem['id_item']=-1;
-//                       $elem['monto']=$this->datos[0]['total'];
-//                       array_push($this->datos,$elem);break;
                     case 6://si es F11
                        $columnas=array('proviene_descrip','reten_item','neto_item');
                        $cuadro->eliminar_columnas($columnas);
-//                       $elem['grupo']="<b>TOTAL:</b>";
-//                       $elem['id_item']=-1;
-//                       $elem['monto']=$this->datos[0]['total'];
-//                       array_push($this->datos,$elem);
                        break;
                    
                    default:
