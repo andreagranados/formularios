@@ -3,7 +3,8 @@ class dt_comprobante extends toba_datos_tabla
 {
         function get_anios(){
             $sql="select distinct extract(year from fecha_emision) as anio"
-                    . " from comprobante";
+                    . " from comprobante"
+                    . " order by anio desc";
             return toba::db('formularios')->consultar($sql);
         }
         function get_comprobantes_desde_hasta($id_form,$tipo_comp,$anio,$desde,$hasta){

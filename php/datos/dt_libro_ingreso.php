@@ -4,7 +4,8 @@ class dt_libro_ingreso extends toba_datos_tabla
     function get_descripciones()
 	{
             $sql = "SELECT distinct anio,numero,case when cerrado then 'SI' else 'NO' end as cerrado "
-                    . " FROM libro_ingreso ";
+                    . " FROM libro_ingreso "
+                    . " ORDER BY ANIO DESC";
                     
             return toba::db('formularios')->consultar($sql);
 	}

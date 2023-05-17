@@ -27,7 +27,8 @@ class dt_recibo extends toba_datos_tabla
             return toba::db('formularios')->consultar($sql);
          }
          function get_anios(){
-             $sql="select distinct extract(year from fecha) as anio from recibo ";
+             $sql="select distinct extract(year from fecha) as anio from recibo"
+                     . " order by anio desc  ";
              return toba::db('formularios')->consultar($sql);
          }
          function asociado_formulario($id_recibo){
