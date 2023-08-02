@@ -89,7 +89,7 @@ class form_campos_solicitados extends toba_ei_formulario
                                         case '4': /*f21*/
                                                  /*this.ef('id_categ').ocultar();
                                             this.ef('id_vinc').ocultar();
-                                           this.ef('organismo').ocultar();*/
+                                            this.ef('organismo').ocultar();*/
                                             this.ef('nro_resol').ocultar();
                                             this.ef('proviene_de').ocultar();
                                             break;
@@ -116,59 +116,64 @@ class form_campos_solicitados extends toba_ei_formulario
                                             this.ef('cuenta_a_acreditar').ocultar();
                                             this.ef('nro_transferencia').ocultar();
                                             this.ef('cuil').ocultar();
-                                            
 						break;					
 				}
 			}
                        
 			 {$this->objeto_js}.evt__id_condicion_venta__procesar = function(es_inicial) 
 			{
-                                var myvar=this.ef('id_condicion_venta').get_estado();
+                               /* var myvar=this.ef('id_condicion_venta').get_estado();
                                 console.log(myvar);
+                                alert (myvar);*/
 				switch (this.ef('id_condicion_venta').get_estado()) {
                                 
-					case '1':
-                                          this.ef('cuenta_a_acreditar').ocultar();
-                                          this.ef('nro_transferencia').ocultar();
-                                           this.ef('nro_cuil').ocultar();
-                                            this.ef('nro_cheque').ocultar();
-                                            this.ef('id_banco').ocultar();
-                                            this.ef('fecha_emision_cheque').ocultar();
-                                            /*this.ef('cuil1').ocultar();
-                                            this.ef('cuil').ocultar();
-                                            this.ef('cuil2').ocultar();*/
-                                            this.ef('alias').ocultar();
-                                            break;
-                                        case '2': 
+					case '1':/*efectivo*/
                                             this.ef('cuenta_a_acreditar').ocultar();
                                             this.ef('nro_transferencia').ocultar();
                                             this.ef('nro_cuil').ocultar();
+                                            this.ef('comision_mp').ocultar();
+                                            this.ef('nro_cheque').ocultar();
+                                            this.ef('id_banco').ocultar();
+                                            this.ef('fecha_emision_cheque').ocultar();
+                                            this.ef('alias').ocultar();
+                                            break;
+                                        case '2': /*cheque*/
+                                            this.ef('cuenta_a_acreditar').ocultar();
+                                            this.ef('nro_transferencia').ocultar();
+                                            this.ef('nro_cuil').ocultar();
+                                            this.ef('comision_mp').ocultar();
                                             this.ef('nro_cheque').mostrar();
                                             this.ef('id_banco').mostrar();
                                             this.ef('fecha_emision_cheque').mostrar();
-                                            /*this.ef('cuil1').ocultar();
-                                            this.ef('cuil').ocultar();
-                                            this.ef('cuil2').ocultar();*/
                                             this.ef('alias').ocultar();
                                             break;
-                                        case '3': 
+                                        case '3': /*transferencia*/
                                             this.ef('nro_cheque').ocultar();
                                             this.ef('id_banco').ocultar();
                                             this.ef('fecha_emision_cheque').ocultar();
                                             this.ef('cuenta_a_acreditar').mostrar();
                                             this.ef('nro_transferencia').mostrar();
-                                             this.ef('nro_cuil').mostrar();
+                                            this.ef('nro_cuil').mostrar();
+                                            this.ef('comision_mp').ocultar();
+                                            break;
+                                        case '4': /*mercado pago*/
+                                            this.ef('nro_cheque').ocultar();
+                                            this.ef('id_banco').ocultar();
+                                            this.ef('fecha_emision_cheque').ocultar();
+                                            this.ef('cuenta_a_acreditar').ocultar();
+                                            this.ef('nro_transferencia').ocultar();
+                                            this.ef('nro_cuil').ocultar();
+                                            this.ef('comision_mp').mostrar();
                                             break;
                                         default:/* por defecto no aparece nada*/
                                             this.ef('cuenta_a_acreditar').ocultar();
                                             this.ef('nro_transferencia').ocultar();
                                             this.ef('nro_cuil').ocultar();
+                                            this.ef('comision_mp').ocultar();
                                             this.ef('nro_cheque').ocultar();
                                             this.ef('id_banco').ocultar();
                                             this.ef('fecha_emision_cheque').ocultar();
-                                           
                                             this.ef('alias').ocultar();
-                                             
                                             break;   
 									
 				}

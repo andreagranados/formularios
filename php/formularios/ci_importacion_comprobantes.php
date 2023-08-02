@@ -29,7 +29,9 @@ class ci_importacion_comprobantes extends toba_ci
                     nro_comprobante     integer,
                     fecha_emision       date,
                     total               numeric,
-                    tipo                integer
+                    tipo                integer,
+                    tipo_receptor       character(4),
+                    nro_receptor        numeric
                     );";
             toba::db('formularios')->consultar($sql);
             $fp = fopen ( $path['path'] , "r" ); 
@@ -51,10 +53,24 @@ class ci_importacion_comprobantes extends toba_ci
                 }else{
                     $monto=$data[15];
                 }
-                //print_r($tip);exit;
+                
                 $numero = count($data);
-                $sql="insert into auxi(fila,id_punto_venta,nro_comprobante,fecha_emision,total,tipo)values("
-                        .$f.",".$data[2].",".$data[3].",'".$data[0]."',".$monto. ",".$tip.")";
+                if(isset($data[6])){
+                    $tr="'".$data[6]."'";
+                }else{
+                    $tr='';
+                }
+                if(isset($data[7])){
+                    if($data[7]==''){
+                      $nre=0; 
+                    }else{
+                       $nre=$data[7];
+                    } 
+                }else{
+                    $nre=0;
+                }
+                $sql="insert into auxi(fila,id_punto_venta,nro_comprobante,fecha_emision,total,tipo,tipo_receptor,nro_receptor)values("
+                        .$f.",".$data[2].",".$data[3].",'".$data[0]."',".$monto. ",".$tip.",".$tr.",".$nre.")";
                 toba::db('formularios')->consultar($sql);
                 $f++;
                

@@ -181,4 +181,32 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'0', --externa
 	'comprobante'  --tabla
 );
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'formularios', --objeto_proyecto
+	'4278', --objeto
+	'2592', --col_id
+	'tipo_receptor', --columna
+	'C', --tipo
+	'0', --pk
+	'', --secuencia
+	'4', --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	'0', --externa
+	'comprobante'  --tabla
+);
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'formularios', --objeto_proyecto
+	'4278', --objeto
+	'2593', --col_id
+	'nro_receptor', --columna
+	'N', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	'0', --externa
+	'comprobante'  --tabla
+);
 --- FIN Grupo de desarrollo 0

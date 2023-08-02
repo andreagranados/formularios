@@ -6,9 +6,9 @@ class ci_detalle_formulario extends formularios_abm_ci
 {
     protected $s__mostrar_i;
     protected $datos;
-    protected $s__monto;
+    //protected $s__monto;
     protected $s__mostrar_m;
-    protected $nombre_tabla='formulario';
+    protected $nombre_tabla='formulario'; 
     
    
     function get_condiciones(){//dependiendo si es una secretaria o no trae las condiciones
@@ -342,17 +342,15 @@ class ci_detalle_formulario extends formularios_abm_ci
                $this->dep('form_detalle')->descolapsar();
                if($this->controlador()->dep('datos')->tabla('item')->esta_cargada()){
                    $datos=$this->controlador()->dep('datos')->tabla('item')->get();
-                   $this->s__monto=$datos['monto'];
-                
+                   //$this->s__monto=$datos['monto'];
                    if(!isset($datos['id_comprobante'])){//sino tiene valor
                        $datos['corresponde_factura']='NO';
                        //$datos['id_comprobante']=0;   //no corresponde!!
-                       print_r($this->s__monto);//esto lo coloco para que no se autocomplete el monto en 0 con javascript
+                       //print_r($this->s__monto);//esto lo coloco para que no se autocomplete el monto en 0 con javascript
                    }else{
                        $datos['corresponde_factura']='SI';
                    }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
-                   //print_r($datos);
                    $form->set_datos($datos);
                }   
                $f=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -400,8 +398,16 @@ class ci_detalle_formulario extends formularios_abm_ci
 	 */
 	function ajax__calcular($parametros, toba_ajax_respuesta $respuesta)
 	{
-           $total=$this->controlador()->dep('datos')->tabla('comprobante')->get_monto($parametros['id_comprobante']);
-           $respuesta->set($total);
+           if(is_numeric($parametros['id_comprobante'])){
+                 $total=$this->controlador()->dep('datos')->tabla('comprobante')->get_monto($parametros['id_comprobante']);
+                 $respuesta->set($total); 
+           }else{//no hay comprobante
+                 if($this->controlador()->dep('datos')->tabla('item')->esta_cargada()){
+                    $datos=$this->controlador()->dep('datos')->tabla('item')->get();
+                    $respuesta->set($datos['monto']); 
+                 }
+             }
+          
 	}//esta funcion es llamada desde javascript
          
 	function evt__form_detalle__baja()

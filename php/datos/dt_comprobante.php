@@ -28,8 +28,15 @@ class dt_comprobante extends toba_datos_tabla
         }
         function importar($datos=array()){
             foreach ($datos as $key => $value) {
-                $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado,tipo)".
-                     "values(".$value['id_punto_venta'].",".$value['nro_comprobante'].",'".$value['fecha_emision']."',".$value['total'].",1,'I',".$value['tipo'].")"; 
+                if($value['nro_receptor']==0){
+                    $nro_rece='NULL';
+                    $tipo_rece='NULL';
+                }else{
+                    $nro_rece=$value['nro_receptor'];
+                    $tipo_rece="'".$value['tipo_receptor']."'";
+                }
+                $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado,tipo,tipo_receptor,nro_receptor)".
+                     "values(".$value['id_punto_venta'].",".$value['nro_comprobante'].",'".$value['fecha_emision']."',".$value['total'].",1,'I',".$value['tipo'].",".$tipo_rece.",".$nro_rece.")"; 
                 toba::db('formularios')->consultar($sql);
             }
         }
@@ -109,7 +116,6 @@ class dt_comprobante extends toba_datos_tabla
   
         function get_monto($id_comprobante){
            if(is_numeric($id_comprobante)){
-            //if(isset($id_comprobante)){print_r('hola');print_r($id_comprobante);exit;
                 $sql = "SELECT total "
                     . " FROM comprobante "
                     . " WHERE id_comprob=$id_comprobante ";
@@ -119,9 +125,8 @@ class dt_comprobante extends toba_datos_tabla
                 }else{
                     return 0;
                 }
-            }else{
-                return 0;
             }
+
         }
         function get_comprobantes_rendidos($where=null){
             $pd = toba::manejador_sesiones()->get_perfil_datos(); 
@@ -135,13 +140,13 @@ class dt_comprobante extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-            $sql=" select * from (select t_c.nro_comprobante as numero,t_c.total,t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else 'R' end as rendido,sub.id_form,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero
+            $sql=" select * from (select t_c.nro_comprobante as numero,t_c.total,t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else 'R' end as rendido,sub.id_form,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero,comision_mp,tipo_receptor||' '||nro_receptor as receptor
                     from comprobante t_c
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)
                     left outer join tipo_comprobante t_t on (t_t.id_tipo=t_c.tipo)
                     --descarto los formularios anulados porque sus comprobantes son considerados no rendidos
-                    left outer join (select c.id_comprob ,f.id_form,lpad(cast(nro_ingreso as text),4,'0')||'/'||anio_ingreso as nro_formulario, f.estado,nro_expediente
+                    left outer join (select c.id_comprob ,f.id_form,lpad(cast(nro_ingreso as text),4,'0')||'/'||anio_ingreso as nro_formulario, f.estado,nro_expediente,comision_mp
                                      from item t_i 
                                      inner join formulario f on (f.id_form=t_i.id_form)
                                      inner join comprobante c on (c.id_comprob=t_i.id_comprobante)
@@ -151,7 +156,7 @@ class dt_comprobante extends toba_datos_tabla
                                        )sub2
                                        $condicion"
                     . " order by rendido,dependencia,id_punto,tipo_comprob,nro_comprobante,anio,mes,dia ";
-           
+                  
             return toba::db('formularios')->consultar($sql);
         }
         function tiene_comprob_repetidos($id_form){
