@@ -6,12 +6,12 @@ class form_modalidad_extension extends toba_ei_formulario
         echo "
 			
                        
-			 {$this->objeto_js}.evt__id_condicion_venta__procesar = function(es_inicial) 
+			{$this->objeto_js}.evt__id_condicion_venta__procesar = function(es_inicial) 
 			{
                                 var myvar=this.ef('id_condicion_venta').get_estado();
                                 /*console.log(myvar);*/
+                                /*alert (this.ef('id_condicion_venta').get_estado());*/
 				switch (this.ef('id_condicion_venta').get_estado()) {
-                                
 					case '1':
                                           this.ef('cuenta_a_acreditar').ocultar();
                                           this.ef('nro_transferencia').ocultar();
@@ -45,6 +45,16 @@ class form_modalidad_extension extends toba_ei_formulario
                                             this.ef('cuenta_a_acreditar').mostrar();
                                             this.ef('nro_transferencia').mostrar();
                                             this.ef('nro_cuil').mostrar();
+                                            this.ef('archivo_trans').mostrar();
+                                            this.ef('imagen_vista_previa_t').mostrar();
+                                            break;
+                                         case '4':
+                                            this.ef('nro_cheque').ocultar();
+                                            this.ef('id_banco').ocultar();
+                                            this.ef('fecha_emision_cheque').ocultar();
+                                            this.ef('cuenta_a_acreditar').ocultar();
+                                            this.ef('nro_transferencia').ocultar();
+                                            this.ef('nro_cuil').ocultar();
                                             this.ef('archivo_trans').mostrar();
                                             this.ef('imagen_vista_previa_t').mostrar();
                                             break;
