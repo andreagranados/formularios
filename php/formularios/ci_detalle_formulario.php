@@ -481,7 +481,10 @@ class ci_detalle_formulario extends formularios_abm_ci
            if($form['estado']<>'A' and $form['estado']<>'T' and $form['estado']<>'P'){//el boton imprimir solo aparece si el formualrio esta aprobado (T o P para que pueda reimprimir)
                 $cuadro->eliminar_evento('imprimir');
             }
-
+           if($form['disponibilidad']!=53){//solo si la disponibilidad esta en la cuenta de Mercado Pago muestra las columnas de comision mp y monto/comision mp
+               $columnas=array('comision_mp','resta');
+               $cuadro->eliminar_columnas($columnas);
+           }
            if(count($this->datos)>0){
                switch ($this->datos[0]['id_origen_recurso']) {
                    case 1://si es F12
@@ -489,23 +492,23 @@ class ci_detalle_formulario extends formularios_abm_ci
                        $cuadro->eliminar_columnas($columnas);
                        break;
                    case 2://si es F13
-                       $columnas=array('proviene_descrip','reten_item','neto_item');
+                       $columnas=array('proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        break;
                     case 3://si es F14
-                        $columnas=array('nro_resol','organismo','reten_item','neto_item');
+                        $columnas=array('nro_resol','organismo');
                         $cuadro->eliminar_columnas($columnas);
                        break;
                    case 4://f21
-                       $columnas=array('nro_resol','proviene_descrip','reten_item','neto_item');
+                       $columnas=array('nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        break;
                    
                    case 5: //f22
-                       $columnas=array('nro_resol','proviene_descrip','reten_item','neto_item');
+                       $columnas=array('nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                     case 6://si es F11
-                       $columnas=array('proviene_descrip','reten_item','neto_item');
+                       $columnas=array('proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        break;
                    

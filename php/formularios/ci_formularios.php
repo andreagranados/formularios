@@ -293,7 +293,6 @@ class ci_formularios extends toba_ci
                    $pdf->ezText('FECHA CREACION: '.$fec, 10);
                    $pdf->ezText('EXPEDIENTE: '.$form['nro_expediente'], 10);
                    $pdf->ezText($prog, 10);
-                   //print_r($datos_form );exit;
                    $band=$this->dep('datos')->tabla('formulario')->igual_categ_vinc($form['id_form']);//es true si todos son iguales
                    if($band){
                        $c=$datos_form[0]['categ'];$v=$datos_form[0]['vinc'];
@@ -423,7 +422,7 @@ class ci_formularios extends toba_ci
                         $datos1[0]=array('col1'=>'<b>TOTAL BRUTO</b>','col2'=>number_format($datos_form[0]['total'],2,',','.'));
                         $ded=utf8_decode('DEDUCCIÓN');
                         $datos1[1]=array('col1'=>'<b>'.$ded.'</b>','col2'=>number_format($datos_form[0]['retencion'],2,',','.'));
-                        $dif=$datos_form[0]['total']-$datos_form[0]['retencion'];
+                        $dif=$datos_form[0]['total']-$datos_form[0]['retencion']-$datos_form[0]['total_comision_mp'];
                         $datos1[2]=array('col1'=>'<b>TOTAL NETO</b>','col2'=>number_format($dif,2,',','.'));
                         $pdf->ezTable($datos1,array('col1'=>'','col2'=>''),'',array('showHeadings'=>0,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('justification'=>'left','width'=>710),'col2'=>array('justification'=>'right','width'=>90))));
                    }else{

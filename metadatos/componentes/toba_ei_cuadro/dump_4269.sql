@@ -531,7 +531,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4269', --objeto_cuadro
 	'4881', --objeto_cuadro_col
 	'reten_item', --clave
-	'14', --orden
+	'15', --orden
 	'Deducción', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'0', --estilo
@@ -562,7 +562,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'4269', --objeto_cuadro
 	'4882', --objeto_cuadro_col
 	'neto_item', --clave
-	'15', --orden
+	'16', --orden
 	'Neto', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s4', --estilo
@@ -596,7 +596,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'13', --orden
 	'Comisión MP', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
-	'col-cen-s4', --estilo
+	'col-num-p1', --estilo
 	NULL, --ancho
 	'2', --formateo
 	NULL, --vinculo_indice
@@ -650,6 +650,37 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	NULL, --grupo
 	NULL  --evento_asociado
 );
+INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro, objeto_cuadro_col, clave, orden, titulo, estilo_titulo, estilo, ancho, formateo, vinculo_indice, no_ordenar, mostrar_xls, mostrar_pdf, pdf_propiedades, desabilitado, total, total_cc, usar_vinculo, vinculo_carpeta, vinculo_item, vinculo_popup, vinculo_popup_param, vinculo_target, vinculo_celda, vinculo_servicio, permitir_html, grupo, evento_asociado) VALUES (
+	'formularios', --objeto_cuadro_proyecto
+	'4269', --objeto_cuadro
+	'4968', --objeto_cuadro_col
+	'resta', --clave
+	'14', --orden
+	'Monto-Comisión MP', --titulo
+	'ei-cuadro-col-tit', --estilo_titulo
+	'col-num-p1', --estilo
+	NULL, --ancho
+	'2', --formateo
+	NULL, --vinculo_indice
+	'0', --no_ordenar
+	NULL, --mostrar_xls
+	NULL, --mostrar_pdf
+	NULL, --pdf_propiedades
+	NULL, --desabilitado
+	'1', --total
+	NULL, --total_cc
+	'0', --usar_vinculo
+	NULL, --vinculo_carpeta
+	NULL, --vinculo_item
+	NULL, --vinculo_popup
+	NULL, --vinculo_popup_param
+	NULL, --vinculo_target
+	NULL, --vinculo_celda
+	NULL, --vinculo_servicio
+	'0', --permitir_html
+	NULL, --grupo
+	NULL  --evento_asociado
+);
 --- FIN Grupo de desarrollo 0
 
 ------------------------------------------------------------
@@ -674,5 +705,19 @@ INSERT INTO apex_objeto_cuadro_col_cc (objeto_cuadro_cc, objeto_cuadro_proyecto,
 	'formularios', --objeto_cuadro_proyecto
 	'4269', --objeto_cuadro
 	'4882', --objeto_cuadro_col
+	'1'  --total
+);
+INSERT INTO apex_objeto_cuadro_col_cc (objeto_cuadro_cc, objeto_cuadro_proyecto, objeto_cuadro, objeto_cuadro_col, total) VALUES (
+	'52', --objeto_cuadro_cc
+	'formularios', --objeto_cuadro_proyecto
+	'4269', --objeto_cuadro
+	'4963', --objeto_cuadro_col
+	'1'  --total
+);
+INSERT INTO apex_objeto_cuadro_col_cc (objeto_cuadro_cc, objeto_cuadro_proyecto, objeto_cuadro, objeto_cuadro_col, total) VALUES (
+	'52', --objeto_cuadro_cc
+	'formularios', --objeto_cuadro_proyecto
+	'4269', --objeto_cuadro
+	'4968', --objeto_cuadro_col
 	'1'  --total
 );
