@@ -257,7 +257,7 @@ class ci_formularios extends toba_ci
                    //recupero el estado luego del llamado a la funcion de asignacion de numero
                    $estado=$this->dep('datos')->tabla('formulario')->get_estado($form['id_form']);
                    $datos_form=$this->dep('datos')->tabla('item')->get_listado($form['id_form']);
-                   //print_r($datos_form);EXIT();
+//                   print_r($form);EXIT();
                    $datos=array();
                    
                    //Recorremos cada una de las hojas del documento para agregar el encabezado
@@ -423,7 +423,14 @@ class ci_formularios extends toba_ci
                         $ded=utf8_decode('DEDUCCIÓN');
                         $datos1[1]=array('col1'=>'<b>'.$ded.'</b>','col2'=>number_format($datos_form[0]['retencion'],2,',','.'));
                         $dif=$datos_form[0]['total']-$datos_form[0]['retencion']-$datos_form[0]['total_comision_mp'];
-                        $datos1[2]=array('col1'=>'<b>TOTAL NETO</b>','col2'=>number_format($dif,2,',','.'));
+                        if($form['disponibilidad']==53){//mercado pago
+                            $comi=utf8_decode('COMISIÓN');
+                            $datos1[2]=array('col1'=>'<b>COMISION MP</b>','col2'=>number_format($datos_form[0]['total_comision_mp'],2,',','.'));
+                            $datos1[3]=array('col1'=>'<b>TOTAL NETO</b>','col2'=>number_format($dif,2,',','.'));
+                        }else{
+                            $datos1[2]=array('col1'=>'<b>TOTAL NETO</b>','col2'=>number_format($dif,2,',','.'));
+                        }
+                        //$datos1[2]=array('col1'=>'<b>TOTAL NETO</b>','col2'=>number_format($dif,2,',','.'));
                         $pdf->ezTable($datos1,array('col1'=>'','col2'=>''),'',array('showHeadings'=>0,'shaded'=>0,'width'=>800,'cols'=>array('col1'=>array('justification'=>'left','width'=>710),'col2'=>array('justification'=>'right','width'=>90))));
                    }else{
                        $datos1[0]=array('col1'=>'<b>TOTAL</b>','col2'=>number_format($datos_form[0]['total'],2,',','.'));
