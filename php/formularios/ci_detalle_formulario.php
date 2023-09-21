@@ -784,6 +784,8 @@ class ci_detalle_formulario extends formularios_abm_ci
                                         $this->controlador()->dep('datos')->tabla('formulario')->set($datos);
                                         $this->controlador()->dep('datos')->tabla('formulario')->sincronizar();
                                         $this->controlador()->dep('datos')->tabla('formulario')->resetear();
+                                        $this->controlador()->dep('datos')->tabla('modalidad_pago')->resetear();
+                                        $this->s__mostrar_m=0;
                                         $this->controlador()->set_pantalla('pant_seleccion');
                                         toba::notificacion()->agregar('El formulario ha sido enviado correctamente', 'info');   
                                     }else{
