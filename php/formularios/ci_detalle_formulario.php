@@ -15,20 +15,7 @@ class ci_detalle_formulario extends formularios_abm_ci
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('condicion_venta')->get_condiciones($form['id_form']);
     }
-//    function get_categorias(){//si el punto de venta es ficticio entonces solo puede seleccionar categoria otro
-//       $bandera=true;
-//       $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-//       if($form['id_origen_recurso']==1){//si es F12
-//           if($form['id_punto_venta']<=0 ){//punto de venta ficticio 
-//               $bandera=false;
-//           }
-//        }
-//        if($bandera){
-//            return $this->controlador()->dep('datos')->tabla('categoria')->get_descripciones();
-//        }else{
-//            return $this->controlador()->dep('datos')->tabla('categoria')->get_categoria_otra();
-//        }
-//    }
+
     function get_grupos_fuente(){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('origen_ingreso')->get_grupos_fuente($form['id_origen_recurso']);
@@ -37,6 +24,18 @@ class ci_detalle_formulario extends formularios_abm_ci
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         return $this->controlador()->dep('datos')->tabla('macheo_categ_programa')->get_categorias($form['id_programa']);
     }
+    function get_actividades($id_categ=null){
+        $where=" WHERE 1=1 ";
+        if(isset($id_categ)){
+            $where.=" and id_categ=".$id_categ;
+        }
+        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
+        
+        $sql="select * from actividad"
+                . $where." and id_dependencia='".$form['id_dependencia']."' and id_programa=".$form['id_programa'];
+        return toba::db('formularios')->consultar($sql);
+    }
+
     function get_opciones(){//si el punto de venta es ficticio entonces la unica opcion es no facturar
        $bandera=true;
        $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -85,6 +84,7 @@ class ci_detalle_formulario extends formularios_abm_ci
            return $resul;
         }  
     }
+    
     //-----------------------------------------------------------------------------------
     //---- form_inicial -----------------------------------------------------------------
     //-----------------------------------------------------------------------------------
@@ -351,6 +351,7 @@ class ci_detalle_formulario extends formularios_abm_ci
                        $datos['corresponde_factura']='SI';
                    }
                    $datos['nro_cuil']=$datos['cuil1'].str_pad($datos['cuil'], 8, '0', STR_PAD_LEFT).$datos['cuil2'];
+                   //print_r($datos);
                    $form->set_datos($datos);
                }   
                $f=$this->controlador()->dep('datos')->tabla('formulario')->get();
@@ -410,6 +411,25 @@ class ci_detalle_formulario extends formularios_abm_ci
           
 	}//esta funcion es llamada desde javascript
          
+         /**
+	 * Metodo invocado desde JS para 'calcular_detalle' 
+	 */
+	function ajax__calcular_detalle($parametros, toba_ajax_respuesta $respuesta)
+	{
+            if(is_numeric($parametros['id_comprobante'])){
+                $det=$this->controlador()->dep('datos')->tabla('comprobante')->get_detalle($parametros['id_comprobante']);
+                $datos=$this->controlador()->dep('datos')->tabla('item')->get();
+                if(isset($datos)){//si ya tenia algo en detalle entonces muestra lo que tenia
+                    $respuesta->set($datos['detalle']); 
+                }else{
+                    $respuesta->set($det); 
+                }
+           }else{//no hay comprobante
+                $datos=$this->controlador()->dep('datos')->tabla('item')->get();
+                $respuesta->set($datos['detalle']); 
+             }
+	}//esta funcion es llamada desde javascript
+
 	function evt__form_detalle__baja()
 	{
             $this->controlador()->dep('datos')->tabla('item')->eliminar_todo();
@@ -517,7 +537,12 @@ class ci_detalle_formulario extends formularios_abm_ci
                    //si es F12 debo colocar  total bruto, deduccion y total neto
                }
           }
-           return $this->datos;
+         
+         if($form['id_punto_venta']<0){
+            $columnas=array('nro_factura','receptor','denom_receptor');
+            $cuadro->eliminar_columnas($columnas);
+         }
+          return $this->datos;
 	}
 
 	function evt__cuadro_detalle__seleccion($datos)

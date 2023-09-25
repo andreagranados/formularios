@@ -35,8 +35,13 @@ class dt_comprobante extends toba_datos_tabla
                     $nro_rece=$value['nro_receptor'];
                     $tipo_rece="'".$value['tipo_receptor']."'";
                 }
-                $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado,tipo,tipo_receptor,nro_receptor)".
-                     "values(".$value['id_punto_venta'].",".$value['nro_comprobante'].",'".$value['fecha_emision']."',".$value['total'].",1,'I',".$value['tipo'].",".$tipo_rece.",".$nro_rece.")"; 
+                if(!isset($value['denominacion_receptor'])){
+                    $den_rece='NULL';
+                }else{
+                    $den_rece=$value['denominacion_receptor'];
+                }
+                $sql="insert into comprobante (id_punto_venta,nro_comprobante,fecha_emision,total,id_condicion_venta,estado,tipo,tipo_receptor,nro_receptor,denominacion_receptor)".
+                     "values(".$value['id_punto_venta'].",".$value['nro_comprobante'].",'".$value['fecha_emision']."',".$value['total'].",1,'I',".$value['tipo'].",".$tipo_rece.",".$nro_rece.",'".$den_rece."')"; 
                 toba::db('formularios')->consultar($sql);
             }
         }
@@ -126,7 +131,19 @@ class dt_comprobante extends toba_datos_tabla
                     return 0;
                 }
             }
-
+        }
+        function get_detalle($id_comprobante){
+           if(is_numeric($id_comprobante)){
+                $sql = "SELECT coalesce(tipo_receptor,'')||' '||coalesce(nro_receptor::text ,'')||' '||coalesce(denominacion_receptor,'') as detalle "
+                    . " FROM comprobante "
+                    . " WHERE id_comprob=$id_comprobante ";
+                $resul= toba::db('formularios')->consultar($sql);
+                if(count($resul)>0){
+                    return $resul[0]['detalle'];
+                }else{
+                    return '';
+                }
+            }
         }
         function get_comprobantes_rendidos($where=null){
             $pd = toba::manejador_sesiones()->get_perfil_datos(); 
@@ -140,7 +157,7 @@ class dt_comprobante extends toba_datos_tabla
             if(!is_null($where)){
                     $condicion.=' and  '.$where;
                 }
-            $sql=" select * from (select t_c.nro_comprobante as numero,t_c.total,t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else 'R' end as rendido,sub.id_form,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero,comision_mp,tipo_receptor||' '||nro_receptor as receptor
+            $sql=" select * from (select t_c.nro_comprobante as numero,t_c.total,t_c.fecha_emision,t_t.descripcion as tipo_comprob,t_p.id_dependencia,t_d.descripcion as dependencia,t_p.id_punto,extract(year from t_c.fecha_emision )as anio,extract(month from t_c.fecha_emision )as mes,extract(day from t_c.fecha_emision )as dia,lpad(cast(t_p.id_punto as text),5,'0')||'-'||lpad(cast(t_c.nro_comprobante as text),8,'0') as nro_comprobante,case when sub.id_comprob is null then 'N' else 'R' end as rendido,sub.id_form,sub.nro_formulario,sub.nro_expediente,case when sub.nro_formulario is null then false else true end as tiene_numero,comision_mp,tipo_receptor||' '||nro_receptor as receptor,denominacion_receptor
                     from comprobante t_c
                     inner join punto_venta t_p on  (t_p.id_punto=t_c.id_punto_venta)
                     inner join dependencia t_d on (t_d.sigla=t_p.id_dependencia)

@@ -162,7 +162,5 @@ class ci_alta_expediente extends toba_ci
             $this->set_pantalla('pant_inicial');
 	}
 
-	
-
 }
 ?>

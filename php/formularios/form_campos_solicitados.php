@@ -24,6 +24,9 @@ class form_campos_solicitados extends toba_ei_formulario
 				//--- Hago la peticion de datos al server, la respuesta vendra en el m�todo this.actualizar_datos
 				this.controlador.ajax('calcular', parametros, this, this.actualizar_datos);
 				
+                                //--- nuevo
+				this.controlador.ajax('calcular_detalle', parametros, this, this.actualizar_datos_detalle);
+                                
 				//--- Evito que el mecanismo 'normal' de comunicacion cliente-servidor se ejecute
 				return false;
 			}
@@ -33,6 +36,13 @@ class form_campos_solicitados extends toba_ei_formulario
 			{$this->objeto_js}.actualizar_datos = function(datos)
 			{
 				this.ef('monto').set_estado(datos);
+			}
+                        /**
+			 * Nuevo
+			 */
+			{$this->objeto_js}.actualizar_datos_detalle = function(datos)
+			{
+				this.ef('detalle').set_estado(datos);
 			}
 
                         {$this->objeto_js}.evt__efecto__procesar = function(es_inicial) 

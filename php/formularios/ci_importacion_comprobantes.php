@@ -22,6 +22,7 @@ class ci_importacion_comprobantes extends toba_ci
                 $path=toba::proyecto()->get_www_temp($this->s__nombre_archivo);
 		// Mover los archivos subidos al servidor del directorio temporal PHP a uno propio.
 		move_uploaded_file($datos['archivo']['tmp_name'], $img['path']);
+               
             }
             $sql=" CREATE LOCAL TEMP TABLE auxi(
                     fila                integer,
@@ -31,7 +32,8 @@ class ci_importacion_comprobantes extends toba_ci
                     total               numeric,
                     tipo                integer,
                     tipo_receptor       character(4),
-                    nro_receptor        numeric
+                    nro_receptor        numeric,
+                    denominacion_receptor character varying
                     );";
             toba::db('formularios')->consultar($sql);
             $fp = fopen ( $path['path'] , "r" ); 
@@ -55,6 +57,7 @@ class ci_importacion_comprobantes extends toba_ci
                 }
                 
                 $numero = count($data);
+                
                 if(isset($data[6])){
                     $tr="'".$data[6]."'";
                 }else{
@@ -69,12 +72,22 @@ class ci_importacion_comprobantes extends toba_ci
                 }else{
                     $nre=0;
                 }
-                $sql="insert into auxi(fila,id_punto_venta,nro_comprobante,fecha_emision,total,tipo,tipo_receptor,nro_receptor)values("
-                        .$f.",".$data[2].",".$data[3].",'".$data[0]."',".$monto. ",".$tip.",".$tr.",".$nre.")";
+                if(isset($data[8])){
+                    if($data[8]==''){
+                      $denre=''; 
+                    }else{
+                       $denre=$data[8];
+                    } 
+                }else{
+                    $denre='';
+                }
+                $sql="insert into auxi(fila,id_punto_venta,nro_comprobante,fecha_emision,total,tipo,tipo_receptor,nro_receptor,denominacion_receptor)values("
+                        .$f.",".$data[2].",".$data[3].",'".$data[0]."',".$monto. ",".$tip.",".$tr.",".$nre.",'".$denre."')";
                 toba::db('formularios')->consultar($sql);
                 $f++;
                
             }//fin recorrido
+            
             //$sql="select * from auxi";$resul=toba::db('formularios')->consultar($sql);print_r($resul);exit;
                   
             //verifico que no haya repetidos. Cuento la cantidad de registro que se repiten
