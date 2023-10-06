@@ -146,6 +146,29 @@ class ci_detalle_formulario extends formularios_abm_ci
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
         $elem['id_form']=$form['id_form'];
         $this->controlador()->dep('datos')->tabla('formulario')->cargar($elem);
+        //envio de mail cuando tilda "Destino Sueldos"
+        
+        if($datos['destino_sueldo']==1){
+            $asunto =utf8_decode('Formulario de Ingresos - Destino Sueldo ');
+            $cuerpo_mail = utf8_decode('El formulario id '.$form['id_form'].' ha sido ingresado en el sistema "Formulario de Ingresos" con tilde Destino Sueldo');
+            toba::instancia()->get_db()->abrir_transaccion();
+                try {
+                    $mail = new toba_mail('cynthia.huenuhueque@central.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                    $mail->set_html(true);
+                    $mail->enviar();
+                    $mail = new toba_mail('rodrigo.pesce@fain.uncoma.edu.ar', $asunto, $cuerpo_mail);
+                    $mail->set_html(true);
+                    $mail->enviar(); 
+                    toba::notificacion()->agregar(utf8_decode('Se ha enviado mail a Presupuesto notificando el alta de un formulario con destino sueldos'), 'info');
+                    toba::instancia()->get_db()->cerrar_transaccion();                    
+                } catch (toba_error $e) {
+                        toba::instancia()->get_db()->abortar_transaccion();
+                        toba::logger()->debug('Proceso de envio de random a cuenta: '. $e->getMessage());
+                        throw new toba_error($e->getMessage());
+                        throw new toba_error('Se produjo un error en el proceso de envio del correo, por favor contactese con un administrador del sistema.');
+                }
+        }
+        
     }
 
     function evt__form_inicial__baja($datos)
