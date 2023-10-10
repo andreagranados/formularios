@@ -68,10 +68,12 @@ class ci_alta_actividad extends toba_ci
 	function evt__form_activ__alta($datos)
 	{
             $bandera=$this->dep('datos')->tabla('actividad')->existe($datos['descripcion'],$datos['id_dependencia'],$datos['id_programa'],$datos['id_categ']);
+            
             if($bandera){
                 toba::notificacion()->agregar('Ya existe una actividad con el mismo nombre', 'error');  
                 $this->set_pantalla('pant_inicial');
             }else{
+                
                 //pasa a mayuscula y saca acentos
                 $datos['descripcion']=mb_strtoupper($datos['descripcion'],'LATIN1');
                 $search  = array('Á', 'É', 'Í', 'Ó', 'Ú');

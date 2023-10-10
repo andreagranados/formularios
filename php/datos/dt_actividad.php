@@ -44,7 +44,14 @@ class dt_actividad extends toba_datos_tabla
                   . " where id_dependencia='".$id_dep."'"
                   . " and id_programa=$id_prog"
                   . " and id_categ=$id_categ"
-                  . " and trim(descripcion) = '".upper(trim(translate($desc,'áéíóúÁÉÍÓÚ','aeiouAEIOU')))."'";
+                  . " and trim(descripcion) = upper(trim('".$desc."'))";
+//          
+//        $sql="select * from actividad "
+//                  . " where id_dependencia='".$id_dep."'"
+//                  . " and id_programa=$id_prog"
+//                  . " and id_categ=$id_categ"
+//                  . " and trim(descripcion) = upper(trim(traslate('".$desc."','áéíóúÁÉÍÓÚ','aeiouAEIOU')))";
+          
           $resul=toba::db('formularios')->consultar($sql);  
           if(count($resul)>0){//la actividad tiene items asociados
               return true;
