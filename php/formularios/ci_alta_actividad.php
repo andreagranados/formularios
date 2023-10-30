@@ -111,6 +111,7 @@ class ci_alta_actividad extends toba_ci
                }else{//no tiene items asociados
                    $band2=$this->dep('datos')->tabla('actividad')->modificar($datos,$act['id_actividad']);
                    if($band2){//es true cuando puede modificar porque no existe otro expediente con el mismo nro
+                       //print_r('chau');exit;
                         $datos['descripcion']=mb_strtoupper($datos['descripcion'],'LATIN1');
                         $datos['descripcion']=mb_strtoupper($datos['descripcion'],'LATIN1');
                         $search  = array('Á', 'É', 'Í', 'Ó', 'Ú');
@@ -118,7 +119,7 @@ class ci_alta_actividad extends toba_ci
                         $datos['descripcion']= str_replace($search, $replace, utf8_encode($datos['descripcion']));
                         $this->dep('datos')->tabla('actividad')->set($datos);
                         $this->dep('datos')->tabla('actividad')->sincronizar();
-                        toba::notificacion()->agregar('La actividad se ha modificado correctamente '.$mensaje, 'info');   
+                        toba::notificacion()->agregar('La actividad se ha modificado correctamente ', 'info');   
                    }
             
                }

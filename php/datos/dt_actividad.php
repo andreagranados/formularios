@@ -61,15 +61,20 @@ class dt_actividad extends toba_datos_tabla
     }
      //retorna true cuando puede hacer la modificacion porque no existe otra activ con el mismo nombre
     function modificar($datos=array(),$idact){//cuando quiere modif una activ
+        $auxi=strtoupper($datos['descripcion']);
+        $search  = array('Á', 'É', 'Í', 'Ó', 'Ú');
+        $replace = array('A', 'E', 'I', 'O', 'U');
+        $auxi= str_replace($search, $replace, utf8_encode($auxi));
+        
         $sql="select * "
                 . " from actividad "
                 . " where id_dependencia='".$datos['id_dependencia']."'"
                 . " and id_programa=".$datos['id_programa']
                 . " and id_categ=".$datos['id_categ']
-                . " and descripcion = '".upper(trim(translate($datos['descripcion'],'áéíóúÁÉÍÓÚ','aeiouAEIOU')))."'"
+                //. " and descripcion = '".upper(trim(translate($datos['descripcion'],'áéíóúÁÉÍÓÚ','aeiouAEIOU')))."'"
+                . " and descripcion = '".$auxi."'"
                 . " and id_actividad<>".$idact;
         $resul=toba::db('formularios')->consultar($sql);
-        
         if(count($resul)>0){//si existe otro con el mismo nombre entonces no puede modificar
             $band=false;
         }else{
