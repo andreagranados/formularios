@@ -80,12 +80,6 @@ INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, i
 	'formularios', --proyecto
 	'dependencias', --usuario_grupo_acc
 	NULL, --item_id
-	'3864'  --item
-);
-INSERT INTO apex_usuario_grupo_acc_item (proyecto, usuario_grupo_acc, item_id, item) VALUES (
-	'formularios', --proyecto
-	'dependencias', --usuario_grupo_acc
-	NULL, --item_id
 	'3865'  --item
 );
 --- FIN Grupo de desarrollo 0
