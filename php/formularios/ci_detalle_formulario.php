@@ -528,6 +528,7 @@ class ci_detalle_formulario extends formularios_abm_ci
                $columnas=array('comision_mp','resta');
                $cuadro->eliminar_columnas($columnas);
            }
+           //print_r($this->datos[0]['id_origen_recurso']);
            if(count($this->datos)>0){
                switch ($this->datos[0]['id_origen_recurso']) {
                    case 1://si es F12
@@ -546,21 +547,19 @@ class ci_detalle_formulario extends formularios_abm_ci
                        $columnas=array('nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        break;
-                   
                    case 5: //f22
                        $columnas=array('nro_resol','proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
+                       break;
                     case 6://si es F11
                        $columnas=array('proviene_descrip');
                        $cuadro->eliminar_columnas($columnas);
                        break;
-                   
                    default:
                        break;
                    //si es F12 debo colocar  total bruto, deduccion y total neto
                }
           }
-         
          if($form['id_punto_venta']<0){
             $columnas=array('nro_factura','receptor','denom_receptor');
             $cuadro->eliminar_columnas($columnas);
