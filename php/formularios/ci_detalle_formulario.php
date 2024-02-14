@@ -18,7 +18,7 @@ class ci_detalle_formulario extends formularios_abm_ci
 
     function get_grupos_fuente(){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
-        return $this->controlador()->dep('datos')->tabla('origen_ingreso')->get_grupos_fuente($form['id_origen_recurso']);
+        return $this->controlador()->dep('datos')->tabla('origen_ingreso')->get_grupos_fuente($form['id_origen_recurso'],$form['ano_cobro']);
     }
     function get_categorias(){
         $form=$this->controlador()->dep('datos')->tabla('formulario')->get();
