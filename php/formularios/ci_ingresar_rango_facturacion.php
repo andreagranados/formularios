@@ -5,7 +5,17 @@ class ci_ingresar_rango_facturacion extends toba_ci
     protected $s__datos_comprob;
     protected $s__rango;
    
-    
+    function get_actividades($id_form=null,$id_categ=null){
+        $where=" WHERE 1=1 ";
+        if(isset($id_categ)){
+            $where.=" and id_categ=".$id_categ;
+        }        
+        $sql="select * from actividad"
+                .$where. " and id_dependencia in (select id_dependencia from formulario where id_form=$id_form)"
+                ."and id_programa in (select id_programa from formulario where id_form=$id_form)";
+                
+        return toba::db('formularios')->consultar($sql);
+    }
     function get_categorias($id_form){
         $programa=$this->dep('datos')->tabla('formulario')->get_programa($id_form);
         return $this->dep('datos')->tabla('macheo_categ_programa')->get_categorias($programa);
@@ -58,7 +68,7 @@ class ci_ingresar_rango_facturacion extends toba_ci
     }
     
     function evt__form_inicial__validar($datos)
-    {//print_r($datos);//Array ( [id_form] => 64 [id_categ] => 8 [id_vinc] => 2 [detalle] => sas [anio] => 2019 [tipo_comprob] => 11 [desde] => 437 [hasta] => 442 )
+    {//print_r($datos);exit;//Array ( [id_form] => 64 [id_categ] => 8 [id_vinc] => 2 [detalle] => sas [anio] => 2019 [tipo_comprob] => 11 [desde] => 437 [hasta] => 442 )
           $this->s__datos=$datos;
           $this->set_pantalla('pant_importar');
     }
