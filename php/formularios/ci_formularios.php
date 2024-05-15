@@ -1,10 +1,11 @@
 <?php
 class ci_formularios extends toba_ci
 {
-    protected $s__datos_filtro;
-    protected $s__where;
-    protected $s__columnas;
-    
+        protected $s__datos_filtro;
+        protected $s__where;
+        protected $s__columnas;
+
+       
         //-----------------------------------------------------------------------------------
 	//---- filtros ----------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
